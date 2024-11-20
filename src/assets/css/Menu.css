@@ -22,6 +22,7 @@
 }
 
 .menu-bar .stats {
+    gap: 10px;
     display: none;
 }
 

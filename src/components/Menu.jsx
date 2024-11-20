@@ -21,8 +21,18 @@ export default function MenuBar({ activeWindow, windows }) {
         const batteryStatus = await navigator.getBattery();
         setBattery(batteryStatus);
         setIsCharging(batteryStatus.charging);
-        batteryStatus.onLevelChange = () => setBattery(batteryStatus);
-        batteryStatus.onChargingChange = () => setIsCharging(batteryStatus.charging);
+
+        // Update battery state when it changes
+        const updateBatteryStatus = () => setBattery(batteryStatus);
+        const updateChargingStatus = () => setIsCharging(batteryStatus.charging);
+
+        batteryStatus.addEventListener('levelchange', updateBatteryStatus);
+        batteryStatus.addEventListener('chargingchange', updateChargingStatus);
+
+        return () => {
+          batteryStatus.removeEventListener('levelchange', updateBatteryStatus);
+          batteryStatus.removeEventListener('chargingchange', updateChargingStatus);
+        };
       }
     };
 
@@ -71,15 +81,18 @@ export default function MenuBar({ activeWindow, windows }) {
           <TbWifiOff size={20} color='#f46b5d' />
         )}
         {battery ? (
-          isCharging ? (
-            <PiBatteryChargingFill size={20} />
-          ) : battery.level <= 0.25 ? (
-            <PiBatteryLowFill color='#f46b5d' size={20} />
-          ) : battery.level <= 0.5 ? (
-            <PiBatteryHighFill color='#f9bd4e' size={20} />
-          ) : (
-            <PiBatteryFullFill size={20} />
-          )
+          <>
+            <span>{Math.round(battery.level * 100)}%</span>
+            {isCharging ? (
+              <PiBatteryChargingFill size={20} />
+            ) : battery.level <= 0.25 ? (
+              <PiBatteryLowFill color='#f46b5d' size={20} />
+            ) : battery.level <= 0.5 ? (
+              <PiBatteryHighFill color='#f9bd4e' size={20} />
+            ) : (
+              <PiBatteryFullFill size={20} />
+            )}
+          </>
         ) : null}
         <span>{date}</span>
         <span>{time}</span>
