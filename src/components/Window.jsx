@@ -106,7 +106,7 @@ export default function Window({
             </div>
           </div>
           <div className='window-content'>
-            {typeof content === 'string' ? <iframe src={content} /> : content}
+            {typeof content === 'string' ? <iframe src={content} title={name} /> : content}
           </div>
         </div>
       </div>
