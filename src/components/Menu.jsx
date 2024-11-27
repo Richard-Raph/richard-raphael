@@ -26,12 +26,12 @@ export default function MenuBar({ activeWindow, windows }) {
         const updateBatteryStatus = () => setBattery(batteryStatus);
         const updateChargingStatus = () => setIsCharging(batteryStatus.charging);
 
-        batteryStatus.addEventListener('levelchange', updateBatteryStatus);
-        batteryStatus.addEventListener('chargingchange', updateChargingStatus);
+        batteryStatus.addEventListener('levelChange', updateBatteryStatus);
+        batteryStatus.addEventListener('chargingChange', updateChargingStatus);
 
         return () => {
-          batteryStatus.removeEventListener('levelchange', updateBatteryStatus);
-          batteryStatus.removeEventListener('chargingchange', updateChargingStatus);
+          batteryStatus.removeEventListener('levelChange', updateBatteryStatus);
+          batteryStatus.removeEventListener('chargingChange', updateChargingStatus);
         };
       }
     };

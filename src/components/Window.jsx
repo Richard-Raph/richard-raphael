@@ -40,7 +40,6 @@ export default function Window({
     setActive(id);
     setDraggedWindow(id);
   };
-  
 
   const handleMinimize = (e) => {
     e.stopPropagation();
@@ -105,9 +104,7 @@ export default function Window({
               <button className='dot green' onClick={handleMaximize}></button>
             </div>
           </div>
-          <div className='window-content'>
-            {typeof content === 'string' ? <iframe src={content} title={name} /> : content}
-          </div>
+          <div className='window-content' title={name}>{content}</div>
         </div>
       </div>
     </section>
