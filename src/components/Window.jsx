@@ -15,21 +15,24 @@ export default function Window({
 }) {
   const dragRef = useRef(null);
   const dragBarRef = useRef(null);
+  const [pos, setPos] = useState({ top: -50, left: 0 });
   const [isMaximized, setIsMaximized] = useState(false);
-  const [isBeingDragged, setIsBeingDragged] = useState(false);
-  const [pos, setPos] = useState({ top: 'auto', left: 'auto' });
+  const [isFirstRender, setIsFirstRender] = useState(true); // To control initial centering
 
   useEffect(() => {
-    if (isActive && !isBeingDragged && !isMaximized) {
-      if (pos.top === 'auto' && pos.left === 'auto') {
-        const windowWidth = dragRef.current?.offsetWidth || 300;
-        const windowHeight = dragRef.current?.offsetHeight || 200;
-        const centerLeft = window.innerWidth / 2 - windowWidth / 2;
-        const centerTop = window.innerHeight / 2 - windowHeight / 2;
-        setPos({ top: centerTop, left: centerLeft });
-      }
+    if (isFirstRender && isActive) {
+      const windowWidth = dragRef.current?.offsetWidth || 300; // Default width
+      const windowHeight = dragRef.current?.offsetHeight || 200; // Default height
+      const centerLeft = (window.innerWidth - windowWidth) / 2; // Center horizontally
+      const centerTop = (window.innerHeight - windowHeight) / 2; // Center vertically
+
+      // Adjust top to start at -50px initially
+      const adjustedTop = centerTop - 43;
+
+      setPos({ top: adjustedTop, left: centerLeft });
+      setIsFirstRender(false); // Ensure it only runs once per activation
     }
-  }, [isActive, isBeingDragged, pos, isMaximized]);
+  }, [isActive, isFirstRender]);
 
   const handleClose = (e) => {
     e.stopPropagation();
@@ -53,14 +56,10 @@ export default function Window({
   };
 
   const handleDragStart = (e) => {
-    if (isMaximized) return;
-    setIsBeingDragged(true);
+    if (isMaximized) return; // Cannot drag when maximized
 
-    const initialTop = pos.top === 'auto' ? 0 : pos.top;
-    const initialLeft = pos.left === 'auto' ? 0 : pos.left;
-
-    const offsetY = e.clientY - initialTop;
-    const offsetX = e.clientX - initialLeft;
+    const offsetY = e.clientY - (pos.top || 0);
+    const offsetX = e.clientX - (pos.left || 0);
 
     const handleMouseMove = (moveEvent) => {
       const newTop = moveEvent.clientY - offsetY;
@@ -69,7 +68,6 @@ export default function Window({
     };
 
     const handleMouseUp = () => {
-      setIsBeingDragged(false);
       setDraggedWindow(null);
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mousemove', handleMouseMove);

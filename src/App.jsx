@@ -15,7 +15,7 @@ function App() {
   const [activeWindow, setActiveWindow] = useState(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 10000);
+    const timer = setTimeout(() => setLoading(false), 8000);
     return () => clearTimeout(timer);
   }, []);
 
