@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
   margin: 0;
@@ -66,13 +66,4 @@ main,
   align-items: center;
   flex-direction: column;
   justify-content: center;
-}
-
-main > img {
-  inset: 0;
-  width: 100%;
-  z-index: -1;
-  height: 100%;
-  position: fixed;
-  object-fit: cover;
 }

@@ -32,7 +32,25 @@ export default function Layout({
             <Menu activeWindow={activeWindow} windows={windows} />
             <main>
                 {children}
-                <img src={bg} alt='background' />
+                <section className='layout'>
+                    <img src={bg} alt='background' />
+                    <div className='layout-content'>
+                        <div className='layout-text'>
+                            <span>I&#39;m a</span>
+                            <h1>Full-stack</h1>
+                        </div>
+                        <div className='layout-text'>
+                            <h1>Developer</h1>
+                            <span>&amp;</span>
+                        </div>
+                        <div className='layout-text'>
+                            <h1>Software</h1>
+                        </div>
+                        <div className='layout-text'>
+                            <h1>Engineer</h1>
+                        </div>
+                    </div>
+                </section>
             </main>
             <Dock openWindow={openWindow} activeWindow={activeWindow} />
         </>
