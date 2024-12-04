@@ -6,8 +6,8 @@
     overflow: hidden;
     position: absolute;
     border-radius: 24px;
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
     transition: top 0.3s, left 0.3s;
 }
 
