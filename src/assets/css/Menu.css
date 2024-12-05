@@ -27,6 +27,7 @@
     display: none;
 }
 
+.menu-bar .info h3,
 .menu-bar .stats span {
     font-size: .88rem;
 }
@@ -40,5 +41,9 @@
 
     .menu-bar .stats {
         display: flex;
+    }
+
+    .menu-bar .info h3 {
+        font-size: 1rem;
     }
 }

@@ -71,7 +71,7 @@ export default function MenuBar({ activeWindow, windows }) {
   return (
     <header className='menu-bar'>
       <div className='info'>
-        <img src={logo} alt='logo' width={50} />
+        <img src={logo} alt='logo' width={40} />
         <h3>{activeWindowName}</h3>
       </div>
       <div className='stats'>
