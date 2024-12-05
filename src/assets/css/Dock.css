@@ -51,7 +51,7 @@
   box-shadow: rgba(0, 0, 0, 0.17) 0px 12px 8px 1px;
 }
 
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 1200px) {
   .icon:hover {
     width: 80px;
     height: 80px;

@@ -32,8 +32,7 @@
     font-size: .88rem;
 }
 
-@media only screen and (min-width: 800px) {
-
+@media only screen and (min-width: 600px) {
     .menu-bar .info,
     .menu-bar .stats {
         width: max-content;
