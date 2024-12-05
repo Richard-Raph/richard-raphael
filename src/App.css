@@ -12,12 +12,9 @@
   cursor: url('./assets/cursors/arrow.png'), auto;
 }
 
-:root {
-  font-weight: 400;
-  color-scheme: light dark;
-  background-color: #090909;
-  color: rgba(255, 255, 255, 0.87);
-}
+/* :root {
+  
+} */
 
 ::selection {
   background-color: #090909;
@@ -50,7 +47,11 @@ body {
   font-size: 1vw;
   overflow: hidden;
   line-height: 1.2;
+  font-weight: 400;
   position: relative;
+  color-scheme: light dark;
+  background-color: #090909;
+  color: rgba(255, 255, 255, 0.87);
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
