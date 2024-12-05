@@ -17,20 +17,19 @@ export default function Window({
   const dragBarRef = useRef(null);
   const [pos, setPos] = useState({ top: -50, left: 0 });
   const [isMaximized, setIsMaximized] = useState(false);
-  const [isFirstRender, setIsFirstRender] = useState(true); // To control initial centering
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   useEffect(() => {
     if (isFirstRender && isActive) {
-      const windowWidth = dragRef.current?.offsetWidth || 300; // Default width
-      const windowHeight = dragRef.current?.offsetHeight || 200; // Default height
-      const centerLeft = (window.innerWidth - windowWidth) / 2; // Center horizontally
-      const centerTop = (window.innerHeight - windowHeight) / 2; // Center vertically
+      const windowWidth = dragRef.current?.offsetWidth || 300;
+      const centerLeft = (window.innerWidth - windowWidth) / 2;
+      const windowHeight = dragRef.current?.offsetHeight || 200;
+      const centerTop = (window.innerHeight - windowHeight) / 2;
 
-      // Adjust top to start at -50px initially
       const adjustedTop = centerTop - 43;
 
       setPos({ top: adjustedTop, left: centerLeft });
-      setIsFirstRender(false); // Ensure it only runs once per activation
+      setIsFirstRender(false);
     }
   }, [isActive, isFirstRender]);
 
@@ -56,7 +55,7 @@ export default function Window({
   };
 
   const handleDragStart = (e) => {
-    if (isMaximized) return; // Cannot drag when maximized
+    if (isMaximized) return;
 
     const offsetY = e.clientY - (pos.top || 0);
     const offsetX = e.clientX - (pos.left || 0);
@@ -82,6 +81,7 @@ export default function Window({
       ref={dragRef}
       onMouseDown={handleMouseDown}
       style={{
+        zIndex: isActive ? 10 : 1,
         top: isMaximized ? 'auto' : `${pos.top}px`,
         left: isMaximized ? 'auto' : `${pos.left}px`,
       }}

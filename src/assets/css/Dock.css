@@ -1,6 +1,6 @@
 .dock-bar {
   bottom: 0;
-  z-index: 9;
+  z-index: 99;
   padding: 1px 12px;
   position: absolute;
   border-radius: 24px;

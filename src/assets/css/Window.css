@@ -2,22 +2,25 @@
     width: 70%;
     z-index: 1;
     height: 70%;
-    opacity: .4;
+    opacity: .5;
     overflow: hidden;
     position: absolute;
     border-radius: 24px;
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    transition: top 0.3s, left 0.3s;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    transition: top 0.3s, left 0.3s, opacity 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .window.active {
     opacity: 1;
+    z-index: 10;
 }
 
 .window.max {
     width: 100%;
     height: 100%;
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.7);
 }
 
 .window.max,
@@ -60,14 +63,20 @@
     box-shadow: inset 0 0 10px #0000001a, 0 0 12px #0006;
 }
 
-.window-bar {
+.window-bar,
+.window.active .window-bar:hover {
     width: 100%;
     height: 40px;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 16px 16px 0 0;
     box-shadow: 0 10px 20px 4px #0006;
+    transition: background-image 0.3s ease;
     background-image: linear-gradient(to right, #f2f2f21a, #f2f2f280 50%, #f2f2f21a);
+}
+
+.window-bar:hover {
+    background-image: linear-gradient(to right, #f2f2f250, #f2f2f280 50%, #f2f2f250);
 }
 
 .window-bar .window-dots {
@@ -113,33 +122,10 @@
     background-color: #101010b3;
 }
 
-.window-content iframe {
-    width: 100%;
-    height: 100%;
-}
-
-@keyframes move {
-    from {
-        opacity: 0.15;
-        transform: translate3d(-25vw, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(15deg) skew(0, 0);
-    }
-
-    to {
-        opacity: 0.15;
-        transform: translate3d(225vw, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(15deg) skew(0, 0);
-    }
-}
-
-@keyframes marquee {
-    0% {
-        transform: translateZ(0);
-    }
-
-    100% {
-        transform: translate3d(-50%, 0, 0);
-    }
+.window:not(.active) .window-content {
+    filter: blur(10px);
 }
 
 @media all and (min-width: 750px) {
-    
+    /* Adjustments for larger screens */
 }

@@ -55,8 +55,8 @@
 .layout-content .layout-text span {
     font-size: 3.9em;
     font-weight: 400;
+    margin: 0 .50rem;
     font-style: italic;
-    margin-right: .50rem;
     letter-spacing: -.05em;
     font-family: 'Noto Serif Display', serif;
 }
