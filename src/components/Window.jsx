@@ -21,14 +21,12 @@ export default function Window({
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1200);
 
-  // Dynamically update content on active window change
   useEffect(() => {
     if (isActive) {
-      updateContent && updateContent(content); // Update content when window becomes active
+      updateContent && updateContent(content);
     }
   }, [content, isActive, updateContent]);
 
-  // Update screen size state
   useEffect(() => {
     const handleResize = () => {
       console.log('Window resized');
@@ -122,7 +120,6 @@ export default function Window({
                 <button className='dot green' onClick={handleMaximize}></button>
               </div>
             )}
-
             {isSmallScreen && (
               <>
                 <h3>{name}</h3>
@@ -130,9 +127,7 @@ export default function Window({
               </>
             )}
           </div>
-          <div className='window-content'>
-            {content}
-          </div>
+          <div className='window-content'>{content}</div>
         </div>
       </div>
     </section>

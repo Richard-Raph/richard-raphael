@@ -50,7 +50,6 @@ export default function MenuBar({ activeWindow, windows }) {
 
     getBatteryStatus();
 
-    // Update the current time and date every minute (no seconds)
     const updateTimeAndDate = () => {
       const now = new Date();
       setTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })); // Only hours and minutes
