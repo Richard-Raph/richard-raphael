@@ -14,15 +14,9 @@
 
 :root {
   font-weight: 400;
-  line-height: 1.5;
-  font-synthesis: none;
   color-scheme: light dark;
   background-color: #090909;
   color: rgba(255, 255, 255, 0.87);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  font-family: Inter, system-ui, Helvetica, Arial, sans-serif;
-
 }
 
 ::selection {
@@ -53,8 +47,14 @@ button {
 body {
   width: 100%;
   height: 100dvh;
+  font-size: 1vw;
   overflow: hidden;
+  line-height: 1.2;
   position: relative;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: Inter, system-ui, Helvetica, Arial, sans-serif;
 }
 
 main,

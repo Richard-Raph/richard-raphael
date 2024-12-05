@@ -1,4 +1,6 @@
 #root>svg {
+    z-index: 1;
+    opacity: 50%;
     position: fixed;
 }
 
@@ -13,7 +15,7 @@
 .layout {
     inset: 0;
     display: grid;
-    padding: 0 70px;
+    padding: 0 5vw;
     position: fixed;
     place-items: center;
 }
@@ -53,18 +55,17 @@
 }
 
 .layout-content .layout-text span {
-    font-size: 3.9em;
-    font-weight: 400;
     margin: 0 .50rem;
     font-style: italic;
     letter-spacing: -.05em;
+    font-size: clamp(3.5vw, 1.5em, 5em);
     font-family: 'Noto Serif Display', serif;
 }
 
 .layout-content .layout-text h1 {
-    font-size: 9em;
-    line-height: .95;
+    line-height: .85;
     font-weight: 500;
     letter-spacing: -.02em;
     text-transform: uppercase;
+    font-size: clamp(10vw, 8em, 13em);
 }

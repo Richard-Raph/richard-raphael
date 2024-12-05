@@ -5,8 +5,9 @@
   position: absolute;
   border-radius: 24px;
   margin: 0 auto .5rem;
+  backdrop-filter: blur(10px);
   box-shadow: rgba(255, 255, 255, 0.17) 0px 0px 0px 1px inset;
-  background-image: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.15));
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.15));
 }
 
 .dock-bar ul {
@@ -28,25 +29,25 @@
   margin-top: -25px;
 }
 
-.icon:hover + .icon {
+.icon:hover+.icon {
   width: calc(70px + var(--dock-right, 0px));
   height: calc(70px + var(--dock-right, 0px));
   margin-top: calc(-15px + var(--dock-right, 0px) * -1);
 }
 
-.icon:hover + .icon + .icon {
+.icon:hover+.icon+.icon {
   width: calc(60px + var(--dock-right, 0px));
   height: calc(60px + var(--dock-right, 0px));
   margin-top: calc(-5px + var(--dock-right, 0px) * -1);
 }
 
-.icon:has(+ .icon:hover){
+.icon:has(+ .icon:hover) {
   width: calc(70px + var(--dock-left, 0px));
   height: calc(70px + var(--dock-left, 0px));
   margin-top: calc(-15px + var(--dock-left, 0px) * -1);
 }
 
-.icon:has(+ .icon + .icon:hover){
+.icon:has(+ .icon + .icon:hover) {
   width: calc(60px + var(--dock-left, 0px));
   height: calc(60px + var(--dock-left, 0px));
   margin-top: calc(-5px + var(--dock-left, 0px) * -1);
@@ -74,9 +75,9 @@
   white-space: nowrap;
   border-radius: 14px;
   transform: translateX(-50%);
-  background: rgba(0,0,0,0.58);
+  background: rgba(0, 0, 0, 0.58);
   transition: ease-in opacity 100ms;
-  box-shadow:rgba(0, 0, 0, 0.17) 0px 12px 8px 1px;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px 12px 8px 1px;
 }
 
 @media only screen and (min-width: 800px) {

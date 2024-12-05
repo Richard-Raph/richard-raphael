@@ -2,7 +2,7 @@ import '../assets/css/Menu.css';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import logo from '../assets/images/logo-fff.webp';
-import { TbWifi, TbWifiOff } from 'react-icons/tb';
+import { TbWifi, TbWorldCancel } from 'react-icons/tb';
 import { PiBatteryLowFill, PiBatteryHighFill, PiBatteryFullFill, PiBatteryChargingFill } from 'react-icons/pi';
 
 export default function MenuBar({ activeWindow, windows }) {
@@ -78,7 +78,7 @@ export default function MenuBar({ activeWindow, windows }) {
         {isOnline ? (
           <TbWifi size={20} />
         ) : (
-          <TbWifiOff size={20} color='#f46b5d' />
+          <TbWorldCancel size={20} />
         )}
         {battery ? (
           <>
