@@ -23,6 +23,7 @@ export default function DockBar({ openWindow, activeWindow }) {
       const anchor = document.createElement('a');
       anchor.href = resumeLink;
       anchor.download = 'Resume.pdf';
+      anchor.setAttribute('rel', 'noopener noreferrer');
       anchor.click();
     } else {
       openWindow(id);

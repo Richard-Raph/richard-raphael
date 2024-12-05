@@ -11,8 +11,20 @@ export default function MenuBar({ activeWindow, windows }) {
   const [battery, setBattery] = useState(null);
   const [isCharging, setIsCharging] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1200);
 
+  // Find the active window name
   const activeWindowName = windows.find((window) => window.id === activeWindow)?.name || 'Welcome';
+
+  useEffect(() => {
+    // Handle screen resizing
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 1200);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     // Fetch battery status from the browser (if available)
@@ -72,7 +84,7 @@ export default function MenuBar({ activeWindow, windows }) {
     <header className='menu-bar'>
       <div className='info'>
         <img src={logo} alt='logo' width={40} />
-        <h3>{activeWindowName}</h3>
+        <h3>{isSmallScreen ? 'Welcome' : activeWindowName}</h3>
       </div>
       <div className='stats'>
         {isOnline ? (

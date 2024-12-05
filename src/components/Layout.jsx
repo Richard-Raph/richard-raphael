@@ -29,7 +29,7 @@ export default function Layout({
                     <circle cx='121.819' cy='83.613' r='1.7774' fill='#323232' stroke='white' />
                 </g>
             </svg>
-            <Menu activeWindow={activeWindow} windows={windows} />
+            <Menu activeWindow={Number(activeWindow)} windows={windows} />
             <main>
                 {children}
                 <section className='layout'>

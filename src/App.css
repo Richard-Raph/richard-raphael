@@ -44,10 +44,8 @@ button {
 body {
   width: 100%;
   height: 100dvh;
-  font-size: 1vw;
   overflow: hidden;
   line-height: 1.2;
-  font-weight: 400;
   position: relative;
   color-scheme: light dark;
   background-color: #090909;
@@ -55,7 +53,7 @@ body {
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-family: Inter, system-ui, Helvetica, Arial, sans-serif;
+  font: 400 1vw 'Inter', 'system-ui', 'Helvetica', 'Arial', 'sans-serif';
 }
 
 main,

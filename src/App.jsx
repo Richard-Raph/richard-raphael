@@ -13,28 +13,72 @@ function App() {
   const [windows, setWindows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeWindow, setActiveWindow] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1200);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 9000);
-    return () => clearTimeout(timer);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1200);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
-  const openWindow = (windowName, url) => {
-    const existingWindow = windows.find((window) => window.name === windowName);
+  const windowContent = (windowName) => {
+    switch (windowName) {
+      case 'Home':
+        return <Home />;
+      case 'About':
+        return <About />;
+      case 'Blog':
+        return <Blog />;
+      case 'Contact':
+        return <Contact />;
+      case 'Project':
+        return <Project />;
+      default:
+        return <div>Unknown Window</div>;
+    }
+  };
 
-    if (existingWindow) {
-      // Activate the window if it's already open
-      setActiveWindow(existingWindow.id);
+  const openWindow = (windowName) => {
+    if (isMobile) {
+      if (activeWindow) {
+        setWindows((prevWindows) =>
+          prevWindows.map((window) =>
+            window.id === activeWindow
+              ? { ...window, content: windowContent(windowName), name: windowName }
+              : window
+          )
+        );
+      } else {
+        const newWindow = {
+          id: Date.now(),
+          isActive: true,
+          name: windowName,
+          content: windowContent(windowName),
+        };
+        setWindows([newWindow]);
+        setActiveWindow(newWindow.id); // Set the new window as active
+      }
     } else {
-      // Create a new window if it doesn't exist
-      const newWindow = {
-        id: Date.now(),
-        isActive: true,
-        name: windowName,
-        content: url ? <iframe src={url} title={windowName} /> : windowContent(windowName),
-      };
-      setWindows((prevWindows) => [...prevWindows, newWindow]);
-      setActiveWindow(newWindow.id);  // Set the new window as active
+      // On desktop, open a new window
+      const existingWindow = windows.find((window) => window.name === windowName);
+      if (existingWindow) {
+        setActiveWindow(existingWindow.id); // Activate the window if it's already open
+      } else {
+        const newWindow = {
+          id: Date.now(),
+          isActive: true,
+          name: windowName,
+          content: windowContent(windowName),
+        };
+        setWindows((prevWindows) => [...prevWindows, newWindow]);
+        setActiveWindow(newWindow.id); // Set the new window as active
+      }
     }
   };
 
@@ -55,23 +99,6 @@ function App() {
     }
   };
 
-  const windowContent = (windowName) => {
-    switch (windowName) {
-      case 'Home':
-        return <Home />;
-      case 'About':
-        return <About />;
-      case 'Blog':
-        return <Blog />;
-      case 'Contact':
-        return <Contact />;
-      case 'Project':
-        return <Project />;
-      default:
-        return <div>Unknown Window</div>;
-    }
-  };
-
   return (
     <>
       {loading ? (
@@ -80,7 +107,7 @@ function App() {
         <Layout
           windows={windows}
           openWindow={openWindow}
-          activeWindow={activeWindow}
+          activeWindow={Number(activeWindow)}
         >
           {windows.map((window) => (
             <Window
@@ -90,9 +117,9 @@ function App() {
               setActive={setActive}
               content={window.content}
               closeWindow={closeWindow}
-              minimizeWindow={() => {}}
-              maximizeWindow={() => {}}
-              setDraggedWindow={() => {}}
+              minimizeWindow={() => { }}
+              maximizeWindow={() => { }}
+              setDraggedWindow={() => { }}
               isActive={window.id === activeWindow}
             />
           ))}
