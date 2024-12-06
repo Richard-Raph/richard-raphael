@@ -136,28 +136,8 @@
     color: var(--primaryFg);
     transition: all 0.2s ease;
     transform: translateY(0px);
-    background-color: var(--primaryBg);
+    background-color: #4dffb503 #4dffb5;
     box-shadow: 0px -3px 15px 0px var(--primaryHi) inset;
-}
-
-.window-content .glass:hover {
-    transform: translateY(5px);
-}
-
-.window-content .glass::before {
-    content: '';
-    height: 210px;
-    bottom: -50%;
-    filter: blur(20px);
-    position: absolute;
-    border-radius: 100%;
-    width: calc(100% - 60px);
-    transition: all 0.2s ease;
-    background-color: hsla(155, 100%, 75%, 25%);
-}
-
-.window-content .glass:hover::before {
-    opacity: 60%;
 }
 
 .window-content .glass.sec {
@@ -166,18 +146,10 @@
     box-shadow: 0px -3px 15px 0px var(--accentHi) inset;
 }
 
-.window-content .glass.sec::before {
-    background-color: var(--accentHi);
-}
-
 .window-content .glass.third {
     color: var(--secondaryFg);
     background-color: var(--secondaryBg);
-    box-shadow: 0px -3px 15px 0px var(--secondary) inset;
-}
-
-.window-content .glass.third::before {
-    background-color: var(--secondaryHi);
+    box-shadow: 0px -3px 15px 0px hsl(156, 51%, 14%) inset;
 }
 
 @media only screen and (min-width: 1200px) {
