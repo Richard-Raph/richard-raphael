@@ -2,12 +2,18 @@
 
 export default function Home() {
   return (
-    <>
-      <div className='glass first'><button>View Source</button></div>
+    <section className='window-content'>
+      <div className='glass first'>View Source</div>
 
-      <div className='glass sec'><button>Watch Video</button></div>
+      <div className='glass sec'>Watch Video</div>
 
-      <div className='glass third'><button>Connect</button></div>
-    </>
+      <div className='glass third'>Connect</div>
+      
+      <div className='glass first'>View Source</div>
+
+      <div className='glass sec'>Watch Video</div>
+
+      <div className='glass third'>Connect</div>
+    </section>
   );
 }
