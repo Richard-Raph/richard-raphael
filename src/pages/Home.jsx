@@ -5,15 +5,23 @@ export default function Home() {
     <section className='window-content'>
       <div className='glass'>View Source</div>
 
-      <div className='glass sec'>Watch Video</div>
+      <div className='glass'>Watch Video</div>
 
-      <div className='glass third'>Connect</div>
+      <div className='glass'>Connect</div>
       
       <div className='glass'>View Source</div>
 
-      <div className='glass sec'>Watch Video</div>
+      <div className='glass'>Watch Video</div>
 
-      <div className='glass third'>Connect</div>
+      <div className='glass'>Connect</div>
+      
+      <div className='glass'>View Source</div>
+
+      <div className='glass'>Watch Video</div>
+
+      <div className='glass'>Connect</div>
+      
+      <div className='glass'>Connect</div>
     </section>
   );
 }

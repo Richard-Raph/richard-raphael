@@ -2,10 +2,10 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    padding-top: 20px;
+    padding-top: 1rem;
     position: absolute;
+    transition: all 0.3s ease;
     backdrop-filter: blur(5px);
-    transition: top 0.3s, left 0.3s, opacity 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .glare {
@@ -77,21 +77,23 @@
     z-index: 1;
     width: 100%;
     display: grid;
-    padding: 1rem;
     overflow-y: auto;
     position: relative;
+    scrollbar-width: none;
+    padding-bottom: 2.6rem;
     height: calc(100% - 40px);
     background-color: #121212f2;
+    border: 1rem solid transparent;
     grid-template-columns: repeat(2, 1fr);
 }
 
 .window-content::before {
     z-index: 0;
     content: '';
-    width: 12rem;
-    height: 12rem;
+    width: 15rem;
+    height: 15rem;
     position: fixed;
-    filter: blur(100px);
+    filter: blur(150px);
     translate: -50% -50%;
     border-radius: 100px;
     inset: 50% auto auto 50%;
@@ -100,8 +102,8 @@
 
 .window-content::after {
     width: 80%;
-    z-index: -1;
     height: 80%;
+    z-index: -1;
     content: '';
     position: fixed;
     translate: -50% -50%;
@@ -112,51 +114,26 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='982' height='786' viewBox='0 0 982 786' fill='none'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M490 401V537H348.5V401H490ZM490 785.5V676H348.5V785.5H347.5V676H206V785.5H205V676H63.5V785.5H62.5V676H0V675H62.5V538H0V537H62.5V401H0V400H62.5V258H0V257H62.5V116H0V115H62.5V0H63.5V115L205 115V0H206V115L347.5 115V0H348.5V115H490V0H491V115L627.5 115V0H628.5V115H765V0H766V115L902.5 115V0H903.5V115H982V116H903.5V257H982V258H903.5V400H982V401H903.5V537H982V538H903.5V675H982V676H903.5V785.5H902.5V676H766V785.5H765V676H628.5V785.5H627.5V676H491V785.5H490ZM902.5 675V538H766V675H902.5ZM902.5 537V401H766V537H902.5ZM902.5 400V258H766V400H902.5ZM902.5 257V116L766 116V257H902.5ZM627.5 675H491V538H627.5V675ZM765 675H628.5V538H765V675ZM348.5 675H490V538H348.5V675ZM347.5 538V675H206V538H347.5ZM205 538V675H63.5V538H205ZM765 537V401H628.5V537H765ZM765 400V258H628.5V400H765ZM765 257V116H628.5V257H765ZM347.5 401V537H206V401H347.5ZM205 401V537H63.5V401H205ZM627.5 401V537H491V401H627.5ZM627.5 116L491 116V257H627.5V116ZM627.5 258H491V400H627.5V258ZM63.5 257V116L205 116V257H63.5ZM63.5 400V258H205V400H63.5ZM206 116V257H347.5V116L206 116ZM348.5 116V257H490V116H348.5ZM206 400V258H347.5V400H206ZM348.5 258V400H490V258H348.5Z' fill='url(%23paint0_radial_1_8)' /%3E%3Cdefs%3E%3CradialGradient id='paint0_radial_1_8' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(491 392.75) rotate(90) scale(513.25 679.989)'%3E%3Cstop stop-color='white' stop-opacity='0.2' /%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='0' /%3E%3C/radialGradient%3E%3C/defs%3E%3C/svg%3E");
 }
 
-:root {
-    --primaryFg: hsl(155, 100%, 85%);
-    --primaryBg: hsla(155, 100%, 65%, 1%);
-    --primaryHi: hsla(155, 100%, 75%, 25%);
-    --secondary: hsl(156, 51%, 14%);
-    --secondaryFg: hsl(156, 51%, 75%);
-    --secondaryBg: hsla(156, 51%, 14%, 5%);
-    --secondaryHi: hsla(156, 51%, 30%, 50%);
-    --accentBg: hsla(155, 100%, 94%, 1%);
-    --accentHi: hsla(155, 100%, 100%, 25%);
-}
-
 .window-content .glass {
     width: 100%;
+    z-index: 10;
     height: 200px;
     display: grid;
-    z-index: 10;
     font-size: 1rem;
     position: relative;
     place-items: center;
     border-radius: 13px;
-    color: var(--primaryFg);
     transition: all 0.2s ease;
-    transform: translateY(0px);
-    background-color: #4dffb503 #4dffb5;
-    box-shadow: 0px -3px 15px 0px var(--primaryHi) inset;
-}
-
-.window-content .glass.sec {
-    color: var(--accentFg);
-    background-color: var(--accentBg);
-    box-shadow: 0px -3px 15px 0px var(--accentHi) inset;
-}
-
-.window-content .glass.third {
-    color: var(--secondaryFg);
-    background-color: var(--secondaryBg);
-    box-shadow: 0px -3px 15px 0px hsl(156, 51%, 14%) inset;
+    backdrop-filter: blur(50px);
+    background-color: #e9f7e803;
+    box-shadow: 0px -3px 15px 0px #ffffff40 inset;
 }
 
 @media only screen and (min-width: 1200px) {
     .window {
-        width: 70%;
+        width: 75%;
         padding: 0;
-        height: 70%;
+        height: 75%;
         opacity: .7;
         border-radius: 24px;
         backdrop-filter: blur(20px);
