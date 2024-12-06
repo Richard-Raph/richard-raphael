@@ -34,36 +34,27 @@
     display: flex;
     font-size: 1em;
     flex-flow: column;
-    position: relative;
-    align-items: flex-start;
-    justify-content: flex-start;
 }
 
 .layout-content .layout-text.layout-text {
-    gap: .5rem;
+    gap: .6rem;
     display: flex;
+    user-select: none;
     align-items: baseline;
-    justify-content: flex-start;
 }
 
 .layout-content .layout-text:nth-child(even) {
-    gap: 12px;
     align-self: flex-end;
-    align-items: baseline;
-    justify-content: flex-end;
 }
 
 .layout-content .layout-text span {
-    margin: 0 .50rem;
-    user-select: none;
     letter-spacing: -.05em;
     font: italic clamp(1.5em, 3.5vw, 5em) 'Noto Serif Display', 'serif';
 }
 
 .layout-content .layout-text h1 {
-    user-select: none;
     letter-spacing: -.02em;
-    line-height: .90 !important;
     text-transform: uppercase;
+    line-height: .90 !important;
     font: 500 clamp(8em, 10vw, 13em) 'Inter', 'sans-serif';
 }

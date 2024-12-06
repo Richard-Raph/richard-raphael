@@ -80,7 +80,7 @@
     overflow-y: auto;
     position: relative;
     scrollbar-width: none;
-    padding-bottom: 2.6rem;
+    padding-bottom: 4.2rem;
     height: calc(100% - 40px);
     background-color: #121212f2;
     border: 1rem solid transparent;
@@ -199,5 +199,9 @@
 
     .window:not(.active) .window-content {
         filter: blur(10px);
+    }
+
+    .window-content {
+        padding-bottom: 2.6rem;
     }
 }
