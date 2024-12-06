@@ -2,9 +2,12 @@
 
 export default function Home() {
   return (
-    <section className='window-content'>
-      <div></div>
-      <div></div>
-    </section>
+    <>
+      <div className='glass first'><button>View Source</button></div>
+
+      <div className='glass sec'><button>Watch Video</button></div>
+
+      <div className='glass third'><button>Connect</button></div>
+    </>
   );
 }

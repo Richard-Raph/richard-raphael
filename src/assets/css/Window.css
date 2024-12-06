@@ -76,23 +76,131 @@
     gap: 20px;
     z-index: 1;
     width: 100%;
-    height: 100%;
     display: flex;
-    padding: 20px;
-    position: absolute;
-    /* align-items: center; */
+    padding: 1rem;
+    overflow: hidden;
+    position: relative;
+    height: calc(100% - 40px);
     background-color: #101010b3;
-    background: linear-gradient(135deg, #fc2007, #fea706, #0fff07);
+    background-color: #121212f2;
 }
 
-.window-content div {
+.window-content .grid {
+    z-index: -1;
     width: 100%;
-    height: 100px;
-    border-radius: 16px;
-    backdrop-filter: blur(5px);
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.window-content .grid svg {
+    width: 80%;
+    z-index: 1;
+    height: 80%;
+    position: relative;
+}
+
+.window-content .grid span {
+    z-index: 0;
+    width: 12rem;
+    height: 12rem;
+    position: absolute;
+    filter: blur(100px);
+    border-radius: 100px;
+    background-color: #57c353;
+}
+
+:root {
+    --primaryBg: hsla(155, 100%, 65%, 1%);
+    --primaryHi: hsla(155, 100%, 75%, 25%);
+    --primaryFg: hsl(155, 100%, 85%);
+    --secondary: hsl(156, 51%, 14%);
+    --secondaryFg: hsl(156, 51%, 75%);
+    --secondaryBg: hsla(156, 51%, 14%, 5%);
+    --accentBg: hsla(155, 100%, 94%, 1%);
+    --accentHi: hsla(155, 100%, 100%, 25%);
+}
+
+.window-content .glass {
+    width: 160px;
+    height: 50px;
+    display: grid;
+    position: absolute;
+    place-items: center;
+}
+
+.window-content .glass::before {
+    content: '';
+    width: 100px;
+    height: 60px;
+    bottom: -50%;
+    filter: blur(20px);
+    position: absolute;
+    border-radius: 100%;
+    transition: all 0.2s ease;
+    background-color: hsla(155, 100%, 75%, 25%);
+}
+
+.window-content .glass:hover::before {
+    opacity: 60%;
+}
+
+.window-content .glass button {
+    height: 50px;
+    width: 160px;
+    clip-path: path('M 0 25 C 0 -5, -5 0, 80 0 S 160 -5, 160 25, 165 50 80 50, 0 55, 0 25');
+    border: none;
+    border-radius: 13px;
+    background-color: var(--primaryBg);
+    box-shadow: 0px -3px 15px 0px var(--primaryHi) inset;
+    color: var(--primaryFg);
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    transform: translateY(0px);
+    transition: all 0.2s ease;
+}
+
+.window-content .glass:hover button {
+    transform: translateY(5px);
+}
+
+.window-content .glass.first {
+    top: 12%;
+    right: 20%;
+}
+
+.window-content .glass.sec {
+    bottom: 13%;
+    right: 11%;
+}
+
+.window-content .glass.sec>button {
+    background-color: var(--accentBg);
+    box-shadow: 0px -3px 15px 0px var(--accentHi) inset;
+    color: var(--accentFg);
+}
+
+.window-content .glass.sec>span {
+    background-color: var(--accentHi);
+}
+
+.window-content .glass.third {
+    bottom: 25%;
+    left: 15%;
+}
+
+.window-content .glass.third>button {
+    background-color: var(--secondaryBg);
+    box-shadow: 0px -3px 15px 0px var(--secondary) inset;
+    color: var(--secondaryFg);
+}
+
+.window-content .glass.third>span {
+    background-color: var(--secondaryHi);
 }
 
 @media only screen and (min-width: 1200px) {
