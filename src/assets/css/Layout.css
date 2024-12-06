@@ -63,7 +63,7 @@
 .layout-content .layout-text h1 {
     user-select: none;
     letter-spacing: -.02em;
-    line-height: 1 !important;
+    line-height: .90 !important;
     text-transform: uppercase;
     font: 500 clamp(8em, 10vw, 13em) 'Inter', 'sans-serif';
 }

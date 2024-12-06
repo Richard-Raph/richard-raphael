@@ -127,7 +127,7 @@ export default function Window({
               </>
             )}
           </div>
-          <div className='window-content'>{content}</div>
+          {content}
         </div>
       </div>
     </section>

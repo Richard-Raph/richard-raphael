@@ -2,8 +2,9 @@
 
 export default function Home() {
   return (
-    <>
-      Home
-    </>
+    <section className='window-content'>
+      <div></div>
+      <div></div>
+    </section>
   );
 }
