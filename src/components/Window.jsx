@@ -1,6 +1,6 @@
 import '../assets/css/Window.css';
 import PropTypes from 'prop-types';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 export default function Window({
   id,
@@ -15,72 +15,69 @@ export default function Window({
   setDraggedWindow,
 }) {
   const dragRef = useRef(null);
-  const dragBarRef = useRef(null);
   const [pos, setPos] = useState({ top: -50, left: 0 });
   const [isMaximized, setIsMaximized] = useState(false);
-  const [isFirstRender, setIsFirstRender] = useState(true);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1200);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
+  // Update content if active
   useEffect(() => {
-    if (isActive) {
-      updateContent && updateContent(content);
-    }
+    isActive && updateContent?.(content);
   }, [content, isActive, updateContent]);
 
+  // Handle screen resize
   useEffect(() => {
-    const handleResize = () => {
-      console.log('Window resized');
-      setIsSmallScreen(window.innerWidth < 1200);
-    };
+    const handleResize = () => setIsSmallScreen(window.innerWidth < 600);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Center window with adjusted top
   useEffect(() => {
-    if (isFirstRender && isActive) {
-      const windowWidth = dragRef.current?.offsetWidth || 300;
-      const centerLeft = (window.innerWidth - windowWidth) / 2;
-      const windowHeight = dragRef.current?.offsetHeight || 200;
-      const centerTop = (window.innerHeight - windowHeight) / 2;
-
-      const adjustedTop = centerTop - 43;
-
-      setPos({ top: adjustedTop, left: centerLeft });
-      setIsFirstRender(false);
+    if (isActive && dragRef.current) {
+      const { offsetWidth = 300, offsetHeight = 200 } = dragRef.current;
+      setPos({
+        left: (window.innerWidth - offsetWidth) / 2,
+        top: (window.innerHeight - offsetHeight) / 2 - 43, // Adjusted top
+      });
     }
-  }, [isActive, isFirstRender]);
+  }, [isActive]);
 
-  const handleClose = (e) => {
+  // Event Handlers
+  const handleClose = useCallback((e) => {
     e.stopPropagation();
     closeWindow(id);
-  };
+  }, [closeWindow, id]);
 
-  const handleMouseDown = () => {
+  const handleMouseDown = useCallback(() => {
     setActive(id);
     setDraggedWindow(id);
-  };
+  }, [id, setActive, setDraggedWindow]);
 
-  const handleMinimize = (e) => {
+  const handleMinimize = useCallback((e) => {
     e.stopPropagation();
     minimizeWindow(id);
-  };
+  }, [id, minimizeWindow]);
 
-  const handleMaximize = (e) => {
+  const handleMaximize = useCallback((e) => {
     e.stopPropagation();
     setIsMaximized((prev) => !prev);
     maximizeWindow(id);
-  };
+  }, [id, maximizeWindow]);
 
   const handleDragStart = (e) => {
     if (isMaximized) return;
 
-    const offsetY = e.clientY - (pos.top || 0);
-    const offsetX = e.clientX - (pos.left || 0);
+    const offsetY = e.clientY - pos.top;
+    const offsetX = e.clientX - pos.left;
 
-    const handleMouseMove = (moveEvent) => {
-      const newTop = moveEvent.clientY - offsetY;
-      const newLeft = moveEvent.clientX - offsetX;
-      setPos({ top: newTop, left: newLeft });
+    const handleMouseMove = ({ clientY, clientX }) => {
+      const windowWidth = dragRef.current?.offsetWidth || 300;
+      const windowHeight = dragRef.current?.offsetHeight || 200;
+
+      setPos({
+        left: Math.min(Math.max(0, clientX - offsetX), window.innerWidth - windowWidth),
+        top: Math.min(Math.max(0, clientY - offsetY), window.innerHeight - windowHeight),
+      });
     };
 
     const handleMouseUp = () => {
@@ -104,26 +101,21 @@ export default function Window({
       }}
       className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
     >
-      <span className='glare outer'></span>
-      <div className='window-outline'>
-        <span className='glare inner'></span>
-        <div className='window-main'>
-          <div
-            ref={dragBarRef}
-            className='window-bar'
-            onMouseDown={handleDragStart}
-          >
-            {!isSmallScreen && (
-              <div className='window-dots'>
-                <button className='dot red' onClick={handleClose}></button>
-                <button className='dot yellow' onClick={handleMinimize}></button>
-                <button className='dot green' onClick={handleMaximize}></button>
+      <span className="glare outer"></span>
+      <div className="window-outline">
+        <span className="glare inner"></span>
+        <div className="window-main">
+          <div className="window-bar" onMouseDown={handleDragStart}>
+            {!isSmallScreen ? (
+              <div className="window-dots">
+                <button className="dot red" onClick={handleClose}></button>
+                <button className="dot yellow" onClick={handleMinimize}></button>
+                <button className="dot green" onClick={handleMaximize}></button>
               </div>
-            )}
-            {isSmallScreen && (
+            ) : (
               <>
                 <h3>{name}</h3>
-                <button className='close' onClick={handleClose}></button>
+                <button className="close" onClick={handleClose}></button>
               </>
             )}
           </div>

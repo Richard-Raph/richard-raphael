@@ -19,12 +19,10 @@ const icons = [
 export default function DockBar({ openWindow, activeWindow }) {
   const handleIconClick = (id) => {
     if (id === 'Terminal') {
-      const resumeLink = '/path/to/your-resume.pdf'; // Update with the actual path to your resume file
-      const anchor = document.createElement('a');
-      anchor.href = resumeLink;
-      anchor.download = 'Resume.pdf';
-      anchor.setAttribute('rel', 'noopener noreferrer');
-      anchor.click();
+      const link = document.createElement('a');
+      link.href = '/path/to/your-resume.pdf'; // To be replaced with my resume path
+      link.download = 'Resume.pdf';
+      link.click();
     } else {
       openWindow(id);
     }
@@ -33,9 +31,9 @@ export default function DockBar({ openWindow, activeWindow }) {
   return (
     <nav className='dock-bar'>
       <ul>
-        {icons.map(({ id, imgSrc, tooltip }, index) => (
+        {icons.map(({ id, imgSrc, tooltip }) => (
           <li
-            key={index}
+            key={id}
             onClick={() => handleIconClick(id)}
             className={`icon ${activeWindow === id ? 'active' : ''}`}
           >

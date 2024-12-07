@@ -3,7 +3,45 @@
 export default function Blog() {
     return (
         <section className='window-content'>
-            Blog
+            <div className='glass'>View Source</div>
+
+            <div className='glass'>Watch Video</div>
+
+            <div className='glass'>Connect</div>
+
+            <div className='glass'>View Source</div>
+
+            <div className='glass'>Watch Video</div>
+
+            <div className='glass'>Connect</div>
+
+            <div className='glass'>View Source</div>
+
+            <div className='glass'>Watch Video</div>
+
+            <div className='glass'>Connect</div>
+
+            <div className='glass'>Connect</div>
+
+            <div className='glass'>View Source</div>
+
+            <div className='glass'>Watch Video</div>
+
+            <div className='glass'>Connect</div>
+
+            <div className='glass'>View Source</div>
+
+            <div className='glass'>Watch Video</div>
+
+            <div className='glass'>Connect</div>
+
+            <div className='glass'>View Source</div>
+
+            <div className='glass'>Watch Video</div>
+
+            <div className='glass'>Connect</div>
+
+            <div className='glass'>Connect</div>
         </section>
     );
 }

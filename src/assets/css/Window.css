@@ -129,7 +129,7 @@
     box-shadow: 0px -3px 15px 0px #ffffff40 inset;
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 600px) {
     .window {
         width: 75%;
         padding: 0;
@@ -201,7 +201,11 @@
         filter: blur(10px);
     }
 
-    .window-content {
+    .window.max .window-content {
         padding-bottom: 2.6rem;
+    }
+
+    .window-content {
+        padding-bottom: 0;
     }
 }
