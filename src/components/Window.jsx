@@ -18,18 +18,28 @@ export default function Window({
   const [pos, setPos] = useState({ top: -50, left: 0 });
   const [isMaximized, setIsMaximized] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
-  // Update content if active
+  // Device detection for iPad and similar
   useEffect(() => {
-    isActive && updateContent?.(content);
-  }, [content, isActive, updateContent]);
+    const isIpad = window.matchMedia('(min-width: 768px) and (max-width: 1024px)').matches;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    setIsTouchDevice(isIpad || isTouchDevice); // Consider touch devices and iPads
 
-  // Handle screen resize
-  useEffect(() => {
-    const handleResize = () => setIsSmallScreen(window.innerWidth < 600);
+    // Listen for screen resizing
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsSmallScreen(width < 600);
+      setIsTouchDevice(isIpad || (width >= 768 && width <= 1024));
+    };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Update content if active
+  useEffect(() => {
+    if (isActive) updateContent?.(content);
+  }, [content, isActive, updateContent]);
 
   // Center window with adjusted top
   useEffect(() => {
@@ -65,7 +75,7 @@ export default function Window({
   }, [id, maximizeWindow]);
 
   const handleDragStart = (e) => {
-    if (isMaximized) return;
+    if (isMaximized || isTouchDevice) return;  // No drag for touch devices or maximized windows
 
     const offsetY = e.clientY - pos.top;
     const offsetX = e.clientX - pos.left;
@@ -96,26 +106,26 @@ export default function Window({
       onMouseDown={handleMouseDown}
       style={{
         zIndex: isActive ? 10 : 1,
-        top: isSmallScreen ? '0px' : isMaximized ? 'auto' : `${pos.top}px`,
-        left: isSmallScreen ? '0px' : isMaximized ? 'auto' : `${pos.left}px`,
+        top: isSmallScreen || isMaximized ? '0px' : `${pos.top}px`,
+        left: isSmallScreen || isMaximized ? '0px' : `${pos.left}px`,
       }}
       className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
     >
-      <span className="glare outer"></span>
-      <div className="window-outline">
-        <span className="glare inner"></span>
-        <div className="window-main">
-          <div className="window-bar" onMouseDown={handleDragStart}>
+      <span className='glare outer'></span>
+      <div className='window-outline'>
+        <span className='glare inner'></span>
+        <div className='window-main'>
+          <div className='window-bar' onMouseDown={handleDragStart}>
             {!isSmallScreen ? (
-              <div className="window-dots">
-                <button className="dot red" onClick={handleClose}></button>
-                <button className="dot yellow" onClick={handleMinimize}></button>
-                <button className="dot green" onClick={handleMaximize}></button>
+              <div className='window-dots'>
+                <button className='dot red' onClick={handleClose}></button>
+                <button className='dot yellow' onClick={handleMinimize}></button>
+                <button className='dot green' onClick={handleMaximize}></button>
               </div>
             ) : (
               <>
                 <h3>{name}</h3>
-                <button className="close" onClick={handleClose}></button>
+                <button className='close' onClick={handleClose}></button>
               </>
             )}
           </div>

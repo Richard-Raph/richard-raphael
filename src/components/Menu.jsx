@@ -63,7 +63,7 @@ export default function MenuBar({ activeWindow, windows }) {
   const [dateTime, setDateTime] = useState(updateTimeAndDate());
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
-  const isSmallScreen = window.innerWidth < 1200;
+  const isSmallScreen = window.innerWidth < 600;
 
   const activeWindowName = useMemo(
     () => windows.find(({ id }) => id === activeWindow)?.name || 'Welcome',
