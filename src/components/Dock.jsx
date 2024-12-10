@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import home from '../assets/images/home.webp';
 import blog from '../assets/images/blog.webp';
 import about from '../assets/images/about.webp';
-import contact from '../assets/images/contact.webp';
 import project from '../assets/images/project.webp';
+import contact from '../assets/images/contact.webp';
 import terminal from '../assets/images/terminal.webp';
 
 const icons = [
