@@ -126,7 +126,7 @@
     transition: all 0.2s ease;
     backdrop-filter: blur(50px);
     background-color: #e9f7e803;
-    flex: 1 1 clamp(200px, 33.333%, 400px);
+    flex: 1 1 clamp(200px, 33.333%, 350px);
     box-shadow: 0px -3px 15px 0px #ffffff40 inset;
 }
 
