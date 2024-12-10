@@ -73,10 +73,11 @@
 }
 
 .window-content {
-    gap: 20px;
+    gap: 1rem;
     z-index: 1;
     width: 100%;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     overflow-y: auto;
     position: relative;
     scrollbar-width: none;
@@ -84,7 +85,6 @@
     height: calc(100% - 40px);
     background-color: #121212f2;
     border: 1rem solid transparent;
-    grid-template-columns: repeat(2, 1fr);
 }
 
 .window-content::before {
@@ -126,6 +126,7 @@
     transition: all 0.2s ease;
     backdrop-filter: blur(50px);
     background-color: #e9f7e803;
+    flex: 1 1 clamp(200px, 33.333%, 400px);
     box-shadow: 0px -3px 15px 0px #ffffff40 inset;
 }
 
