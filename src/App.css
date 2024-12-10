@@ -9,7 +9,7 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
   transition: all .5s ease;
-  cursor: url('./assets/cursors/arrow.png'), auto;
+  cursor: url('./assets/images/arrow.png'), auto;
 }
 
 /* :root {
@@ -22,12 +22,12 @@
 }
 
 .loading {
-  cursor: url('./assets/cursors/loading.png'), wait;
+  cursor: url('./assets/images/loading.png'), wait;
 }
 
 a,
 button {
-  cursor: url('./assets/cursors/pointer.png'), pointer;
+  cursor: url('./assets/images/pointer.png'), pointer;
 }
 
 .preloader {
