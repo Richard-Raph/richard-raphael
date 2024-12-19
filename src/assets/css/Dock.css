@@ -26,7 +26,7 @@
 .icon img {
   width: 100%;
   height: 100%;
-  cursor: url('../cursors/pointer.png'), pointer;
+  cursor: url('../images/pointer.png'), pointer;
 }
 
 .icon:hover .tooltip,
