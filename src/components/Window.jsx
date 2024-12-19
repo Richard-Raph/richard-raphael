@@ -117,15 +117,15 @@ export default function Window({
         <div className='window-main'>
           <div className='window-bar' onMouseDown={handleDragStart}>
             {!isSmallScreen ? (
-              <div className='window-dots'>
-                <button className='dot red' onClick={handleClose}></button>
-                <button className='dot yellow' onClick={handleMinimize}></button>
-                <button className='dot green' onClick={handleMaximize}></button>
+              <div>
+                <button className='red' onClick={handleClose}></button>
+                <button className='yellow' onClick={handleMinimize}></button>
+                <button className='green' onClick={handleMaximize}></button>
               </div>
             ) : (
               <>
                 <h3>{name}</h3>
-                <button className='close' onClick={handleClose}></button>
+                <button className='red' onClick={handleClose}></button>
               </>
             )}
           </div>

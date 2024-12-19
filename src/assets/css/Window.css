@@ -60,16 +60,43 @@
     padding: 0 1rem 0 2rem;
 }
 
-.window-bar .close {
-    width: 40px;
-    height: 40px;
-    border-radius: 100% 0% 0% 100% / 0% 30% 70% 100%;
+.window-bar div {
+    gap: 12px;
+    z-index: 9;
+    height: 100%;
+    display: flex;
+    width: max-content;
+    position: relative;
+    align-items: center;
+    padding: 0 1rem 0 2rem;
 }
 
-.window-bar .close,
-.window-dots .dot.red {
+.window-bar button {
+    width: 12px;
+    height: 12px;
+    display: block;
+    border-radius: 50%;
+}
+
+.window-bar>button {
+    width: 15px;
+    height: 15px;
+    margin: 0 2rem;
+}
+
+.window-bar button.red {
     background-color: #f46b5d;
     box-shadow: 0 0 20px 2px #f46b5d;
+}
+
+.window-bar button.green {
+    background-color: #57c353;
+    box-shadow: 0 0 20px 2px #57c353;
+}
+
+.window-bar button.yellow {
+    background-color: #f9bd4e;
+    box-shadow: 0 0 20px 2px #f9bd4e;
 }
 
 .window-content {
@@ -168,34 +195,6 @@
         overflow: hidden;
         border-radius: 16px;
         border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .window-bar .window-dots {
-        gap: 12px;
-        z-index: 9;
-        height: 100%;
-        display: flex;
-        width: max-content;
-        position: relative;
-        align-items: center;
-        padding: 0 1rem 0 2rem;
-    }
-
-    .window-dots .dot {
-        width: 12px;
-        height: 12px;
-        display: block;
-        border-radius: 100px;
-    }
-
-    .window-dots .dot.yellow {
-        background-color: #f9bd4e;
-        box-shadow: 0 0 20px 2px #f9bd4e;
-    }
-
-    .window-dots .dot.green {
-        background-color: #57c353;
-        box-shadow: 0 0 20px 2px #57c353;
     }
 
     .window:not(.active) .window-content {
