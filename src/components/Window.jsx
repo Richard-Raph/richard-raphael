@@ -17,8 +17,8 @@ export default function Window({
   const dragRef = useRef(null);
   const [pos, setPos] = useState({ top: -50, left: 0 });
   const [isMaximized, setIsMaximized] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
   // Device detection for iPad and similar
   useEffect(() => {
