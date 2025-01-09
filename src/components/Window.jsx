@@ -17,37 +17,35 @@ export default function Window({
   const dragRef = useRef(null);
   const [pos, setPos] = useState({ top: -50, left: 0 });
   const [isMaximized, setIsMaximized] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
+  const [deviceState, setDeviceState] = useState({
+    isSmallScreen: window.innerWidth < 600,
+    isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+  });
 
-  // Device detection for iPad and similar
+  // Handle screen resizing and device detection
   useEffect(() => {
-    const isIpad = window.matchMedia('(min-width: 768px) and (max-width: 1024px)').matches;
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    setIsTouchDevice(isIpad || isTouchDevice); // Consider touch devices and iPads
-
-    // Listen for screen resizing
     const handleResize = () => {
-      const width = window.innerWidth;
-      setIsSmallScreen(width < 600);
-      setIsTouchDevice(isIpad || (width >= 768 && width <= 1024));
+      setDeviceState({
+        isSmallScreen: window.innerWidth < 600,
+        isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+      });
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Update content if active
+  // Update content when active
   useEffect(() => {
     if (isActive) updateContent?.(content);
   }, [content, isActive, updateContent]);
 
-  // Center window with adjusted top
+  // Center window position when active
   useEffect(() => {
     if (isActive && dragRef.current) {
       const { offsetWidth = 300, offsetHeight = 200 } = dragRef.current;
       setPos({
         left: (window.innerWidth - offsetWidth) / 2,
-        top: (window.innerHeight - offsetHeight) / 2 - 43, // Adjusted top
+        top: (window.innerHeight - offsetHeight) / 2 - 43,
       });
     }
   }, [isActive]);
@@ -70,34 +68,31 @@ export default function Window({
 
   const handleMaximize = useCallback((e) => {
     e.stopPropagation();
-    setIsMaximized((prev) => !prev);
+    setIsMaximized(prev => !prev);
     maximizeWindow(id);
   }, [id, maximizeWindow]);
 
   const handleDragStart = (e) => {
-    if (isMaximized || isTouchDevice) return;  // No drag for touch devices or maximized windows
+    if (isMaximized || deviceState.isTouchDevice) return;
 
     const offsetY = e.clientY - pos.top;
     const offsetX = e.clientX - pos.left;
 
     const handleMouseMove = ({ clientY, clientX }) => {
-      const windowWidth = dragRef.current?.offsetWidth || 300;
-      const windowHeight = dragRef.current?.offsetHeight || 200;
-
       setPos({
-        left: Math.min(Math.max(0, clientX - offsetX), window.innerWidth - windowWidth),
-        top: Math.min(Math.max(0, clientY - offsetY), window.innerHeight - windowHeight),
+        top: Math.min(Math.max(0, clientY - offsetY), window.innerHeight - dragRef.current?.offsetHeight),
+        left: Math.min(Math.max(0, clientX - offsetX), window.innerWidth - dragRef.current?.offsetWidth),
       });
     };
 
     const handleMouseUp = () => {
-      setDraggedWindow(null);
-      document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
     };
 
-    document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    e.preventDefault();
   };
 
   return (
@@ -106,26 +101,26 @@ export default function Window({
       onMouseDown={handleMouseDown}
       style={{
         zIndex: isActive ? 10 : 1,
-        top: isSmallScreen || isMaximized ? '0px' : `${pos.top}px`,
-        left: isSmallScreen || isMaximized ? '0px' : `${pos.left}px`,
+        top: deviceState.isSmallScreen || isMaximized ? '0px' : `${pos.top}px`,
+        left: deviceState.isSmallScreen || isMaximized ? '0px' : `${pos.left}px`,
       }}
       className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
     >
-      <span className='glare outer'></span>
-      <div className='window-outline'>
-        <span className='glare inner'></span>
-        <div className='window-main'>
-          <div className='window-bar' onMouseDown={handleDragStart}>
-            {!isSmallScreen ? (
+      <span className="glare outer"></span>
+      <div className="window-outline">
+        <span className="glare inner"></span>
+        <div className="window-main">
+          <div className="window-bar" onMouseDown={handleDragStart}>
+            {!deviceState.isSmallScreen ? (
               <div>
-                <button className='red' onClick={handleClose}></button>
-                <button className='yellow' onClick={handleMinimize}></button>
-                <button className='green' onClick={handleMaximize}></button>
+                <button className="red" onClick={handleClose}></button>
+                <button className="yellow" onClick={handleMinimize}></button>
+                <button className="green" onClick={handleMaximize}></button>
               </div>
             ) : (
               <>
                 <h3>{name}</h3>
-                <button className='red' onClick={handleClose}></button>
+                <button className="red" onClick={handleClose}></button>
               </>
             )}
           </div>
