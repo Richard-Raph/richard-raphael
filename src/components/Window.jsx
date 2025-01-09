@@ -16,29 +16,29 @@ export default function Window({
   const dragRef = useRef(null);
   const [pos, setPos] = useState({ top: -50, left: 0 });
   const [isMaximized, setIsMaximized] = useState(false);
-  const [deviceState, setDeviceState] = useState({
-    isSmallScreen: window.innerWidth < 600,
-    isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
-  });
+  const [deviceState, setDeviceState] = useState(() => getDeviceState());
 
-  // Handle screen resizing and device detection
-  useEffect(() => {
-    const handleResize = () => {
-      setDeviceState({
-        isSmallScreen: window.innerWidth < 600,
-        isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
-      });
+  function getDeviceState() {
+    return {
+      isSmallScreen: window.innerWidth < 600,
+      isTabletAndAbove: window.innerWidth >= 600,
+      isLaptopAndAbove: window.innerWidth >= 1200,
+      isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
     };
+  }
+
+  useEffect(() => {
+    const handleResize = () => setDeviceState(getDeviceState());
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Update content when active
   useEffect(() => {
-    if (isActive) updateContent?.(content);
-  }, [content, isActive, updateContent]);
+    if (isActive && !deviceState.isLaptopAndAbove) {
+      updateContent?.(content);
+    }
+  }, [content, isActive, updateContent, deviceState.isLaptopAndAbove]);
 
-  // Center window position when active
   useEffect(() => {
     if (isActive && dragRef.current) {
       const { offsetWidth = 300, offsetHeight = 200 } = dragRef.current;
@@ -49,7 +49,6 @@ export default function Window({
     }
   }, [isActive]);
 
-  // Event Handlers
   const handleClose = useCallback((e) => {
     e.stopPropagation();
     closeWindow(id);
@@ -62,30 +61,32 @@ export default function Window({
 
   const handleMaximize = useCallback((e) => {
     e.stopPropagation();
-    setIsMaximized(prev => !prev);
-    maximizeWindow(id);
-  }, [id, maximizeWindow]);
+    if (deviceState.isTabletAndAbove) {
+      setIsMaximized((prev) => !prev);
+      maximizeWindow(id);
+    }
+  }, [id, maximizeWindow, deviceState.isTabletAndAbove]);
 
   const handleDragStart = (e) => {
-    if (isMaximized || deviceState.isTouchDevice) return;
+    if (!deviceState.isLaptopAndAbove || isMaximized || deviceState.isTouchDevice) return;
 
     const offsetY = e.clientY - pos.top;
     const offsetX = e.clientX - pos.left;
 
     const handleMouseMove = ({ clientY, clientX }) => {
       setPos({
-        top: Math.min(Math.max(0, clientY - offsetY), window.innerHeight - dragRef.current?.offsetHeight),
         left: Math.min(Math.max(0, clientX - offsetX), window.innerWidth - dragRef.current?.offsetWidth),
+        top: Math.min(Math.max(0, clientY - offsetY), window.innerHeight - dragRef.current?.offsetHeight),
       });
     };
 
     const handleMouseUp = () => {
-      document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mousemove', handleMouseMove);
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('mousemove', handleMouseMove);
     e.preventDefault();
   };
 
