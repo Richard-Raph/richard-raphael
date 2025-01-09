@@ -20,7 +20,7 @@ export default function DockBar({ openWindow, activeWindow }) {
   const handleIconClick = (id) => {
     if (id === 'Terminal') {
       const link = document.createElement('a');
-      link.href = '/path/to/your-resume.pdf'; // To be replaced with my resume path
+      link.href = '/path/to/your-resume.pdf';
       link.download = 'Resume.pdf';
       link.click();
     } else {
@@ -47,6 +47,6 @@ export default function DockBar({ openWindow, activeWindow }) {
 }
 
 DockBar.propTypes = {
+  activeWindow: PropTypes.number,
   openWindow: PropTypes.func.isRequired,
-  activeWindow: PropTypes.string.isRequired,
 };

@@ -14,10 +14,27 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [windowStack, setWindowStack] = useState([]);
   const [activeWindow, setActiveWindow] = useState(null);
+  const [deviceState, setDeviceState] = useState(() => getDeviceState());
+
+  const contentMap = {
+    Home: <Home />,
+    About: <About />,
+    Blog: <Blog />,
+    Contact: <Contact />,
+    Project: <Project />,
+  };
+
+  function getDeviceState() {
+    return {
+      isSmallScreen: window.innerWidth < 1200,
+      isTabletAndAbove: window.innerWidth >= 600,
+    };
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 9000);
     const handleResize = () => {
+      setDeviceState(getDeviceState());
       const isMobile = window.innerWidth < 1200;
       setWindowStack((prev) => (isMobile ? [prev[prev.length - 1]] : prev));
     };
@@ -28,15 +45,22 @@ function App() {
     };
   }, []);
 
-  const contentMap = {
-    Home: <Home />,
-    About: <About />,
-    Blog: <Blog />,
-    Contact: <Contact />,
-    Project: <Project />,
-  };
-
   const openWindow = (windowName) => {
+    if (deviceState.isSmallScreen) {
+      // Update the content if already opened
+      if (windows.length > 0) {
+        setWindows([
+          {
+            ...windows[0],
+            name: windowName,
+            content: contentMap[windowName] || <div>Unknown Window</div>,
+          },
+        ]);
+        setActive(windows[0].id);
+        return;
+      }
+    }
+
     const existingWindow = windows.find((win) => win.name === windowName);
     if (existingWindow) {
       setActive(existingWindow.id);
