@@ -6,22 +6,20 @@ import Contact from './pages/Contact';
 import Project from './pages/Project';
 import Layout from './components/Layout';
 import Window from './components/Window';
+import { useState, useEffect } from 'react';
 import Preloader from './components/Preloader';
-import { useState, useEffect, useMemo } from 'react';
 
 function App() {
   const [windows, setWindows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [windowStack, setWindowStack] = useState([]);
   const [activeWindow, setActiveWindow] = useState(null);
-  
-  const isMobile = useMemo(() => window.innerWidth < 1200, []);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 9000);
     const handleResize = () => {
       const isMobile = window.innerWidth < 1200;
-      setWindowStack((prev) => (isMobile ? [prev[prev.length - 1]] : prev)); // Restrict stack for mobile.
+      setWindowStack((prev) => (isMobile ? [prev[prev.length - 1]] : prev));
     };
     window.addEventListener('resize', handleResize);
     return () => {
@@ -30,16 +28,13 @@ function App() {
     };
   }, []);
 
-  const contentMap = useMemo(
-    () => ({
-      Home: <Home />,
-      About: <About />,
-      Blog: <Blog />,
-      Contact: <Contact />,
-      Project: <Project />,
-    }),
-    []
-  );
+  const contentMap = {
+    Home: <Home />,
+    About: <About />,
+    Blog: <Blog />,
+    Contact: <Contact />,
+    Project: <Project />,
+  };
 
   const openWindow = (windowName) => {
     const existingWindow = windows.find((win) => win.name === windowName);

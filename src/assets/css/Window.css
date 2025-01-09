@@ -90,11 +90,13 @@
 }
 
 .window-bar button.green {
+    order: 1;
     background-color: #57c353;
     box-shadow: 0 0 20px 2px #57c353;
 }
 
 .window-bar button.yellow {
+    order: 1;
     background-color: #f9bd4e;
     box-shadow: 0 0 20px 2px #f9bd4e;
 }

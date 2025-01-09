@@ -10,7 +10,6 @@ export default function Window({
   setActive,
   closeWindow,
   updateContent,
-  minimizeWindow,
   maximizeWindow,
   setDraggedWindow,
 }) {
@@ -61,11 +60,6 @@ export default function Window({
     setDraggedWindow(id);
   }, [id, setActive, setDraggedWindow]);
 
-  const handleMinimize = useCallback((e) => {
-    e.stopPropagation();
-    minimizeWindow(id);
-  }, [id, minimizeWindow]);
-
   const handleMaximize = useCallback((e) => {
     e.stopPropagation();
     setIsMaximized(prev => !prev);
@@ -106,21 +100,21 @@ export default function Window({
       }}
       className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
     >
-      <span className="glare outer"></span>
-      <div className="window-outline">
-        <span className="glare inner"></span>
-        <div className="window-main">
-          <div className="window-bar" onMouseDown={handleDragStart}>
+      <span className='glare outer'></span>
+      <div className='window-outline'>
+        <span className='glare inner'></span>
+        <div className='window-main'>
+          <div className='window-bar' onMouseDown={handleDragStart}>
             {!deviceState.isSmallScreen ? (
               <div>
-                <button className="red" onClick={handleClose}></button>
-                <button className="yellow" onClick={handleMinimize}></button>
-                <button className="green" onClick={handleMaximize}></button>
+                <button className='yellow'></button>
+                <button className='red' onClick={handleClose}></button>
+                <button className='green' onClick={handleMaximize}></button>
               </div>
             ) : (
               <>
                 <h3>{name}</h3>
-                <button className="red" onClick={handleClose}></button>
+                <button className='red' onClick={handleClose}></button>
               </>
             )}
           </div>
@@ -139,7 +133,6 @@ Window.propTypes = {
   isActive: PropTypes.bool.isRequired,
   setActive: PropTypes.func.isRequired,
   closeWindow: PropTypes.func.isRequired,
-  minimizeWindow: PropTypes.func.isRequired,
   maximizeWindow: PropTypes.func.isRequired,
   setDraggedWindow: PropTypes.func.isRequired,
 };
