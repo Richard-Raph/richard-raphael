@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  transition: all .5s ease;
+  cursor: url('./assets/images/arrow.png'), auto;
+}
+
+::selection {
+  background-color: #090909;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.loading {
+  cursor: url('./assets/images/loading.png'), wait;
+}
+
+a,
+svg,
+button {
+  cursor: url('./assets/images/pointer.png'), pointer;
+}
+
+.preloader {
+  inset: 0;
+  display: grid;
+  width: 100dvw;
+  z-index: 9999;
+  height: 100dvh;
+  position: fixed;
+  place-items: center;
+  background-color: #090909;
+}
+
+body {
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  line-height: 1.2;
+  position: relative;
+  color-scheme: light dark;
+  background-color: #090909;
+  color: rgba(255, 255, 255, 0.87);
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font: 400 1vw 'Inter', 'system-ui', 'Helvetica', 'Arial', 'sans-serif';
+}
+
+main,
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
