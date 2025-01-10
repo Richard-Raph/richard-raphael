@@ -1,44 +1,42 @@
 import '../assets/css/Window.css';
 import PropTypes from 'prop-types';
+import { MdApps } from 'react-icons/md';
 import { useState, useRef, useEffect, useCallback } from 'react';
 
-export default function Window({
-  id,
-  name,
-  content,
-  isActive,
-  setActive,
-  closeWindow,
-  updateContent,
-  maximizeWindow,
-  setDraggedWindow,
-}) {
+export default function Window({ id, name, content, isActive, setActive, closeWindow, updateContent, maximizeWindow, setDraggedWindow }) {
   const dragRef = useRef(null);
+  const [menu, setMenu] = useState(false);
   const [pos, setPos] = useState({ top: -50, left: 0 });
   const [isMaximized, setIsMaximized] = useState(false);
-  const [deviceState, setDeviceState] = useState(() => getDeviceState());
+  const [deviceState, setDeviceState] = useState(() => ({
+    isSmallScreen: window.innerWidth < 600,
+    isTabletAndAbove: window.innerWidth >= 600,
+    isLaptopAndAbove: window.innerWidth >= 1200,
+    isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+  }));
 
-  function getDeviceState() {
-    return {
-      isSmallScreen: window.innerWidth < 600,
-      isTabletAndAbove: window.innerWidth >= 600,
-      isLaptopAndAbove: window.innerWidth >= 1200,
-      isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
-    };
-  }
-
+  // Update device state on window resize
   useEffect(() => {
-    const handleResize = () => setDeviceState(getDeviceState());
+    const handleResize = () => {
+      setDeviceState({
+        isSmallScreen: window.innerWidth < 600,
+        isTabletAndAbove: window.innerWidth >= 600,
+        isLaptopAndAbove: window.innerWidth >= 1200,
+        isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+      });
+    };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Update content on activation if not on a laptop or larger
   useEffect(() => {
     if (isActive && !deviceState.isLaptopAndAbove) {
       updateContent?.(content);
     }
   }, [content, isActive, updateContent, deviceState.isLaptopAndAbove]);
 
+  // Center window on activation
   useEffect(() => {
     if (isActive && dragRef.current) {
       const { offsetWidth = 300, offsetHeight = 200 } = dragRef.current;
@@ -49,6 +47,8 @@ export default function Window({
     }
   }, [isActive]);
 
+  const handleMenu = () => setMenu(prev => !prev);
+
   const handleClose = useCallback((e) => {
     e.stopPropagation();
     closeWindow(id);
@@ -56,14 +56,16 @@ export default function Window({
 
   const handleMouseDown = useCallback(() => {
     setActive(id);
-    setDraggedWindow(id);
-  }, [id, setActive, setDraggedWindow]);
+    if (deviceState.isLaptopAndAbove && !deviceState.isTouchDevice) {
+      setDraggedWindow?.(id);
+    }
+  }, [id, setActive, setDraggedWindow, deviceState]);
 
   const handleMaximize = useCallback((e) => {
     e.stopPropagation();
     if (deviceState.isTabletAndAbove) {
-      setIsMaximized((prev) => !prev);
-      maximizeWindow(id);
+      setIsMaximized(prev => !prev);
+      maximizeWindow?.(id);
     }
   }, [id, maximizeWindow, deviceState.isTabletAndAbove]);
 
@@ -101,21 +103,22 @@ export default function Window({
       }}
       className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
     >
-      <span className='glare outer'></span>
+      <span className='glare outer' />
       <div className='window-outline'>
-        <span className='glare inner'></span>
+        <span className='glare inner' />
         <div className='window-main'>
           <div className='window-bar' onMouseDown={handleDragStart}>
             {!deviceState.isSmallScreen ? (
               <div className='window-dots'>
-                <button className='yellow'></button>
-                <button className='red' onClick={handleClose}></button>
-                <button className='green' onClick={handleMaximize}></button>
+                <button className='yellow' />
+                <button className='red' onClick={handleClose} />
+                <button className='green' onClick={handleMaximize} />
               </div>
             ) : (
-              <div className='window-menu'>
+              <div className='window-header'>
                 <h3>{name}</h3>
-                <button>Code</button>
+                <MdApps onClick={handleMenu} />
+                {menu && <div className='window-menu' />}
               </div>
             )}
           </div>
