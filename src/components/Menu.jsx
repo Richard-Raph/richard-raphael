@@ -1,114 +1,110 @@
 import '../assets/css/Menu.css';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import logo from '../assets/images/logo-fff.webp';
-import { useState, useEffect, useMemo } from 'react';
 import { TbWifi, TbWorldCancel } from 'react-icons/tb';
 import { PiBatteryLowFill, PiBatteryHighFill, PiBatteryFullFill, PiBatteryChargingFill } from 'react-icons/pi';
 
-// Utility functions
-const updateTimeAndDate = () => {
+// Utility function for date and time
+const formatDateTime = () => {
   const now = new Date();
-  return {
-    time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    date: `${new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short' }).format(now)} ${now.getDate()}`,
-  };
+  const day = now.getDate();
+
+  const suffix = ['th', 'st', 'nd', 'rd'][(day % 10 > 3 || (day % 100 >= 11 && day % 100 <= 13)) ? 0 : day % 10];
+  const formattedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+  const formattedDate = `${now.toLocaleDateString('en-US', { weekday: 'long' })}, ${now.toLocaleDateString('en-US', { month: 'long' })} ${day}${suffix}, ${now.getFullYear()}`;
+
+  return `${formattedDate}, ${formattedTime}`;
 };
 
+// Custom hook for battery status
 const useBatteryStatus = () => {
   const [battery, setBattery] = useState({ level: null, charging: false });
 
   useEffect(() => {
-    if (!('getBattery' in navigator)) return;
+    const updateBattery = (batteryStatus) => setBattery({ level: batteryStatus.level, charging: batteryStatus.charging });
 
-    const fetchBatteryStatus = async () => {
-      const batteryStatus = await navigator.getBattery();
-      const updateBatteryInfo = () => setBattery({ level: batteryStatus.level, charging: batteryStatus.charging });
-      updateBatteryInfo();
-      batteryStatus.addEventListener('levelchange', updateBatteryInfo);
-      batteryStatus.addEventListener('chargingchange', updateBatteryInfo);
+    navigator.getBattery?.().then((batteryStatus) => {
+      updateBattery(batteryStatus);
+      batteryStatus.addEventListener('levelchange', () => updateBattery(batteryStatus));
+      batteryStatus.addEventListener('chargingchange', () => updateBattery(batteryStatus));
+    });
 
-      return () => {
-        batteryStatus.removeEventListener('levelchange', updateBatteryInfo);
-        batteryStatus.removeEventListener('chargingchange', updateBatteryInfo);
-      };
-    };
-
-    fetchBatteryStatus();
+    return () => { }; // Cleanup handled automatically if navigator.getBattery is not supported
   }, []);
 
   return battery;
 };
 
+// Custom hook for network status
 const useNetworkStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
-    const handleOnlineStatus = () => setIsOnline(true);
-    const handleOfflineStatus = () => setIsOnline(false);
+    const updateStatus = () => setIsOnline(navigator.onLine);
 
-    window.addEventListener('online', handleOnlineStatus);
-    window.addEventListener('offline', handleOfflineStatus);
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
 
     return () => {
-      window.removeEventListener('online', handleOnlineStatus);
-      window.removeEventListener('offline', handleOfflineStatus);
+      window.removeEventListener('online', updateStatus);
+      window.removeEventListener('offline', updateStatus);
     };
   }, []);
 
   return isOnline;
 };
 
-export default function MenuBar({ activeWindow, windows }) {
+// MenuBar component
+export default function MenuBar({ windows, activeWindow, closeAllWindows }) {
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
-  const [dateTime, setDateTime] = useState(updateTimeAndDate());
-
-  // Cache the active window name using useMemo
-  const activeWindowName = useMemo(
-    () => windows.find(({ id }) => id === activeWindow)?.name || 'Welcome',
-    [activeWindow, windows]
-  );
+  const [dateTime, setDateTime] = useState(formatDateTime());
 
   useEffect(() => {
-    const interval = setInterval(() => setDateTime(updateTimeAndDate()), 60000);
+    const interval = setInterval(() => setDateTime(formatDateTime()), 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const activeWindowName = windows.find(({ id }) => id === activeWindow)?.name || 'Welcome';
 
   return (
     <header className='menu-bar'>
       <div className='info'>
-        <img src={logo} alt='logo' width={40} />
+        <img src={logo} alt='logo' width={40} onClick={closeAllWindows} />
         <h3>{window.innerWidth < 600 ? 'Welcome' : activeWindowName}</h3>
       </div>
       <div className='stats'>
-        {isOnline ? <TbWifi size={20} /> : <TbWorldCancel size={20} />}
-        {battery.level !== null && (
-          <>
-            <span>{Math.round(battery.level * 100)}%</span>
-            {battery.charging ? (
-              <PiBatteryChargingFill size={20} />
-            ) : battery.level <= 0.25 ? (
-              <PiBatteryLowFill color='#f46b5d' size={20} />
-            ) : battery.level <= 0.5 ? (
-              <PiBatteryHighFill color='#f9bd4e' size={20} />
-            ) : (
-              <PiBatteryFullFill size={20} />
-            )}
-          </>
-        )}
-        <span>{dateTime.date}</span>
-        <span>{dateTime.time}</span>
+        <span>
+          {isOnline ? <TbWifi size={18} /> : <TbWorldCancel size={18} />}
+          {battery.level !== null && (
+            <>
+              {Math.round(battery.level * 100)}%
+              {battery.charging ? (
+                <PiBatteryChargingFill size={18} />
+              ) : battery.level <= 0.25 ? (
+                <PiBatteryLowFill color='#f46b5d' size={18} />
+              ) : battery.level <= 0.5 ? (
+                <PiBatteryHighFill color='#f9bd4e' size={18} />
+              ) : (
+                <PiBatteryFullFill size={18} />
+              )}
+            </>
+          )}
+        </span>
+        <time>{dateTime}</time>
       </div>
     </header>
   );
-};
+}
 
 MenuBar.propTypes = {
-  activeWindow: PropTypes.number,
   windows: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
+  activeWindow: PropTypes.number,
+  closeAllWindows: PropTypes.func.isRequired,
 };

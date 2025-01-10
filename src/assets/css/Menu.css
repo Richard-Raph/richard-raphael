@@ -23,14 +23,19 @@
     justify-content: space-between;
 }
 
-.menu-bar .stats {
-    gap: 8px;
-    display: none;
+.menu-bar .info h3 {
+    font-size: .88rem;
 }
 
-.menu-bar .info h3,
-.menu-bar .stats span {
-    font-size: .88rem;
+.menu-bar .stats {
+    display: none;
+    pointer-events: none;
+}
+
+.menu-bar .stats * {
+    gap: 4px;
+    align-items: center;
+    display: inline-flex;
 }
 
 @media only screen and (min-width: 600px) {

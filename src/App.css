@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
   margin: 0;
@@ -50,7 +50,7 @@ body {
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font: 400 1vw 'Inter', 'system-ui', 'Helvetica', 'Arial', 'sans-serif';
+  font: 400 1vw 'Roboto', 'system-ui', 'Helvetica', 'Arial', 'sans-serif';
 }
 
 main,
