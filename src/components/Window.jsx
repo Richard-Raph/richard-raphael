@@ -1,6 +1,6 @@
 import '../assets/css/Window.css';
 import PropTypes from 'prop-types';
-import { MdApps } from 'react-icons/md';
+import { TbTableFilled } from 'react-icons/tb';
 import { useState, useRef, useEffect, useCallback } from 'react';
 
 export default function Window({ id, name, content, isActive, setActive, closeWindow, updateContent, maximizeWindow, setDraggedWindow }) {
@@ -117,7 +117,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
             ) : (
               <div className='window-header'>
                 <h3>{name}</h3>
-                <MdApps onClick={handleMenu} />
+                <TbTableFilled onClick={handleMenu} size={20} />
                 {menu && <div className='window-menu' />}
               </div>
             )}
