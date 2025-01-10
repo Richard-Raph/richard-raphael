@@ -5,6 +5,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { TbWifi, TbWorldCancel } from 'react-icons/tb';
 import { PiBatteryLowFill, PiBatteryHighFill, PiBatteryFullFill, PiBatteryChargingFill } from 'react-icons/pi';
 
+// Utility functions
 const updateTimeAndDate = () => {
   const now = new Date();
   return {
@@ -23,14 +24,12 @@ const useBatteryStatus = () => {
       const batteryStatus = await navigator.getBattery();
       const updateBatteryInfo = () => setBattery({ level: batteryStatus.level, charging: batteryStatus.charging });
       updateBatteryInfo();
-      batteryStatus.addEventListener('levelChange', updateBatteryInfo);
-      batteryStatus.addEventListener('chargingChange', updateBatteryInfo);
+      batteryStatus.addEventListener('levelchange', updateBatteryInfo);
+      batteryStatus.addEventListener('chargingchange', updateBatteryInfo);
 
-      const interval = setInterval(updateBatteryInfo, 3000);
       return () => {
-        clearInterval(interval);
-        batteryStatus.removeEventListener('levelChange', updateBatteryInfo);
-        batteryStatus.removeEventListener('chargingChange', updateBatteryInfo);
+        batteryStatus.removeEventListener('levelchange', updateBatteryInfo);
+        batteryStatus.removeEventListener('chargingchange', updateBatteryInfo);
       };
     };
 
@@ -60,11 +59,11 @@ const useNetworkStatus = () => {
 };
 
 export default function MenuBar({ activeWindow, windows }) {
-  const [dateTime, setDateTime] = useState(updateTimeAndDate());
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
-  const isSmallScreen = window.innerWidth < 600;
+  const [dateTime, setDateTime] = useState(updateTimeAndDate());
 
+  // Cache the active window name using useMemo
   const activeWindowName = useMemo(
     () => windows.find(({ id }) => id === activeWindow)?.name || 'Welcome',
     [activeWindow, windows]
@@ -79,7 +78,7 @@ export default function MenuBar({ activeWindow, windows }) {
     <header className='menu-bar'>
       <div className='info'>
         <img src={logo} alt='logo' width={40} />
-        <h3>{isSmallScreen ? 'Welcome' : activeWindowName}</h3>
+        <h3>{window.innerWidth < 600 ? 'Welcome' : activeWindowName}</h3>
       </div>
       <div className='stats'>
         {isOnline ? <TbWifi size={20} /> : <TbWorldCancel size={20} />}
@@ -102,7 +101,7 @@ export default function MenuBar({ activeWindow, windows }) {
       </div>
     </header>
   );
-}
+};
 
 MenuBar.propTypes = {
   activeWindow: PropTypes.number,

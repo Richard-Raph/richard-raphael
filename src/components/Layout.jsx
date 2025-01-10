@@ -27,20 +27,10 @@ export default function Layout({ windows = [], children, openWindow, activeWindo
                 <section className='layout'>
                     <img src={bg} alt='background' />
                     <div className='layout-content'>
-                        <div className='layout-text'>
-                            <span>I&#39;m a</span>
-                            <h1>Full-stack</h1>
-                        </div>
-                        <div className='layout-text'>
-                            <h1>Developer</h1>
-                            <span>&amp;</span>
-                        </div>
-                        <div className='layout-text'>
-                            <h1>Software</h1>
-                        </div>
-                        <div className='layout-text'>
-                            <h1>Engineer</h1>
-                        </div>
+                        <div className='layout-text'><span>I&#39;m a</span><h1>Full-stack</h1></div>
+                        <div className='layout-text'><h1>Developer</h1><span>&amp;</span></div>
+                        <div className='layout-text'><h1>Software</h1></div>
+                        <div className='layout-text'><h1>Engineer</h1></div>
                     </div>
                 </section>
             </main>
@@ -52,11 +42,11 @@ export default function Layout({ windows = [], children, openWindow, activeWindo
 Layout.propTypes = {
     windows: PropTypes.arrayOf(
         PropTypes.shape({
-            id: PropTypes.number.isRequired,
             name: PropTypes.string,
+            id: PropTypes.number.isRequired,
         })
     ).isRequired,
+    activeWindow: PropTypes.number,
     children: PropTypes.node.isRequired,
     openWindow: PropTypes.func.isRequired,
-    activeWindow: PropTypes.number,
 };
