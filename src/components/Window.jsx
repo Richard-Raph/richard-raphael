@@ -107,16 +107,16 @@ export default function Window({
         <div className='window-main'>
           <div className='window-bar' onMouseDown={handleDragStart}>
             {!deviceState.isSmallScreen ? (
-              <div>
+              <div className='window-dots'>
                 <button className='yellow'></button>
                 <button className='red' onClick={handleClose}></button>
                 <button className='green' onClick={handleMaximize}></button>
               </div>
             ) : (
-              <>
+              <div className='window-menu'>
                 <h3>{name}</h3>
-                <button className='red' onClick={handleClose}></button>
-              </>
+                <button>Code</button>
+              </div>
             )}
           </div>
           {content}

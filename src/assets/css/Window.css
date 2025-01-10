@@ -2,7 +2,6 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    padding-top: 1rem;
     position: absolute;
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
@@ -39,28 +38,22 @@
 .window-bar,
 .window.active .window-bar:hover {
     width: 100%;
-    height: 40px;
+    height: 50px;
     display: flex;
     overflow: hidden;
     align-items: center;
-    backdrop-filter: blur(10px);
-    border-radius: 16px 16px 0 0;
+    background-color: #000;
     justify-content: space-between;
     box-shadow: 0 10px 20px 4px #0006;
     transition: background-image 0.3s ease;
-    background-image: linear-gradient(to right, #f2f2f21a, #f2f2f280 50%, #f2f2f21a);
 }
 
-.window-bar:hover {
-    background-image: linear-gradient(to right, #f2f2f250, #f2f2f280 50%, #f2f2f250);
+.window-bar .window-dots {
+    display: none;
 }
 
-.window-bar h3 {
-    font-size: 1rem;
-    padding: 0 1rem 0 2rem;
-}
-
-.window-bar div {
+.window-bar .window-dots,
+.window-bar .window-menu {
     gap: 12px;
     z-index: 9;
     height: 100%;
@@ -68,37 +61,13 @@
     width: max-content;
     position: relative;
     align-items: center;
-    padding: 0 1rem 0 2rem;
 }
 
-.window-bar button {
-    width: 12px;
-    height: 12px;
-    display: block;
-    border-radius: 50%;
-}
-
-.window-bar>button {
-    width: 15px;
-    height: 15px;
-    margin: 0 2rem;
-}
-
-.window-bar button.red {
-    background-color: #f46b5d;
-    box-shadow: 0 0 20px 2px #f46b5d;
-}
-
-.window-bar button.green {
-    order: 1;
-    background-color: #57c353;
-    box-shadow: 0 0 20px 2px #57c353;
-}
-
-.window-bar button.yellow {
-    order: 1;
-    background-color: #f9bd4e;
-    box-shadow: 0 0 20px 2px #f9bd4e;
+.window-bar .window-menu {
+    width: 100%;
+    padding: 0 1rem;
+    font-size: 0.8rem;
+    justify-content: space-between;
 }
 
 .window-content {
@@ -109,30 +78,16 @@
     flex-wrap: wrap;
     overflow-y: auto;
     position: relative;
+    padding-bottom: 4rem;
     scrollbar-width: none;
-    padding-bottom: 4.2rem;
     height: calc(100% - 40px);
     background-color: #121212f2;
     border: 1rem solid transparent;
 }
 
 .window-content::before {
-    z-index: -1;
-    content: '';
-    width: 15rem;
-    height: 15rem;
-    position: fixed;
-    filter: blur(150px);
-    translate: -50% -50%;
-    border-radius: 100px;
-    inset: 50% auto auto 50%;
-    background-color: #57c353;
-}
-
-.window-content::after {
     width: 80%;
     height: 80%;
-    z-index: -1;
     content: '';
     position: fixed;
     translate: -50% -50%;
@@ -162,7 +117,6 @@
 @media only screen and (min-width: 600px) {
     .window {
         width: 75%;
-        padding: 0;
         height: 75%;
         opacity: .7;
         border-radius: 24px;
@@ -197,6 +151,39 @@
         overflow: hidden;
         border-radius: 16px;
         border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .window-bar,
+    .window.active .window-bar:hover {
+        height: 40px;
+        padding-left: 1.5rem;
+        backdrop-filter: blur(10px);
+        border-radius: 16px 16px 0 0;
+        background-image: linear-gradient(to right, #f2f2f21a, #f2f2f280 50%, #f2f2f21a);
+    }
+
+    .window-dots button {
+        width: 12px;
+        height: 12px;
+        display: block;
+        border-radius: 50%;
+    }
+
+    .window-dots button.red {
+        background-color: #f46b5d;
+        box-shadow: 0 0 20px 2px #f46b5d;
+    }
+
+    .window-dots button.green {
+        order: 1;
+        background-color: #57c353;
+        box-shadow: 0 0 20px 2px #57c353;
+    }
+
+    .window-dots button.yellow {
+        order: 1;
+        background-color: #f9bd4e;
+        box-shadow: 0 0 20px 2px #f9bd4e;
     }
 
     .window:not(.active) .window-content {
