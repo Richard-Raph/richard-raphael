@@ -18,10 +18,10 @@ function App() {
 
   const contentMap = {
     Home: <Home />,
-    About: <About />,
     Blog: <Blog />,
+    About: <About />,
     Contact: <Contact />,
-    Project: <Project />,
+    Projects: <Project />,
   };
 
   function getDeviceState() {

@@ -10,7 +10,7 @@ import terminal from '../assets/images/terminal.webp';
 const icons = [
   { id: 'Home', imgSrc: home, tooltip: 'Home' },
   { id: 'About', imgSrc: about, tooltip: 'About Me' },
-  { id: 'Project', imgSrc: project, tooltip: 'Projects' },
+  { id: 'Projects', imgSrc: project, tooltip: 'Projects' },
   { id: 'Blog', imgSrc: blog, tooltip: 'Follow my trends' },
   { id: 'Contact', imgSrc: contact, tooltip: 'Talk to me' },
   { id: 'Terminal', imgSrc: terminal, tooltip: 'Hire me!' },
