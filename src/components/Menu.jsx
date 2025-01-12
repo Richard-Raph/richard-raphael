@@ -5,57 +5,64 @@ import logo from '../assets/images/logo-fff.webp';
 import { TbWifi, TbWorldCancel } from 'react-icons/tb';
 import { PiBatteryLowFill, PiBatteryHighFill, PiBatteryFullFill, PiBatteryChargingFill } from 'react-icons/pi';
 
-// Utility function for date and time
 const formatDateTime = () => {
   const now = new Date();
   const day = now.getDate();
-
-  const suffix = ['th', 'st', 'nd', 'rd'][(day % 10 > 3 || (day % 100 >= 11 && day % 100 <= 13)) ? 0 : day % 10];
-  const formattedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-  const formattedDate = `${now.toLocaleDateString('en-US', { weekday: 'long' })}, ${now.toLocaleDateString('en-US', { month: 'long' })} ${day}${suffix}, ${now.getFullYear()}`;
-
-  return `${formattedDate}, ${formattedTime}`;
+  const suffix = ["th", "st", "nd", "rd"][(day % 10 > 3 || (day % 100 >= 11 && day % 100 <= 13)) ? 0 : day % 10];
+  return `${now.toLocaleDateString('en-US', { weekday: 'long', month: 'long' })} ${day}${suffix}, ${now.toLocaleTimeString('en-US', { hour12: true })}`;
 };
 
-// Custom hook for battery status
 const useBatteryStatus = () => {
   const [battery, setBattery] = useState({ level: null, charging: false });
 
   useEffect(() => {
-    const updateBattery = (batteryStatus) => setBattery({ level: batteryStatus.level, charging: batteryStatus.charging });
-
     navigator.getBattery?.().then((batteryStatus) => {
-      updateBattery(batteryStatus);
-      batteryStatus.addEventListener('levelchange', () => updateBattery(batteryStatus));
-      batteryStatus.addEventListener('chargingchange', () => updateBattery(batteryStatus));
+      const updateBattery = () => setBattery({ level: batteryStatus.level, charging: batteryStatus.charging });
+      updateBattery();
+      batteryStatus.addEventListener('levelchange', updateBattery);
+      batteryStatus.addEventListener('chargingchange', updateBattery);
+      return () => {
+        batteryStatus.removeEventListener('levelchange', updateBattery);
+        batteryStatus.removeEventListener('chargingchange', updateBattery);
+      };
     });
-
-    return () => { }; // Cleanup handled automatically if navigator.getBattery is not supported
   }, []);
 
   return battery;
 };
 
-// Custom hook for network status
 const useNetworkStatus = () => {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(false);
 
   useEffect(() => {
-    const updateStatus = () => setIsOnline(navigator.onLine);
+    const checkInternetAccess = async () => {
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1', { method: 'HEAD' });
+        setIsOnline(response.ok);
+      } catch {
+        setIsOnline(false);
+      }
+    };
 
-    window.addEventListener('online', updateStatus);
-    window.addEventListener('offline', updateStatus);
+    const handleOnline = () => checkInternetAccess();
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    const interval = setInterval(checkInternetAccess, 2000);
+    checkInternetAccess();
 
     return () => {
-      window.removeEventListener('online', updateStatus);
-      window.removeEventListener('offline', updateStatus);
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+      clearInterval(interval);
     };
   }, []);
 
   return isOnline;
 };
 
-// MenuBar component
 export default function MenuBar({ windows, activeWindow, closeAllWindows }) {
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
