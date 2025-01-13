@@ -50,6 +50,7 @@
     }
 
     .menu-bar .stats * {
+        gap: 2px;
         align-items: center;
         display: inline-flex;
     }
@@ -57,9 +58,9 @@
     .menu-bar .stats i {
         width: 26px;
         height: 12px;
-        margin: 0 6px;
         position: relative;
         border-radius: 3px;
+        margin: 0 6px 0 4px;
         box-shadow: inset 0 0 0 1px white;
     }
 

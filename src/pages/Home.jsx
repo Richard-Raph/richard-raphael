@@ -39,6 +39,18 @@ export default function Home() {
       <div className='glass'>
         My name is Richard Raphael
       </div>
+      <div className='glass'>
+        My name is Richard Raphael
+      </div>
+      <div className='glass'>
+        My name is Richard Raphael
+      </div>
+      <div className='glass'>
+        My name is Richard Raphael
+      </div>
+      <div className='glass'>
+        My name is Richard Raphael
+      </div>
     </section>
   );
 }

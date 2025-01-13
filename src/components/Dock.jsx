@@ -34,13 +34,10 @@ export default function DockBar({ openWindow, activeWindow }) {
   return (
     <nav className='dock-bar'>
       <ul>
-        {icons.map(({ id, imgSrc, tooltip }, index) => (
+        {icons.map(({ id, imgSrc, tooltip }) => (
           <React.Fragment key={id}>
             {id === 'Settings' && <span className='separator'></span>}
-            <li
-              onClick={() => handleIconClick(id)}
-              className={`icon ${activeWindow === id ? 'active' : ''}`}
-            >
+            <li className={`icon ${activeWindow === id ? 'open' : ''}`} onClick={() => handleIconClick(id)}>
               <img src={imgSrc} alt={tooltip} />
               <span className='tooltip'>{tooltip}</span>
             </li>

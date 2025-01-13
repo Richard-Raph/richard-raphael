@@ -2,7 +2,7 @@
   left: 50%;
   width: auto;
   z-index: 99;
-  height: 46px;
+  height: 50px;
   bottom: -1px;
   padding: 0 10px;
   position: absolute;
@@ -37,6 +37,17 @@
   position: relative;
   border-radius: 12px;
   transition: width, height, margin-top, cubic-bezier(0.25, 1, 0.5, 1) 100ms;
+}
+
+.icon.open::after {
+  width: 4px;
+  height: 4px;
+  content: '';
+  bottom: -2px;
+  position: absolute;
+  border-radius: 100%;
+  left: calc(50% - 2px);
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .icon img {

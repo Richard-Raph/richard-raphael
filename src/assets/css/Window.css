@@ -1,42 +1,19 @@
 .window {
+    z-index: 1;
     width: 100%;
     height: 100%;
+    transform: none;
     overflow: hidden;
     position: absolute;
+    border-radius: 10px;
     transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    box-shadow: 0 40px 60px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.5);
+    transition: all 0.1s, top 0.1s ease-in-out, left 0.1s ease-in-out, transform 0.1s ease-in-out, width 0.1s ease-in-out, height 0.1s ease-in-out, z-index 0ms, box-shadow 0ms;
 }
 
-.glare {
-    height: 1px;
-    display: block;
-    margin-bottom: -1px;
-    background-image: linear-gradient(to right, transparent 10%, white 50%, transparent 90%);
-}
-
-.glare.inner {
-    height: 2px;
-    margin-bottom: -2px;
-}
-
-.window-outline {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    outline-offset: -1px;
-    box-shadow: inset 0 0 8px #0006, 0 0 60px #0003, 0 30px 120px #000c;
-    background-image: radial-gradient(circle farthest-side at 50% 0, #f2f2f233, #0000);
-}
-
-.window-main {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    box-shadow: inset 0 0 120px #0000001a, 0 0 120px #0006;
-}
-
-.window-bar,
-.window.active .window-bar:hover {
+.window-bar {
     width: 100%;
     height: 50px;
     display: flex;
@@ -45,8 +22,12 @@
     justify-content: space-between;
     box-shadow: 0 10px 20px 4px #0006;
     transition: background-image 0.3s ease;
+    backdrop-filter: blur(15px);
+    background: rgba(30, 30, 31, 0.9);
+    height: 70px;
 }
 
+.window.min,
 .window-bar .window-dots {
     display: none;
 }
@@ -114,8 +95,8 @@
     display: grid;
     font-size: 1rem;
     position: relative;
+    border-radius: 8px;
     place-items: center;
-    border-radius: 13px;
     transition: all 0.2s ease;
     backdrop-filter: blur(50px);
     background-color: #e9f7e803;
@@ -128,8 +109,6 @@
         width: 75%;
         height: 75%;
         opacity: .7;
-        border-radius: 24px;
-        backdrop-filter: blur(20px);
     }
 
     .window.active {
@@ -140,35 +119,16 @@
     .window.max {
         width: 100%;
         height: 100%;
+        outline: none;
+        border-radius: 0;
         backdrop-filter: none;
         background: rgba(0, 0, 0, 0.7);
     }
 
-    .window.max,
-    .window.max .window-outline {
-        outline: none;
-        border-radius: 0;
-    }
-
-    .window-outline {
-        padding: 8px;
-        border-radius: 24px;
-        outline: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .window-main {
-        overflow: hidden;
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .window-bar,
-    .window.active .window-bar:hover {
+    .window-bar {
         height: 40px;
         padding-left: 1.5rem;
         backdrop-filter: blur(10px);
-        border-radius: 16px 16px 0 0;
-        background-image: linear-gradient(to right, #f2f2f21a, #f2f2f280 50%, #f2f2f21a);
     }
 
     .window-dots button {
@@ -270,7 +230,7 @@
     }
 
     .window.max .window-content {
-        padding-bottom: 2rem;
+        padding-bottom: 2.6rem;
     }
 
     .window-content {
