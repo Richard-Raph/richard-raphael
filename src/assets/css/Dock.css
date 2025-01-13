@@ -1,7 +1,7 @@
 .dock-bar {
   bottom: 0;
   z-index: 99;
-  padding: 1px 12px;
+  padding: 1px 10px;
   position: absolute;
   border-radius: 24px;
   margin: 0 auto .5rem;
@@ -14,9 +14,20 @@
   display: flex;
 }
 
+.dock-bar .separator {
+  width: 1.5px;
+  height: 30px;
+  align-self: start;
+  position: relative;
+  border-radius: 15px;
+  display: inline-flex;
+  margin: 8px 5px 8px 8px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
 .icon {
-  width: 55px;
-  height: 55px;
+  width: 45px;
+  height: 45px;
   display: block;
   position: relative;
   border-radius: 12px;
@@ -37,11 +48,11 @@
 
 .tooltip {
   left: 50%;
-  top: -40px;
+  top: -30px;
   opacity: 0;
   width: auto;
   display: block;
-  font-size: 1rem;
+  font-size: .8rem;
   padding: 4px 8px;
   position: absolute;
   white-space: nowrap;
@@ -55,32 +66,32 @@
 
 @media only screen and (min-width: 1200px) {
   .icon:hover {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     margin-top: -25px;
   }
 
   .icon:hover+.icon {
-    width: calc(70px + var(--dock-right, 0px));
-    height: calc(70px + var(--dock-right, 0px));
+    width: calc(60px + var(--dock-right, 0px));
+    height: calc(60px + var(--dock-right, 0px));
     margin-top: calc(-15px + var(--dock-right, 0px) * -1);
   }
 
   .icon:hover+.icon+.icon {
-    width: calc(60px + var(--dock-right, 0px));
-    height: calc(60px + var(--dock-right, 0px));
+    width: calc(50px + var(--dock-right, 0px));
+    height: calc(50px + var(--dock-right, 0px));
     margin-top: calc(-5px + var(--dock-right, 0px) * -1);
   }
 
   .icon:has(+ .icon:hover) {
-    width: calc(70px + var(--dock-left, 0px));
-    height: calc(70px + var(--dock-left, 0px));
+    width: calc(60px + var(--dock-left, 0px));
+    height: calc(60px + var(--dock-left, 0px));
     margin-top: calc(-15px + var(--dock-left, 0px) * -1);
   }
 
   .icon:has(+ .icon + .icon:hover) {
-    width: calc(60px + var(--dock-left, 0px));
-    height: calc(60px + var(--dock-left, 0px));
+    width: calc(50px + var(--dock-left, 0px));
+    height: calc(50px + var(--dock-left, 0px));
     margin-top: calc(-5px + var(--dock-left, 0px) * -1);
   }
 }

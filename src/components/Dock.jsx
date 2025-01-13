@@ -1,3 +1,4 @@
+import React from 'react';
 import '../assets/css/Dock.css';
 import PropTypes from 'prop-types';
 import home from '../assets/images/home.webp';
@@ -6,6 +7,7 @@ import about from '../assets/images/about.webp';
 import project from '../assets/images/project.webp';
 import contact from '../assets/images/contact.webp';
 import terminal from '../assets/images/terminal.webp';
+import settings from '../assets/images/settings.webp';
 
 const icons = [
   { id: 'Home', imgSrc: home, tooltip: 'Home' },
@@ -14,6 +16,7 @@ const icons = [
   { id: 'Blog', imgSrc: blog, tooltip: 'Follow my trends' },
   { id: 'Contact', imgSrc: contact, tooltip: 'Talk to me' },
   { id: 'Terminal', imgSrc: terminal, tooltip: 'Hire me!' },
+  { id: 'Settings', imgSrc: settings, tooltip: 'Portfolio Preferences' },
 ];
 
 export default function DockBar({ openWindow, activeWindow }) {
@@ -31,15 +34,17 @@ export default function DockBar({ openWindow, activeWindow }) {
   return (
     <nav className='dock-bar'>
       <ul>
-        {icons.map(({ id, imgSrc, tooltip }) => (
-          <li
-            key={id}
-            onClick={() => handleIconClick(id)}
-            className={`icon ${activeWindow === id ? 'active' : ''}`}
-          >
-            <img src={imgSrc} alt={tooltip} />
-            <span className='tooltip'>{tooltip}</span>
-          </li>
+        {icons.map(({ id, imgSrc, tooltip }, index) => (
+          <React.Fragment key={id}>
+            {id === 'Settings' && <span className='separator'></span>}
+            <li
+              onClick={() => handleIconClick(id)}
+              className={`icon ${activeWindow === id ? 'active' : ''}`}
+            >
+              <img src={imgSrc} alt={tooltip} />
+              <span className='tooltip'>{tooltip}</span>
+            </li>
+          </React.Fragment>
         ))}
       </ul>
     </nav>

@@ -53,7 +53,7 @@
 
 .window-bar .window-dots,
 .window-bar .window-header {
-    gap: 12px;
+    gap: 10px;
     z-index: 9;
     height: 100%;
     display: flex;
@@ -87,8 +87,8 @@
     flex-wrap: wrap;
     overflow-y: auto;
     position: relative;
-    padding-bottom: 4rem;
     scrollbar-width: none;
+    padding-bottom: 3.6rem;
     height: calc(100% - 40px);
     background-color: #121212f2;
     border: 1rem solid transparent;
@@ -174,25 +174,97 @@
     .window-dots button {
         width: 12px;
         height: 12px;
-        display: block;
+        overflow: hidden;
+        position: relative;
         border-radius: 50%;
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .window-dots:hover button::after,
+    .window-dots:hover button::before {
+        background: rgba(0, 0, 0, 0.75);
+    }
+
+    .window-dots:hover button.green::after,
+    .window-dots:hover button.green::before {
+        background: none;
+        border-color: transparent rgba(0, 0, 0, 0.75) transparent transparent;
+    }
+
+    .window-dots button::after,
+    .window-dots button::before {
+        content: '';
+        transition: 0.1s;
+        position: absolute;
+    }
+
+    .window-dots button.red::after,
+    .window-dots button.red::before {
+        top: 50%;
+        left: 2px;
+        height: 1px;
+        width: calc(100% - 4px);
+        transform: rotateZ(45deg);
+    }
+
+    .window-dots button.red::after {
+        transform: rotateZ(-45deg);
+    }
+
+    .window-dots button.yellow::before {
+        top: 50%;
+        left: 2px;
+        height: 1px;
+        width: calc(100% - 4px);
+    }
+
+    .window-dots button.green::after,
+    .window-dots button.green::before {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: transparent;
+        border-width: 0 4px 4px 0;
+    }
+
+    .window-dots button.green::before {
+        top: calc(50% - 3px);
+        left: calc(50% - 1px);
+    }
+
+    .window.max .window-dots button.green::before {
+        top: 50%;
+        left: calc(50% - 4px);
+    }
+
+    .window.max .window-dots button.green::after {
+        left: 50%;
+        top: calc(50% - 4px);
+    }
+
+    .window-dots button.green::after {
+        top: calc(50% - 1px);
+        left: calc(50% - 3px);
+        transform: rotateZ(180deg);
+        transform-origin: center center;
     }
 
     .window-dots button.red {
-        background-color: #f46b5d;
-        box-shadow: 0 0 20px 2px #f46b5d;
-    }
-
-    .window-dots button.green {
-        order: 1;
-        background-color: #57c353;
-        box-shadow: 0 0 20px 2px #57c353;
+        background-color: #ff5d5a;
+        box-shadow: 0 0 20px 2px #ff5d5a;
     }
 
     .window-dots button.yellow {
         order: 1;
-        background-color: #f9bd4e;
-        box-shadow: 0 0 20px 2px #f9bd4e;
+        background-color: #f5c350;
+        box-shadow: 0 0 20px 2px #f5c350;
+    }
+
+    .window-dots button.green {
+        order: 1;
+        background-color: #65cd57;
+        box-shadow: 0 0 20px 2px #65cd57;
     }
 
     .window:not(.active) .window-content {
@@ -200,7 +272,7 @@
     }
 
     .window.max .window-content {
-        padding-bottom: 2.6rem;
+        padding-bottom: 2.4rem;
     }
 
     .window-content {

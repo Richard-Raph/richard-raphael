@@ -2,15 +2,17 @@
     top: 0;
     width: 100%;
     z-index: 99;
-    height: 30px;
+    height: 22px;
     display: flex;
+    font-size: 14px;
     padding: 1px 12px;
+    line-height: 22px;
     position: relative;
     align-items: center;
-    backdrop-filter: blur(10px);
     justify-content: space-between;
-    box-shadow: rgba(255, 255, 255, 0.17) 0px 0px 0px 1px inset;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.15));
+    background: rgba(50, 50, 50, 0.5);
+    backdrop-filter: blur(30px) saturate(2) brightness(0.5);
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.05), 0 1px 0 0 rgba(0, 0, 0, 0.5);
 }
 
 .menu-bar .info,
@@ -40,7 +42,7 @@
     }
 
     .menu-bar .info h3 {
-        font-size: 1rem;
+        font-size: .89rem;
     }
 
     .menu-bar .stats {
@@ -48,7 +50,6 @@
     }
 
     .menu-bar .stats * {
-        font-size: .89rem;
         align-items: center;
         display: inline-flex;
     }
@@ -78,11 +79,12 @@
         width: 16px;
         height: 16px;
         inset: auto -3px;
+        z-index: 9999;
         display: inline-block;
         background-size: contain;
         background-repeat: no-repeat;
         background-color: transparent;
-        background-image: url('data:image/svg+xml,%3Csvg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="18" width="18" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M5 21c.5 -4.5 2.5 -8 7 -10"%3E%3C/path%3E%3Cpath d="M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12 9c0 1 0 3 2 5h3z"%3E%3C/path%3E%3C/svg%3E');
+        background-image: url('data:image/svg+xml,%3Csvg stroke="white" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="18" width="18" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M5 21c.5 -4.5 2.5 -8 7 -10"%3E%3C/path%3E%3Cpath d="M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12 9c0 1 0 3 2 5h3z"%3E%3C/path%3E%3C/svg%3E');
     }
 
     .menu-bar .stats i::after {

@@ -4,6 +4,7 @@ import Blog from './pages/Blog';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Project from './pages/Project';
+import Settings from './pages/Settings';
 import Layout from './components/Layout';
 import Window from './components/Window';
 import { useState, useEffect } from 'react';
@@ -22,6 +23,7 @@ function App() {
     About: <About />,
     Contact: <Contact />,
     Projects: <Project />,
+    Settings: <Settings />,
   };
 
   function getDeviceState() {

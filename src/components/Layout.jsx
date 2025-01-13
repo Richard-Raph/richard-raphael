@@ -2,7 +2,7 @@ import Menu from './Menu';
 import Dock from './Dock';
 import '../assets/css/Layout.css';
 import PropTypes from 'prop-types';
-import bg from '../assets/images/bg.webp';
+import bgL from '../assets/images/lightBg.webp';
 
 export default function Layout({ windows = [], children, openWindow, activeWindow = 0, closeAllWindows }) {
     return (
@@ -25,7 +25,7 @@ export default function Layout({ windows = [], children, openWindow, activeWindo
             <main>
                 {children}
                 <section className='layout'>
-                    <img src={bg} alt='background' />
+                    <img src={bgL} alt='background' />
                     <div className='layout-content'>
                         <div className='layout-text'><span>I&#39;m a</span><h1>Full-stack</h1></div>
                         <div className='layout-text'><h1>Developer</h1><span>&amp;</span></div>
