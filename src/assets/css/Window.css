@@ -88,7 +88,7 @@
     overflow-y: auto;
     position: relative;
     scrollbar-width: none;
-    padding-bottom: 3.6rem;
+    padding-bottom: 3.2rem;
     height: calc(100% - 40px);
     background-color: #121212f2;
     border: 1rem solid transparent;
@@ -250,21 +250,19 @@
         transform-origin: center center;
     }
 
-    .window-dots button.red {
+    .window.active .window-dots button.red,
+    .window:not(.active) .window-dots:is(:hover) button.red {
         background-color: #ff5d5a;
-        box-shadow: 0 0 20px 2px #ff5d5a;
     }
 
-    .window-dots button.yellow {
-        order: 1;
+    .window.active .window-dots button.yellow,
+    .window:not(.active) .window-dots:is(:hover) button.yellow {
         background-color: #f5c350;
-        box-shadow: 0 0 20px 2px #f5c350;
     }
 
-    .window-dots button.green {
-        order: 1;
+    .window.active .window-dots button.green,
+    .window:not(.active) .window-dots:is(:hover) button.green {
         background-color: #65cd57;
-        box-shadow: 0 0 20px 2px #65cd57;
     }
 
     .window:not(.active) .window-content {
@@ -272,7 +270,7 @@
     }
 
     .window.max .window-content {
-        padding-bottom: 2.4rem;
+        padding-bottom: 2rem;
     }
 
     .window-content {

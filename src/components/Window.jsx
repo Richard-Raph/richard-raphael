@@ -110,8 +110,8 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
           <div className='window-bar' onMouseDown={handleDragStart}>
             {!deviceState.isSmallScreen ? (
               <div className='window-dots'>
-                <button className='yellow' />
                 <button className='red' onClick={handleClose} />
+                <button className='yellow' />
                 <button className='green' onClick={handleMaximize} />
               </div>
             ) : (

@@ -78,8 +78,8 @@
         content: '';
         width: 16px;
         height: 16px;
-        inset: auto -3px;
         z-index: 9999;
+        inset: auto -3px;
         display: inline-block;
         background-size: contain;
         background-repeat: no-repeat;
@@ -95,6 +95,6 @@
         border-radius: 1px;
         top: calc(50% - 4px);
         background-color: white;
-        width: calc(var(--level, 0%) - 3px);
+        width: calc(var(--level, 0%) - 4px);
     }
 }
