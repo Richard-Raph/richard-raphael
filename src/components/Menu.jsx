@@ -2,14 +2,16 @@ import '../assets/css/Menu.css';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import logo from '../assets/images/logo-fff.webp';
-import { TbWifi, TbWorldCancel } from 'react-icons/tb';
-import { PiBatteryLowFill, PiBatteryHighFill, PiBatteryFullFill, PiBatteryChargingFill } from 'react-icons/pi';
+import { TbWifi, TbWorldCancel, TbBluetooth, TbBluetoothOff } from 'react-icons/tb';
 
 const formatDateTime = () => {
   const now = new Date();
   const day = now.getDate();
-  const suffix = ["th", "st", "nd", "rd"][(day % 10 > 3 || (day % 100 >= 11 && day % 100 <= 13)) ? 0 : day % 10];
-  return `${now.toLocaleDateString('en-US', { weekday: 'long', month: 'long' })} ${day}${suffix}, ${now.toLocaleTimeString('en-US', { hour12: true })}`;
+  const daySuffix = ['th', 'st', 'nd', 'rd'][(day % 10 > 3 || (day % 100 >= 11 && day % 100 <= 13)) ? 0 : day % 10];
+  const weekday = now.toLocaleDateString('en-US', { weekday: 'short' });
+  const month = now.toLocaleDateString('en-US', { month: 'long' });
+  const year = now.getFullYear();
+  return `${weekday}, ${month} ${day}${daySuffix}, ${year}, ${now.toLocaleTimeString('en-US', { hour12: true })}`;
 };
 
 const useBatteryStatus = () => {
@@ -63,9 +65,20 @@ const useNetworkStatus = () => {
   return isOnline;
 };
 
+const useBluetoothStatus = () => {
+  const [isBluetoothOn, setIsBluetoothOn] = useState(false);
+
+  useEffect(() => {
+    navigator.bluetooth?.getAvailability().then(setIsBluetoothOn);
+  }, []);
+
+  return isBluetoothOn;
+};
+
 export default function MenuBar({ windows, activeWindow, closeAllWindows }) {
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
+  const isBluetoothOn = useBluetoothStatus();
   const [dateTime, setDateTime] = useState(formatDateTime());
 
   useEffect(() => {
@@ -84,18 +97,15 @@ export default function MenuBar({ windows, activeWindow, closeAllWindows }) {
       <div className='stats'>
         <span>
           {isOnline ? <TbWifi size={18} /> : <TbWorldCancel size={18} />}
+          {isBluetoothOn ? <TbBluetooth size={18} /> : <TbBluetoothOff size={18} />}
+        </span>
+        <span>
           {battery.level !== null && (
             <>
               {Math.round(battery.level * 100)}%
-              {battery.charging ? (
-                <PiBatteryChargingFill size={18} />
-              ) : battery.level <= 0.25 ? (
-                <PiBatteryLowFill color='#f46b5d' size={18} />
-              ) : battery.level <= 0.5 ? (
-                <PiBatteryHighFill color='#f9bd4e' size={18} />
-              ) : (
-                <PiBatteryFullFill size={18} />
-              )}
+              <i
+                className={`${battery.charging ? 'charging' : ''}`}
+                style={{ '--level': `${Math.round(battery.level * 100)}%` }} />
             </>
           )}
         </span>
