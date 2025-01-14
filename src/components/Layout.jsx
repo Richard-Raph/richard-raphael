@@ -34,7 +34,7 @@ export default function Layout({ windows = [], children, openWindow, activeWindo
                     </div>
                 </section>
             </main>
-            <Dock openWindow={openWindow} activeWindow={activeWindow} />
+            <Dock windows={windows} openWindow={openWindow} activeWindow={activeWindow} />
         </>
     );
 }
