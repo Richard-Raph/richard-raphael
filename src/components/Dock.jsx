@@ -78,23 +78,34 @@ const icons = [
 ];
 
 export default function DockBar({ openWindow, activeWindow }) {
-  const [windowsInDOM, setWindowsInDOM] = useState([]);
+  const [openWindows, setOpenWindows] = useState([]);
 
+  // Fetch all elements with the "window" class and set their IDs as open windows
   useEffect(() => {
-    // A function to check which windows are present in the DOM
-    const windowElements = document.querySelectorAll('.window');
-    const activeWindows = Array.from(windowElements).map(window => window.id);
-    setWindowsInDOM(activeWindows);
-  }, [activeWindow]); // Re-run on activeWindow change
+    const updateOpenWindows = () => {
+      const windows = document.querySelectorAll('.window');
+      const openWindowsList = Array.from(windows).map((window) => window.id);
+      setOpenWindows(openWindowsList);
+    };
+
+    // Check windows on component mount and whenever activeWindow changes
+    updateOpenWindows();
+    window.addEventListener('resize', updateOpenWindows); // Optional: updates on window resize
+
+    return () => {
+      window.removeEventListener('resize', updateOpenWindows);
+    };
+  }, [activeWindow]); // Re-run when activeWindow changes
 
   const handleIconClick = (id) => {
     if (id === 'Terminal') {
+      // Handle terminal click (e.g., downloading resume)
       const link = document.createElement('a');
       link.href = '/path/to/your-resume.pdf';
       link.download = 'Resume.pdf';
       link.click();
     } else {
-      openWindow(id);
+      openWindow(id); // Open window for any other icon
     }
   };
 
@@ -105,7 +116,9 @@ export default function DockBar({ openWindow, activeWindow }) {
           <React.Fragment key={id}>
             {id === 'Settings' && <span className='separator'></span>}
             <li
-              className={`icon ${activeWindow === id || windowsInDOM.includes(id) ? 'open' : ''}`}
+              className={`icon ${
+                activeWindow === id || openWindows.includes(id) ? 'open' : ''
+              }`}
               onClick={() => handleIconClick(id)}
             >
               <img src={imgSrc} alt={tooltip} />
@@ -119,6 +132,6 @@ export default function DockBar({ openWindow, activeWindow }) {
 }
 
 DockBar.propTypes = {
-  activeWindow: PropTypes.number,
+  activeWindow: PropTypes.string.isRequired, // activeWindow should be a string representing the ID
   openWindow: PropTypes.func.isRequired,
 };
