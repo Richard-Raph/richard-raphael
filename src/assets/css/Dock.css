@@ -1,12 +1,10 @@
 .dock-bar {
-  left: 50%;
   width: auto;
   z-index: 99;
   height: 50px;
-  bottom: -1px;
   padding: 0 10px;
   position: absolute;
-  margin: 0 auto .5rem;
+  inset: auto auto 0 50%;
   border-radius: 5px 5px 0 0;
   transform: translateX(-50%);
   background: rgba(50, 50, 50, 0.5);
@@ -43,7 +41,7 @@
   width: 4px;
   height: 4px;
   content: '';
-  bottom: -2px;
+  bottom: -4px;
   position: absolute;
   border-radius: 100%;
   left: calc(50% - 2px);
