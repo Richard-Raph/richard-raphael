@@ -4,7 +4,7 @@ import '../assets/css/Layout.css';
 import PropTypes from 'prop-types';
 import bgL from '../assets/images/lightBg.webp';
 
-export default function Layout({ windows = [], children, openWindow, activeWindow = 0, closeAllWindows }) {
+export default function Layout({ children, windows = [], openWindow, activeWindow = 0, closeAllWindows }) {
     return (
         <>
             <svg width='219' height='147' viewBox='0 0 219 147' fill='none' cursor='none' xmlns='http://www.w3.org/2000/svg'>
@@ -21,7 +21,7 @@ export default function Layout({ windows = [], children, openWindow, activeWindo
                     <circle cx='121.819' cy='83.613' r='1.7774' fill='#323232' stroke='white' />
                 </g>
             </svg>
-            <Menu activeWindow={activeWindow} windows={windows} closeAllWindows={closeAllWindows} />
+            <Menu windows={windows} activeWindow={activeWindow} closeAllWindows={closeAllWindows} />
             <main>
                 {children}
                 <section className='layout'>

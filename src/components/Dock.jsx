@@ -19,7 +19,7 @@ const icons = [
   { id: 'Settings', imgSrc: settings, tooltip: 'Portfolio Preferences' },
 ];
 
-export default function DockBar({ openWindow, activeWindow, windows }) {
+export default function DockBar({ windows, openWindow, activeWindow }) {
   const handleIconClick = (id) => {
     if (id === 'Terminal') {
       const link = document.createElement('a');
