@@ -103,22 +103,22 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
       }}
       className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
     >
-        <div className='window-bar' onMouseDown={handleDragStart}>
-          {!deviceState.isSmallScreen ? (
-            <div className='window-dots'>
-              <button className='red' onClick={handleClose} />
-              <button className='yellow' />
-              <button className='green' onClick={handleMaximize} />
-            </div>
-          ) : (
-            <div className='window-header'>
-              <h3>{name}</h3>
-              <TbTableFilled onClick={handleMenu} size={20} />
-              {menu && <div className='window-menu' />}
-            </div>
-          )}
-        </div>
-        {content}
+      <div className='window-bar' onMouseDown={handleDragStart}>
+        {!deviceState.isSmallScreen ? (
+          <div className='window-dots'>
+            <button className='red' onClick={handleClose} />
+            <button className='yellow' />
+            <button className='green' onClick={handleMaximize} />
+          </div>
+        ) : (
+          <div className='window-header'>
+            <h3>{name}</h3>
+            <TbTableFilled onClick={handleMenu} size={20} />
+            {menu && <div className='window-menu' />}
+          </div>
+        )}
+      </div>
+      {content}
     </section>
   );
 }
