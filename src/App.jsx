@@ -24,7 +24,7 @@ function App() {
     About: <About />,
     Contact: <Contact />,
     Projects: <Project />,
-    Settings: <Settings onDynamicWallpaperChange={handleDynamicWallpaperChange} />,
+    'Portfolio Preferences': <Settings onDynamicWallpaperChange={handleDynamicWallpaperChange} />,
   };
 
   function handleDynamicWallpaperChange(isDynamic) {
