@@ -1,0 +1,22 @@
+form {
+    width: 100%;
+    height: 100%;
+    display: grid;
+}
+
+form fieldset {
+    gap: 50px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+form fieldset p {
+    width: 100%;
+    justify-self: end;
+}
+
+form fieldset div {
+    width: 100%;
+    display: grid;
+    justify-content: start;
+}

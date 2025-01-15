@@ -2,9 +2,29 @@ import Menu from './Menu';
 import Dock from './Dock';
 import '../assets/css/Layout.css';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
+import bgD from '../assets/images/darkBg.webp';
 import bgL from '../assets/images/lightBg.webp';
 
 export default function Layout({ children, windows = [], openWindow, activeWindow = 0, closeAllWindows }) {
+    const [background, setBackground] = useState(bgL);
+
+    useEffect(() => {
+        const updateBackground = () => {
+            const hour = new Date().getHours();
+            if (hour >= 18 || hour < 7) {
+                setBackground(bgD); // Use dark background for evening and night
+            } else {
+                setBackground(bgL); // Use light background for daytime
+            }
+        };
+
+        updateBackground(); // Initial call to set the correct background
+        const interval = setInterval(updateBackground, 60000); // Update every minute to ensure accuracy
+
+        return () => clearInterval(interval); // Cleanup interval on component unmount
+    }, []);
+
     return (
         <>
             <svg width='219' height='147' viewBox='0 0 219 147' fill='none' cursor='none' xmlns='http://www.w3.org/2000/svg'>
@@ -25,13 +45,13 @@ export default function Layout({ children, windows = [], openWindow, activeWindo
             <main>
                 {children}
                 <section className='layout'>
-                    <img src={bgL} alt='background' />
-                    <div className='layout-content'>
+                    <img src={background} alt='background' />
+                    {/* <div className='layout-content'>
                         <div className='layout-text'><span>I&#39;m a</span><h1>Full-stack</h1></div>
                         <div className='layout-text'><h1>Developer</h1><span>&amp;</span></div>
                         <div className='layout-text'><h1>Software</h1></div>
                         <div className='layout-text'><h1>Engineer</h1></div>
-                    </div>
+                    </div> */}
                 </section>
             </main>
             <Dock windows={windows} openWindow={openWindow} activeWindow={activeWindow} />

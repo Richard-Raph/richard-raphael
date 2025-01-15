@@ -74,6 +74,7 @@
 .window-content::before {
     width: 80%;
     height: 80%;
+    z-index: -1;
     content: '';
     position: fixed;
     translate: -50% -50%;

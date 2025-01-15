@@ -23,6 +23,7 @@
 
 a,
 svg,
+label,
 button {
   cursor: url('./assets/images/pointer.png'), pointer;
 }
