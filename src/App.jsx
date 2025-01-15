@@ -15,6 +15,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [windowStack, setWindowStack] = useState([]);
   const [activeWindow, setActiveWindow] = useState(null);
+  const [dynamicWallpaper, setDynamicWallpaper] = useState(true);
   const [deviceState, setDeviceState] = useState(() => getDeviceState());
 
   const contentMap = {
@@ -23,8 +24,12 @@ function App() {
     About: <About />,
     Contact: <Contact />,
     Projects: <Project />,
-    Settings: <Settings />,
+    Settings: <Settings onDynamicWallpaperChange={handleDynamicWallpaperChange} />,
   };
+
+  function handleDynamicWallpaperChange(isDynamic) {
+    setDynamicWallpaper(isDynamic);
+  }
 
   function getDeviceState() {
     return {
@@ -103,7 +108,7 @@ function App() {
       {loading ? (
         <Preloader />
       ) : (
-        <Layout windows={windows} openWindow={openWindow} activeWindow={activeWindow} closeAllWindows={closeAllWindows}>
+        <Layout windows={windows} openWindow={openWindow} activeWindow={activeWindow} closeAllWindows={closeAllWindows} dynamicWallpaper={dynamicWallpaper}>
           {windows.map((window) => (
             <Window
               {...window}

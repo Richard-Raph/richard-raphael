@@ -6,24 +6,28 @@ import { useState, useEffect } from 'react';
 import bgD from '../assets/images/darkBg.webp';
 import bgL from '../assets/images/lightBg.webp';
 
-export default function Layout({ children, windows = [], openWindow, activeWindow = 0, closeAllWindows }) {
-    const [background, setBackground] = useState(bgL);
+export default function Layout({ children, openWindow, windows = [], closeAllWindows, activeWindow = 0, dynamicWallpaper }) {
+    const [background, setBackground] = useState(bgD);
 
     useEffect(() => {
-        const updateBackground = () => {
-            const hour = new Date().getHours();
-            if (hour >= 18 || hour < 7) {
-                setBackground(bgD); // Use dark background for evening and night
-            } else {
-                setBackground(bgL); // Use light background for daytime
-            }
-        };
+        if (dynamicWallpaper) {
+            const updateBackground = () => {
+                const hour = new Date().getHours();
+                if (hour >= 18 || hour < 7) {
+                    setBackground(bgD); // Use dark background for evening and night
+                } else {
+                    setBackground(bgL); // Use light background for daytime
+                }
+            };
 
-        updateBackground(); // Initial call to set the correct background
-        const interval = setInterval(updateBackground, 60000); // Update every minute to ensure accuracy
+            updateBackground(); // Initial call to set the correct background
+            const interval = setInterval(updateBackground, 60000); // Update every minute to ensure accuracy
 
-        return () => clearInterval(interval); // Cleanup interval on component unmount
-    }, []);
+            return () => clearInterval(interval); // Cleanup interval on component unmount
+        } else {
+            setBackground(bgD); // Revert to light mode if dynamic wallpaper is unchecked
+        }
+    }, [dynamicWallpaper]);
 
     return (
         <>
@@ -70,4 +74,5 @@ Layout.propTypes = {
     children: PropTypes.node.isRequired,
     openWindow: PropTypes.func.isRequired,
     closeAllWindows: PropTypes.func.isRequired,
+    dynamicWallpaper: PropTypes.bool.isRequired,
 };
