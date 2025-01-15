@@ -5,18 +5,23 @@ form {
 }
 
 form fieldset {
-    gap: 50px;
-    display: flex;
+    gap: 30px;
+    display: grid;
     justify-content: space-evenly;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 form fieldset p {
-    width: 100%;
+    font-size: 1rem;
     justify-self: end;
 }
 
 form fieldset div {
-    width: 100%;
     display: grid;
-    justify-content: start;
+}
+
+form fieldset div label {
+    gap: 10px;
+    display: flex;
+    font-size: 1rem;
 }
