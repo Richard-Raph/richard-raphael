@@ -36,7 +36,7 @@ export default function DockBar({ windows, openWindow, activeWindow }) {
       <ul>
         {icons.map(({ id, imgSrc, tooltip }) => (
           <React.Fragment key={id}>
-            {id === 'Settings' && <span className='separator'></span>}
+            {id === 'Portfolio Preferences' && <span className='separator'></span>}
             <li
               onClick={() => handleIconClick(id)}
               className={`icon ${activeWindow === id || windows.some((win) => win.name === id) ? 'open' : ''}`}

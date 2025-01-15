@@ -7,8 +7,9 @@ form {
 form fieldset {
     gap: 30px;
     display: grid;
+    user-select: none;
     justify-content: space-evenly;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 2fr;
 }
 
 form fieldset p {
@@ -26,12 +27,11 @@ form fieldset div label {
     display: flex;
     font-size: 1rem;
     line-height: 30px;
-    user-select: none;
     width: max-content;
 }
 
 form fieldset div label input:checked {
-    background: #006AFF;
+    background: #006aff;
 }
 
 form fieldset div span {
@@ -40,5 +40,4 @@ form fieldset div span {
     line-height: 16px;
     margin-left: 24px;
     margin-bottom: 10px;
-    pointer-events: none;
 }

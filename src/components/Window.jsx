@@ -95,20 +95,26 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
   return (
     <section
       ref={dragRef}
-      onMouseDown={handleMouseDown}
+      onMouseDown={name === 'Portfolio Preferences' ? null : handleMouseDown}
+      className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
       style={{
         zIndex: isActive ? 10 : 1,
-        top: deviceState.isSmallScreen || isMaximized ? '0px' : `${pos.top}px`,
-        left: deviceState.isSmallScreen || isMaximized ? '0px' : `${pos.left}px`,
+        right: name === 'Portfolio Preferences' ? '0px' : 'auto',
+        ...(name === 'Portfolio Preferences' && { width: '650px', height: '100%' }),
+        top: name === 'Portfolio Preferences' ? '0px' : (deviceState.isSmallScreen || isMaximized ? '0px' : `${pos.top}px`),
+        left: name === 'Portfolio Preferences' ? 'auto' : (deviceState.isSmallScreen || isMaximized ? '0px' : `${pos.left}px`),
       }}
-      className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
     >
-      <div className='window-bar' onMouseDown={handleDragStart}>
+      <div className='window-bar' onMouseDown={name === 'Portfolio Preferences' ? null : handleDragStart}>
         {!deviceState.isSmallScreen ? (
           <div className='window-dots'>
             <button className='red' onClick={handleClose} />
             <button className='yellow' />
-            <button className='green' onClick={handleMaximize} />
+            <button
+              className={name === 'Portfolio Preferences' ? '' : 'green'}
+              onClick={name === 'Portfolio Preferences' ? null : handleMaximize}
+              style={name === 'Portfolio Preferences' && { pointerEvents: 'none' }}
+            />
           </div>
         ) : (
           <div className='window-header'>
