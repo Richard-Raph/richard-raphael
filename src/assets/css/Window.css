@@ -1,15 +1,41 @@
 .window {
-    z-index: 1;
+    opacity: 1;
+    z-index: 10;
     width: 100vw;
     height: 100vh;
     transform: none;
     overflow: hidden;
     position: absolute;
+    pointer-events: all;
     transition: all 0.3s ease;
     transform-style: preserve-3d;
     transform-origin: center center;
     box-shadow: 0 40px 60px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.5);
     transition: all 0.1s, top 0.1s ease-in-out, left 0.1s ease-in-out, transform 0.1s ease-in-out, width 0.1s ease-in-out, height 0.1s ease-in-out, z-index 0ms, box-shadow 0ms;
+}
+
+.window::after,
+.window::before,
+.window.max::after,
+.window.max::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    position: absolute;
+    inset: 0 auto auto 0;
+}
+
+.window::before {
+    z-index: 0;
+    background: #1e1e1f;
+    backdrop-filter: blur(30px) saturate(1.5);
+}
+
+.window::after {
+    z-index: 99;
+    pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
 }
 
 .window-bar {
@@ -67,7 +93,6 @@
     padding-bottom: 3rem;
     scrollbar-width: none;
     height: calc(100% - 40px);
-    background-color: #121212f2;
     border: 1rem solid transparent;
 }
 
@@ -105,13 +130,22 @@
     .window {
         width: 75%;
         height: 75%;
-        opacity: .7;
+        border-radius: 10px;
+    }
+
+    .window::after,
+    .window::before {
         border-radius: 10px;
     }
 
     .window.active {
-        opacity: 1;
         z-index: 10;
+        background: none;
+    }
+
+    .window.active::before {
+        background: rgba(30, 30, 31, 0.75);
+        box-shadow: 0 50px 80px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 1px black;
     }
 
     .window.max {
