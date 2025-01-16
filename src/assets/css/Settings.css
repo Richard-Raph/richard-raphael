@@ -36,6 +36,7 @@ form fieldset div label input:checked {
 
 form fieldset div span {
     opacity: 0.5;
+    font-size: .9rem;
     display: block;
     line-height: 16px;
     margin-left: 24px;

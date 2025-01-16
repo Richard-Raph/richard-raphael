@@ -113,7 +113,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
             <button
               className={name === 'Portfolio Preferences' ? '' : 'green'}
               onClick={name === 'Portfolio Preferences' ? null : handleMaximize}
-              style={name === 'Portfolio Preferences' && { pointerEvents: 'none' }}
+              style={{ pointerEvents: name === 'Portfolio Preferences' ? 'none' : 'auto' }}
             />
           </div>
         ) : (
