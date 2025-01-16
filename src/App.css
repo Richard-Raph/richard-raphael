@@ -9,7 +9,7 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
   transition: all .5s ease;
-  cursor: url('./assets/images/arrow.png'), auto;
+  cursor: url('./assets/images/arrow.png') 12 12, auto;
 }
 
 ::selection {
@@ -18,14 +18,14 @@
 }
 
 .loading {
-  cursor: url('./assets/images/loading.png'), wait;
+  cursor: url('./assets/images/loading.png') 12 12, wait;
 }
 
 a,
 svg,
 label,
 button {
-  cursor: url('./assets/images/pointer.png'), pointer;
+  cursor: url('./assets/images/pointer.png') 12 12, pointer;
 }
 
 .preloader {

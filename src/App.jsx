@@ -9,6 +9,7 @@ import Layout from './components/Layout';
 import Window from './components/Window';
 import { useState, useEffect } from 'react';
 import Preloader from './components/Preloader';
+import Context from './components/Context';
 
 function App() {
   const [windows, setWindows] = useState([]);
@@ -17,6 +18,8 @@ function App() {
   const [activeWindow, setActiveWindow] = useState(null);
   const [dynamicWallpaper, setDynamicWallpaper] = useState(true);
   const [deviceState, setDeviceState] = useState(() => getDeviceState());
+
+  const [contextMenu, setContextMenu] = useState(null); // Store context menu position
 
   const contentMap = {
     Home: <Home />,
@@ -51,6 +54,17 @@ function App() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  // Handle custom context menu
+  const handleContextMenu = (event) => {
+    event.preventDefault(); // Prevent default right-click menu
+    setContextMenu({ x: event.pageX, y: event.pageY });
+  };
+
+  // Close menu on any click
+  const handleClick = () => {
+    setContextMenu(null);
+  };
 
   const openWindow = (windowName) => {
     if (deviceState.isSmallScreen) {
@@ -104,7 +118,7 @@ function App() {
   };
 
   return (
-    <>
+    <div onContextMenu={handleContextMenu} onClick={handleClick} style={{ width: '100vw', height: '100vh' }}>
       {loading ? (
         <Preloader />
       ) : (
@@ -120,7 +134,8 @@ function App() {
           ))}
         </Layout>
       )}
-    </>
+      {contextMenu && <Context x={contextMenu.x} y={contextMenu.y} />}
+    </div>
   );
 }
 
