@@ -98,14 +98,12 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
       onMouseDown={handleMouseDown}
       className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
       style={{
-        zIndex: isActive ? 10 : 1,
-        right: name === 'Portfolio Preferences' ? '0px' : 'auto',
-        ...(name === 'Portfolio Preferences' && { width: '650px', height: '100%' }),
-        top: name === 'Portfolio Preferences' ? '0px' : (deviceState.isSmallScreen || isMaximized ? '0px' : `${pos.top}px`),
-        left: name === 'Portfolio Preferences' ? 'auto' : (deviceState.isSmallScreen || isMaximized ? '0px' : `${pos.left}px`),
+        left: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.left}px`,
+        top: name === 'Portfolio Preferences' ? `${pos.top + 20}px` : (deviceState.isSmallScreen || isMaximized ? '0' : `${pos.top}px`),
+        ...(deviceState.isSmallScreen ? { width: '100vw', height: '100vh' } : name === 'Portfolio Preferences' ? { width: '750px', height: '510px' } : {}),
       }}
     >
-      <div className='window-bar' onMouseDown={name === 'Portfolio Preferences' ? null : handleDragStart}>
+      <div className='window-bar' onMouseDown={handleDragStart}>
         {!deviceState.isSmallScreen ? (
           <div className='window-dots'>
             <button className='red' onClick={handleClose} />
@@ -119,7 +117,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
         ) : (
           <div className='window-header'>
             <h3>{name}</h3>
-            <TbTableFilled onClick={handleMenu} size={20} />
+            {name === 'Portfolio Preferences' ? null : <TbTableFilled onClick={handleMenu} size={20} />}
             {menu && <div className='window-menu' />}
           </div>
         )}

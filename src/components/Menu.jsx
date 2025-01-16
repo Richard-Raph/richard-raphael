@@ -30,13 +30,13 @@ const formatDateTime = (showSeconds, timeFormat, dateFormat) => {
       break;
   }
 
-  let date = now.toLocaleDateString('en-US', options);
   let time = now.toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
     hour12: timeFormat === '12-hour',
     second: showSeconds ? '2-digit' : undefined,
   });
+  let date = now.toLocaleDateString('en-US', options);
 
   return `${date}, ${time}`;
 };
