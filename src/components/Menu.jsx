@@ -7,11 +7,10 @@ import { TbWifi, TbWorldCancel, TbBluetooth, TbBluetoothOff } from 'react-icons/
 const formatDateTime = () => {
   const now = new Date();
   const day = now.getDate();
-  const daySuffix = ['th', 'st', 'nd', 'rd'][(day % 10 > 3 || (day % 100 >= 11 && day % 100 <= 13)) ? 0 : day % 10];
-  const weekday = now.toLocaleDateString('en-US', { weekday: 'short' });
-  const month = now.toLocaleDateString('en-US', { month: 'long' });
   const year = now.getFullYear();
-  return `${weekday}, ${month} ${day}${daySuffix}, ${year}, ${now.toLocaleTimeString('en-US', { hour12: true })}`;
+  const month = now.toLocaleDateString('en-US', { month: 'long' });
+  const weekday = now.toLocaleDateString('en-US', { weekday: 'long' });
+  return `${weekday}, ${month} ${day}, ${year}, ${now.toLocaleTimeString('en-US', { hour12: true })}`;
 };
 
 const useBatteryStatus = () => {
