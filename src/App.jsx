@@ -14,9 +14,13 @@ import Preloader from './components/Preloader';
 function App() {
   const [windows, setWindows] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showDate, setShowDate] = useState(true);
   const [windowStack, setWindowStack] = useState([]);
   const [contextMenu, setContextMenu] = useState(null);
+  const [showSeconds, setShowSeconds] = useState(true);
   const [activeWindow, setActiveWindow] = useState(null);
+  const [timeFormat, setTimeFormat] = useState('12-hour');
+  const [dateFormat, setDateFormat] = useState('DD/MM/YYYY');
   const [dynamicWallpaper, setDynamicWallpaper] = useState(true);
   const [deviceState, setDeviceState] = useState(() => getDeviceState());
   const [showBatteryPercentage, setShowBatteryPercentage] = useState(true);
@@ -28,6 +32,10 @@ function App() {
     Contact: <Contact />,
     Projects: <Project />,
     'Portfolio Preferences': <Settings
+      onShowDateChange={handleShowDateChange}
+      onTimeFormatChange={handleTimeFormatChange}
+      onDateFormatChange={handleDateFormatChange}
+      onShowSecondsChange={handleShowSecondsChange}
       onDynamicWallpaperChange={handleDynamicWallpaperChange}
       onBatteryPercentageChange={handleBatteryPercentageChange}
     />,
@@ -39,6 +47,27 @@ function App() {
 
   function handleBatteryPercentageChange(showBattery) {
     setShowBatteryPercentage(showBattery);
+  }
+
+  function handleTimeFormatChange(format) {
+    setTimeFormat(format);
+  }
+
+  function handleDateFormatChange(format) {
+    if (showDate) {
+      setDateFormat(format)
+    }
+  }
+
+  function handleShowSecondsChange(show) {
+    setShowSeconds(show);
+  }
+
+  function handleShowDateChange(show) {
+    setShowDate(show);
+    if (!show) {
+      setDateFormat('');  // Prevent changing date format when date is hidden
+    }
   }
 
   function getDeviceState() {
@@ -66,7 +95,6 @@ function App() {
       setContextMenu(null); // Close menu on any click
     };
 
-    // Attach context menu to the main wrapper where user interacts with the page
     window.addEventListener('resize', handleResize);
     document.querySelector('body').addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('click', handleClick);
@@ -135,7 +163,18 @@ function App() {
       {loading ? (
         <Preloader />
       ) : (
-        <Layout windows={windows} openWindow={openWindow} activeWindow={activeWindow} closeAllWindows={closeAllWindows} dynamicWallpaper={dynamicWallpaper} showBatteryPercentage={showBatteryPercentage}>
+        <Layout
+          windows={windows}
+          showDate={showDate}
+          openWindow={openWindow}
+          timeFormat={timeFormat}
+          dateFormat={dateFormat}
+          showSeconds={showSeconds}
+          activeWindow={activeWindow}
+          closeAllWindows={closeAllWindows}
+          dynamicWallpaper={dynamicWallpaper}
+          showBatteryPercentage={showBatteryPercentage}
+        >
           {windows.map((window) => (
             <Window
               {...window}
