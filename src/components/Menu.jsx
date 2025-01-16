@@ -74,7 +74,7 @@ const useBluetoothStatus = () => {
   return isBluetoothOn;
 };
 
-export default function MenuBar({ windows, activeWindow, closeAllWindows }) {
+export default function MenuBar({ windows, activeWindow, closeAllWindows, showBatteryPercentage }) {
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
   const isBluetoothOn = useBluetoothStatus();
@@ -101,7 +101,7 @@ export default function MenuBar({ windows, activeWindow, closeAllWindows }) {
         <span>
           {battery.level !== null && (
             <>
-              {Math.round(battery.level * 100)}%
+            {showBatteryPercentage ? `${Math.round(battery.level * 100)}%` : null}
               <i
                 className={`${battery.charging ? 'charging' : ''}`}
                 style={{ '--level': `${Math.round(battery.level * 100)}%` }} />
@@ -123,4 +123,5 @@ MenuBar.propTypes = {
   ).isRequired,
   activeWindow: PropTypes.number,
   closeAllWindows: PropTypes.func.isRequired,
+  showBatteryPercentage: PropTypes.bool.isRequired,
 };

@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import bgD from '../assets/images/darkBg.webp';
 import bgL from '../assets/images/lightBg.webp';
 
-export default function Layout({ children, openWindow, windows = [], closeAllWindows, activeWindow = 0, dynamicWallpaper }) {
+export default function Layout({ children, openWindow, windows = [], closeAllWindows, activeWindow = 0, dynamicWallpaper, showBatteryPercentage }) {
     const [background, setBackground] = useState(bgD);
 
     useEffect(() => {
@@ -45,7 +45,7 @@ export default function Layout({ children, openWindow, windows = [], closeAllWin
                     <circle cx='121.819' cy='83.613' r='1.7774' fill='#323232' stroke='white' />
                 </g>
             </svg>
-            <Menu windows={windows} activeWindow={activeWindow} closeAllWindows={closeAllWindows} />
+            <Menu windows={windows} activeWindow={activeWindow} closeAllWindows={closeAllWindows} showBatteryPercentage={showBatteryPercentage} />
             <main>
                 {children}
                 <section className='layout'>
@@ -75,4 +75,5 @@ Layout.propTypes = {
     openWindow: PropTypes.func.isRequired,
     closeAllWindows: PropTypes.func.isRequired,
     dynamicWallpaper: PropTypes.bool.isRequired,
+    showBatteryPercentage: PropTypes.bool.isRequired,
 };

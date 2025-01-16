@@ -2,12 +2,19 @@ import PropTypes from 'prop-types';
 import '../assets/css/Settings.css';
 import React, { useState } from 'react';
 
-export default function Settings({ onDynamicWallpaperChange }) {
+export default function Settings({ onDynamicWallpaperChange, onBatteryPercentageChange }) {
     const [dynamicWallpaper, setDynamicWallpaper] = useState(true);
+    const [showBatteryPercentage, setShowBatteryPercentage] = useState(true);
 
     const handleDynamicWallpaperChange = (e) => {
         setDynamicWallpaper(e.target.checked);
         onDynamicWallpaperChange(e.target.checked);
+    };
+
+    const handleBatteryPercentageChange = (e) => {
+        const isChecked = e.target.checked;
+        setShowBatteryPercentage(isChecked);
+        onBatteryPercentageChange(isChecked);
     };
 
     return (
@@ -36,7 +43,11 @@ export default function Settings({ onDynamicWallpaperChange }) {
                     <p>Battery:</p>
                     <div>
                         <label>
-                            <input type='checkbox' />
+                            <input
+                                type='checkbox'
+                                checked={showBatteryPercentage}
+                                onChange={handleBatteryPercentageChange}
+                            />
                             Show battery percentage
                         </label>
                         <span>Remaining battery percentage will be displayed.</span>
@@ -103,4 +114,5 @@ export default function Settings({ onDynamicWallpaperChange }) {
 
 Settings.propTypes = {
     onDynamicWallpaperChange: PropTypes.func.isRequired,
+    onBatteryPercentageChange: PropTypes.func.isRequired,
 };
