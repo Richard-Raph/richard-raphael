@@ -95,7 +95,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
   return (
     <section
       ref={dragRef}
-      onMouseDown={name === 'Portfolio Preferences' ? null : handleMouseDown}
+      onMouseDown={handleMouseDown}
       className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
       style={{
         zIndex: isActive ? 10 : 1,
