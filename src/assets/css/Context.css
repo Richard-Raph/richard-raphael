@@ -1,7 +1,8 @@
 .custom-menu {
     z-index: 999;
-    padding: 8px;
     color: white;
+    padding: 8px 0;
+    font-size: 1rem;
     user-select: none;
     position: absolute;
     background: #333;
@@ -10,7 +11,7 @@
 }
 
 .custom-menu li {
-    padding: 8px 12px;
+    padding: 8px 16px;
     transition: background 0.2s;
     cursor: url('../images/pointer.png') 12 12, pointer;
 }

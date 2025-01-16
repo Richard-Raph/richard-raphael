@@ -7,19 +7,18 @@ import Project from './pages/Project';
 import Settings from './pages/Settings';
 import Layout from './components/Layout';
 import Window from './components/Window';
+import Context from './components/Context';
 import { useState, useEffect } from 'react';
 import Preloader from './components/Preloader';
-import Context from './components/Context';
 
 function App() {
   const [windows, setWindows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [windowStack, setWindowStack] = useState([]);
+  const [contextMenu, setContextMenu] = useState(null);
   const [activeWindow, setActiveWindow] = useState(null);
   const [dynamicWallpaper, setDynamicWallpaper] = useState(true);
   const [deviceState, setDeviceState] = useState(() => getDeviceState());
-
-  const [contextMenu, setContextMenu] = useState(null); // Store context menu position
 
   const contentMap = {
     Home: <Home />,
@@ -43,28 +42,34 @@ function App() {
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 9000);
+
     const handleResize = () => {
       setDeviceState(getDeviceState());
       const isMobile = window.innerWidth < 1200;
       setWindowStack((prev) => (isMobile ? [prev[prev.length - 1]] : prev));
     };
+
+    const handleContextMenu = (event) => {
+      event.preventDefault(); // Prevent default right-click menu
+      setContextMenu({ x: event.pageX, y: event.pageY });
+    };
+
+    const handleClick = () => {
+      setContextMenu(null); // Close menu on any click
+    };
+
+    // Attach context menu to the main wrapper where user interacts with the page
     window.addEventListener('resize', handleResize);
+    document.querySelector('body').addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('click', handleClick);
+
     return () => {
       clearTimeout(timer);
       window.removeEventListener('resize', handleResize);
+      document.querySelector('body').removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('click', handleClick);
     };
   }, []);
-
-  // Handle custom context menu
-  const handleContextMenu = (event) => {
-    event.preventDefault(); // Prevent default right-click menu
-    setContextMenu({ x: event.pageX, y: event.pageY });
-  };
-
-  // Close menu on any click
-  const handleClick = () => {
-    setContextMenu(null);
-  };
 
   const openWindow = (windowName) => {
     if (deviceState.isSmallScreen) {
@@ -118,7 +123,7 @@ function App() {
   };
 
   return (
-    <div onContextMenu={handleContextMenu} onClick={handleClick} style={{ width: '100vw', height: '100vh' }}>
+    <>
       {loading ? (
         <Preloader />
       ) : (
@@ -135,7 +140,7 @@ function App() {
         </Layout>
       )}
       {contextMenu && <Context x={contextMenu.x} y={contextMenu.y} />}
-    </div>
+    </>
   );
 }
 
