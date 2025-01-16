@@ -54,30 +54,30 @@ function App() {
 
   const openWindow = (windowName) => {
     if (deviceState.isSmallScreen) {
-      if (windows.length > 0) {
-        setWindows([
-          {
-            ...windows[0],
-            name: windowName,
-            content: contentMap[windowName] || <div>Unknown Window</div>,
-          },
-        ]);
-        setActive(windowName); // Use the string name as activeWindow
-        return;
-      }
+      setWindows((prev) => {
+        const updatedWindow = {
+          ...prev[0],
+          id: windowName,
+          name: windowName,
+          content: contentMap[windowName] || <div>Unknown Window</div>,
+        };
+        setActive(updatedWindow.id);
+        return [updatedWindow];
+      });
+      return;
     }
 
-    const existingWindow = windows.find((win) => win.name === windowName);
+    const existingWindow = windows.find((win) => win.id === windowName);
     if (existingWindow) {
-      setActive(existingWindow.name); // Use the string name
+      setActive(existingWindow.id);
     } else {
       const newWindow = {
-        id: windowName, // Use string-based ID
+        id: windowName,
         name: windowName,
         content: contentMap[windowName] || <div>Unknown Window</div>,
       };
       setWindows((prev) => [...prev, newWindow]);
-      setActive(newWindow.id); // Use the string name
+      setActive(newWindow.id);
     }
   };
 
