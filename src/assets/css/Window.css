@@ -129,6 +129,7 @@
 @media only screen and (min-width: 600px) {
     .window {
         width: 75%;
+        z-index: 1;
         height: 75%;
         border-radius: 10px;
     }
