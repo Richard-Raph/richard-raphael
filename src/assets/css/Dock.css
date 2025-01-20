@@ -1,7 +1,7 @@
 .dock-bar {
   width: auto;
   z-index: 99;
-  height: 50px;
+  height: 46px;
   padding: 0 10px;
   position: absolute;
   inset: auto auto 0 50%;
@@ -29,8 +29,8 @@
 }
 
 .icon {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   display: block;
   position: relative;
   border-radius: 12px;
@@ -63,7 +63,7 @@
 
 .tooltip {
   left: 50%;
-  top: -30px;
+  top: -25px;
   opacity: 0;
   width: auto;
   display: block;
@@ -133,32 +133,32 @@
 
 @media only screen and (min-width: 1200px) {
   .icon:hover {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     margin-top: -25px;
   }
 
   .icon:hover+.icon {
-    width: calc(60px + var(--dock-right, 0px));
-    height: calc(60px + var(--dock-right, 0px));
+    width: calc(55px + var(--dock-right, 0px));
+    height: calc(55px + var(--dock-right, 0px));
     margin-top: calc(-15px + var(--dock-right, 0px) * -1);
   }
 
   .icon:hover+.icon+.icon {
-    width: calc(50px + var(--dock-right, 0px));
-    height: calc(50px + var(--dock-right, 0px));
+    width: calc(45px + var(--dock-right, 0px));
+    height: calc(45px + var(--dock-right, 0px));
     margin-top: calc(-5px + var(--dock-right, 0px) * -1);
   }
 
   .icon:has(+ .icon:hover) {
-    width: calc(60px + var(--dock-left, 0px));
-    height: calc(60px + var(--dock-left, 0px));
+    width: calc(55px + var(--dock-left, 0px));
+    height: calc(55px + var(--dock-left, 0px));
     margin-top: calc(-15px + var(--dock-left, 0px) * -1);
   }
 
   .icon:has(+ .icon + .icon:hover) {
-    width: calc(50px + var(--dock-left, 0px));
-    height: calc(50px + var(--dock-left, 0px));
+    width: calc(45px + var(--dock-left, 0px));
+    height: calc(45px + var(--dock-left, 0px));
     margin-top: calc(-5px + var(--dock-left, 0px) * -1);
   }
 }

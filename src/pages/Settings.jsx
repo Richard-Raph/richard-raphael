@@ -1,26 +1,25 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../assets/css/Settings.css';
-import React, { useState } from 'react';
 
-export default function Settings({ onDynamicWallpaperChange, onBatteryPercentageChange, onShowSecondsChange, onTimeFormatChange, onDateFormatChange }) {
+export default function Settings({ onDynamicWallpaperChange, onBatteryPercentageChange, onShowSecondsChange, onTimeFormatChange, onDateFormatChange, onShowDateChange }) {
     const [showDate, setShowDate] = useState(true);
     const [showSeconds, setShowSeconds] = useState(true);
     const [timeFormat, setTimeFormat] = useState('12-hour');
-    const [dateFormat, setDateFormat] = useState('DD/MM/YYYY');
     const [dynamicWallpaper, setDynamicWallpaper] = useState(true);
+    const [dateFormat, setDateFormat] = useState('Day, Month DD, YYYY');
     const [showBatteryPercentage, setShowBatteryPercentage] = useState(true);
 
-    // Handle "Show Seconds" toggle
     const handleShowSecondsChange = (e) => {
         const isChecked = e.target.checked;
         setShowSeconds(isChecked);
         onShowSecondsChange(isChecked);
     };
 
-    // Handle "Show Date" toggle
     const handleShowDateChange = (e) => {
         const isChecked = e.target.checked;
         setShowDate(isChecked);
+        onShowDateChange(isChecked);
         onDateFormatChange(isChecked ? dateFormat : '');
     };
 
@@ -77,32 +76,26 @@ export default function Settings({ onDynamicWallpaperChange, onBatteryPercentage
                         <label>
                             <input
                                 type='radio'
-                                name='timeFormat'
                                 value='12-hour'
+                                name='timeFormat'
                                 checked={timeFormat === '12-hour'}
                                 onChange={(e) => {
-                                    if (showSeconds) {
-                                        setTimeFormat(e.target.value);
-                                        onTimeFormatChange(e.target.value);
-                                    }
+                                    setTimeFormat(e.target.value);
+                                    onTimeFormatChange(e.target.value);
                                 }}
-                                disabled={!showSeconds}
                             />
                             12-Hour format
                         </label>
                         <label>
                             <input
                                 type='radio'
-                                name='timeFormat'
                                 value='24-hour'
+                                name='timeFormat'
                                 checked={timeFormat === '24-hour'}
                                 onChange={(e) => {
-                                    if (showSeconds) {
-                                        setTimeFormat(e.target.value);
-                                        onTimeFormatChange(e.target.value);
-                                    }
+                                    setTimeFormat(e.target.value);
+                                    onTimeFormatChange(e.target.value);
                                 }}
-                                disabled={!showSeconds}
                             />
                             24-Hour format
                         </label>
@@ -121,70 +114,23 @@ export default function Settings({ onDynamicWallpaperChange, onBatteryPercentage
                             />
                             Show Date
                         </label>
-                        <label>
-                            <input
-                                type='radio'
-                                name='dateFormat'
-                                value='DD/MM/YYYY'
-                                checked={dateFormat === 'DD/MM/YYYY'}
-                                onChange={(e) => {
-                                    if (showDate) {
+
+                        {['Day, Month DD, YYYY', 'DD/MM/YYYY', 'MM/DD/YYYY', 'YYYY/MM/DD'].map((format) => (
+                            <label key={format}>
+                                <input
+                                    type='radio'
+                                    value={format}
+                                    name='dateFormat'
+                                    disabled={!showDate}
+                                    checked={dateFormat === format}
+                                    onChange={(e) => {
                                         setDateFormat(e.target.value);
                                         onDateFormatChange(e.target.value);
-                                    }
-                                }}
-                                disabled={!showDate}
-                            />
-                            DD/MM/YYYY
-                        </label>
-                        <label>
-                            <input
-                                type='radio'
-                                name='dateFormat'
-                                value='MM/DD/YYYY'
-                                checked={dateFormat === 'MM/DD/YYYY'}
-                                onChange={(e) => {
-                                    if (showDate) {
-                                        setDateFormat(e.target.value);
-                                        onDateFormatChange(e.target.value);
-                                    }
-                                }}
-                                disabled={!showDate}
-                            />
-                            MM/DD/YYYY
-                        </label>
-                        <label>
-                            <input
-                                type='radio'
-                                name='dateFormat'
-                                value='YYYY/MM/DD'
-                                checked={dateFormat === 'YYYY/MM/DD'}
-                                onChange={(e) => {
-                                    if (showDate) {
-                                        setDateFormat(e.target.value);
-                                        onDateFormatChange(e.target.value);
-                                    }
-                                }}
-                                disabled={!showDate}
-                            />
-                            YYYY/MM/DD
-                        </label>
-                        <label>
-                            <input
-                                type='radio'
-                                name='dateFormat'
-                                value='Day, Month DD, YYYY'
-                                checked={dateFormat === 'Day, Month DD, YYYY'}
-                                onChange={(e) => {
-                                    if (showDate) {
-                                        setDateFormat(e.target.value);
-                                        onDateFormatChange(e.target.value);
-                                    }
-                                }}
-                                disabled={!showDate}
-                            />
-                            Day, Month DD, YYYY
-                        </label>
+                                    }}
+                                />
+                                {format}
+                            </label>
+                        ))}
                         <span>Show date.<br />Select your preferred date format.</span>
                     </div>
                 </fieldset>
@@ -194,8 +140,9 @@ export default function Settings({ onDynamicWallpaperChange, onBatteryPercentage
 }
 
 Settings.propTypes = {
-    onDateFormatChange: PropTypes.func.isRequired,
+    onShowDateChange: PropTypes.func.isRequired,
     onTimeFormatChange: PropTypes.func.isRequired,
+    onDateFormatChange: PropTypes.func.isRequired,
     onShowSecondsChange: PropTypes.func.isRequired,
     onDynamicWallpaperChange: PropTypes.func.isRequired,
     onBatteryPercentageChange: PropTypes.func.isRequired,

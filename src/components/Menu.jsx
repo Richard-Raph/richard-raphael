@@ -4,41 +4,37 @@ import { useState, useEffect } from 'react';
 import logo from '../assets/images/logo-fff.webp';
 import { TbWifi, TbWorldCancel, TbBluetooth, TbBluetoothOff } from 'react-icons/tb';
 
-const formatDateTime = (showSeconds, timeFormat, dateFormat) => {
+const formatDateTime = (showSeconds, timeFormat, dateFormat, showDate) => {
   const now = new Date();
-  const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
 
-  // Adjust format based on selected dateFormat
-  switch (dateFormat) {
-    case 'DD/MM/YYYY':
-      options.day = '2-digit';
-      options.year = 'numeric';
-      options.month = '2-digit';
-      break;
-    case 'MM/DD/YYYY':
-      options.day = '2-digit';
-      options.year = 'numeric';
-      options.month = '2-digit';
-      break;
-    case 'YYYY/MM/DD':
-      options.day = '2-digit';
-      options.year = 'numeric';
-      options.month = '2-digit';
-      break;
-    case 'Day, Month DD, YYYY':
-    default:
-      break;
-  }
-
-  let time = now.toLocaleTimeString('en-US', {
+  let date;
+  let timeOptions = {
     hour: '2-digit',
     minute: '2-digit',
     hour12: timeFormat === '12-hour',
     second: showSeconds ? '2-digit' : undefined,
-  });
-  let date = now.toLocaleDateString('en-US', options);
+  };
 
-  return `${date}, ${time}`;
+  switch (dateFormat) {
+    case 'DD/MM/YYYY':
+      date = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+      break;
+    case 'MM/DD/YYYY':
+      date = `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}/${now.getFullYear()}`;
+      break;
+    case 'YYYY/MM/DD':
+      date = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`;
+      break;
+    case 'Day, Month DD, YYYY':
+      date = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+      break;
+    default:
+      date = now.toLocaleDateString('en-US'); // Fallback to default locale
+  }
+
+  const time = now.toLocaleTimeString('en-US', timeOptions);
+
+  return showDate ? `${date}, ${time}` : time;
 };
 
 const useBatteryStatus = () => {
@@ -102,16 +98,18 @@ const useBluetoothStatus = () => {
   return isBluetoothOn;
 };
 
-export default function MenuBar({ windows, activeWindow, closeAllWindows, showBatteryPercentage, showSeconds, timeFormat, dateFormat }) {
+export default function MenuBar({ windows, activeWindow, closeAllWindows, showBatteryPercentage, showSeconds, timeFormat, dateFormat, showDate }) {
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
   const isBluetoothOn = useBluetoothStatus();
-  const [dateTime, setDateTime] = useState(formatDateTime(showSeconds, timeFormat));
+  const [dateTime, setDateTime] = useState(formatDateTime(showSeconds, timeFormat, dateFormat, showDate));
 
   useEffect(() => {
-    const interval = setInterval(() => setDateTime(formatDateTime(showSeconds, timeFormat, dateFormat)), 1000);
+    const interval = setInterval(() => {
+      setDateTime(formatDateTime(showSeconds, timeFormat, dateFormat, showDate));
+    }, 1000);
     return () => clearInterval(interval);
-  }, [showSeconds, timeFormat, dateFormat]);
+  }, [showSeconds, timeFormat, dateFormat, showDate]);
 
   const activeWindowName = windows.find(({ id }) => id === activeWindow)?.name || 'Welcome';
 
@@ -150,7 +148,9 @@ MenuBar.propTypes = {
     })
   ).isRequired,
   activeWindow: PropTypes.number,
+  showDate: PropTypes.bool.isRequired,
   showSeconds: PropTypes.bool.isRequired,
+  dateFormat: PropTypes.string.isRequired,
   closeAllWindows: PropTypes.func.isRequired,
   showBatteryPercentage: PropTypes.bool.isRequired,
   timeFormat: PropTypes.oneOf(['12-hour', '24-hour']).isRequired,

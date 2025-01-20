@@ -99,7 +99,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
       className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
       style={{
         left: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.left}px`,
-        top: name === 'Portfolio Preferences' ? `${pos.top + 20}px` : (deviceState.isSmallScreen || isMaximized ? '0' : `${pos.top}px`),
+        top: name === 'Portfolio Preferences' ? `${pos.top + 25}px` : (deviceState.isSmallScreen || isMaximized ? '0' : `${pos.top}px`),
         ...(deviceState.isSmallScreen ? { width: '100vw', height: '100vh' } : name === 'Portfolio Preferences' ? { width: '750px', height: '510px' } : {}),
       }}
     >

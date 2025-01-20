@@ -20,8 +20,8 @@ function App() {
   const [showSeconds, setShowSeconds] = useState(true);
   const [activeWindow, setActiveWindow] = useState(null);
   const [timeFormat, setTimeFormat] = useState('12-hour');
-  const [dateFormat, setDateFormat] = useState('DD/MM/YYYY');
   const [dynamicWallpaper, setDynamicWallpaper] = useState(true);
+  const [dateFormat, setDateFormat] = useState('Day, Month DD, YYYY');
   const [deviceState, setDeviceState] = useState(() => getDeviceState());
   const [showBatteryPercentage, setShowBatteryPercentage] = useState(true);
 
@@ -32,9 +32,9 @@ function App() {
     Contact: <Contact />,
     Projects: <Project />,
     'Portfolio Preferences': <Settings
+      onDateFormatChange={setDateFormat}
       onShowDateChange={handleShowDateChange}
       onTimeFormatChange={handleTimeFormatChange}
-      onDateFormatChange={handleDateFormatChange}
       onShowSecondsChange={handleShowSecondsChange}
       onDynamicWallpaperChange={handleDynamicWallpaperChange}
       onBatteryPercentageChange={handleBatteryPercentageChange}
