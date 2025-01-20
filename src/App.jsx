@@ -53,12 +53,6 @@ function App() {
     setTimeFormat(format);
   }
 
-  function handleDateFormatChange(format) {
-    if (showDate) {
-      setDateFormat(format)
-    }
-  }
-
   function handleShowSecondsChange(show) {
     setShowSeconds(show);
   }

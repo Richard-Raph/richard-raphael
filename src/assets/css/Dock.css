@@ -34,8 +34,11 @@
   display: block;
   position: relative;
   border-radius: 12px;
-  animation: 0.8s bounce ease-out;
   transition: width, height, margin-top, cubic-bezier(0.25, 1, 0.5, 1) 100ms;
+}
+
+.icon.open {
+  animation: 0.8s bounce ease-out;
 }
 
 .icon.open::after {
@@ -105,33 +108,11 @@
   }
 }
 
-@keyframes bounceScale {
-
-  0%,
-  40%,
-  70%,
-  100% {
-    box-shadow: none;
-    transform: translateY(0px);
-  }
-
-  20% {
-    transform: translateY(-50px) scale(2.15);
-    box-shadow: 0 50px 15px 0 rgba(0, 0, 0, 0.25);
-  }
-
-  60% {
-    transform: translateY(-25px) scale(1.2);
-    box-shadow: 0 25px 15px 0 rgba(0, 0, 0, 0.125);
-  }
-
-  90% {
-    transform: translateY(-10px) scale(1.1);
-    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.075);
-  }
-}
-
 @media only screen and (min-width: 1200px) {
+  .icon.open {
+    animation: none;
+  }
+
   .icon:hover {
     width: 65px;
     height: 65px;
