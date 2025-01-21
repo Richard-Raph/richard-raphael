@@ -92,6 +92,7 @@
     position: relative;
     padding-bottom: 3rem;
     scrollbar-width: none;
+    padding: 1rem 1rem 3rem;
     height: calc(100% - 40px);
     border: 1rem solid transparent;
 }

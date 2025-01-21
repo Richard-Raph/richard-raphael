@@ -3,7 +3,7 @@ import Home from './pages/Home';
 import Blog from './pages/Blog';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import Project from './pages/Project';
+import Projects from './pages/Projects';
 import Settings from './pages/Settings';
 import Layout from './components/Layout';
 import Window from './components/Window';
@@ -30,7 +30,7 @@ function App() {
     Blog: <Blog />,
     About: <About />,
     Contact: <Contact />,
-    Projects: <Project />,
+    Projects: <Projects />,
     'Portfolio Preferences': <Settings
       onDateFormatChange={setDateFormat}
       onShowDateChange={handleShowDateChange}

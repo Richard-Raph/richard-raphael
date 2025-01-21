@@ -1,0 +1,23 @@
+
+
+.project-bar {
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 100%;
+    position: absolute;
+    overflow-x: hidden;
+    display: inline-flex;
+}
+
+.project-bar .activity-bar {
+    width: 47px;
+    height: 100%;
+    background: #333;
+}
+
+.project-bar .primary-bar {
+    width: 256px;
+    height: 100%;
+    background: #252526;
+}

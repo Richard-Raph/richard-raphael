@@ -2,7 +2,7 @@ import '../assets/css/Menu.css';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import logo from '../assets/images/logo-fff.webp';
-import { TbWifi, TbWorldCancel, TbBluetooth, TbBluetoothOff } from 'react-icons/tb';
+import { TbWifi, TbBluetooth, TbBluetoothX, TbWorldCancel } from 'react-icons/tb';
 
 const formatDateTime = (showSeconds, timeFormat, dateFormat, showDate) => {
   const now = new Date();
@@ -122,7 +122,7 @@ export default function MenuBar({ windows, activeWindow, closeAllWindows, showBa
       <div className='stats'>
         <span>
           {isOnline ? <TbWifi size={18} /> : <TbWorldCancel size={18} />}
-          {isBluetoothOn ? <TbBluetooth size={18} /> : <TbBluetoothOff size={18} />}
+          {isBluetoothOn ? <TbBluetooth size={18} /> : <TbBluetoothX size={18} />}
         </span>
         <span>
           {battery.level !== null && (
