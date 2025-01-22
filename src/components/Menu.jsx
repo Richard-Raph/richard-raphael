@@ -2,7 +2,7 @@ import '../assets/css/Menu.css';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import logo from '../assets/images/logo-fff.webp';
-import { TbWifi, TbBluetooth, TbBluetoothX, TbWorldCancel } from 'react-icons/tb';
+import { TbBolt, TbWifi, TbBluetooth, TbBluetoothX, TbWorldCancel } from 'react-icons/tb';
 
 const formatDateTime = (showSeconds, timeFormat, dateFormat, showDate) => {
   const now = new Date();
@@ -29,7 +29,7 @@ const formatDateTime = (showSeconds, timeFormat, dateFormat, showDate) => {
       date = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
       break;
     default:
-      date = now.toLocaleDateString('en-US'); // Fallback to default locale
+      date = now.toLocaleDateString('en-US');
   }
 
   const time = now.toLocaleTimeString('en-US', timeOptions);
@@ -130,7 +130,10 @@ export default function MenuBar({ windows, activeWindow, closeAllWindows, showBa
               {showBatteryPercentage ? `${Math.round(battery.level * 100)}%` : null}
               <i
                 className={`${battery.charging ? 'charging' : ''}`}
-                style={{ '--level': `${Math.round(battery.level * 100)}%` }} />
+                style={{ '--level': `${Math.round(battery.level * 100)}%` }}
+              >
+                {battery.charging && <TbBolt size={10} />}
+              </i>
             </>
           )}
         </span>
