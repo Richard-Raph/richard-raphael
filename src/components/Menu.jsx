@@ -132,7 +132,7 @@ export default function MenuBar({ windows, activeWindow, closeAllWindows, showBa
                 className={`${battery.charging ? 'charging' : ''}`}
                 style={{ '--level': `${Math.round(battery.level * 100)}%` }}
               >
-                {battery.charging && <TbBolt size={10} />}
+                {battery.charging && <TbBolt size={15} />}
               </i>
             </>
           )}

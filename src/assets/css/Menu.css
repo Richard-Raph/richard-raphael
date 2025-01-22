@@ -87,11 +87,11 @@
     }
 
     .menu-bar .stats i.charging svg {
-        inset: 50%;
         z-index: 1;
-        color: #000;
-        rotate: 25deg;
+        rotate: -5deg;
+        fill: white;
+        stroke: black;
         position: absolute;
-        translate: -50% -50%;
+        inset: -5px auto auto -4px;
     }
 }
