@@ -41,12 +41,12 @@ function App() {
     />,
   };
 
-  function handleDynamicWallpaperChange(isDynamic) {
-    setDynamicWallpaper(isDynamic);
-  }
-
   function handleBatteryPercentageChange(showBattery) {
     setShowBatteryPercentage(showBattery);
+  }
+
+  function handleDynamicWallpaperChange(isDynamic) {
+    setDynamicWallpaper(isDynamic);
   }
 
   function handleTimeFormatChange(format) {
@@ -60,7 +60,7 @@ function App() {
   function handleShowDateChange(show) {
     setShowDate(show);
     if (!show) {
-      setDateFormat('');  // Prevent changing date format when date is hidden
+      setDateFormat('');
     }
   }
 
@@ -115,17 +115,17 @@ function App() {
 
     // Add event listeners
     window.addEventListener('resize', handleResize);
-    document.addEventListener('contextmenu', handleContextMenu);
+    window.addEventListener('blur', handleWindowBlur);
     document.addEventListener('click', handleClickOutside);
-    window.addEventListener('blur', handleWindowBlur); // Listen for window blur (focus lost)
+    document.addEventListener('contextmenu', handleContextMenu);
 
     // Cleanup event listeners when component unmounts
     return () => {
       clearTimeout(timer);
       window.removeEventListener('resize', handleResize);
-      document.removeEventListener('contextmenu', handleContextMenu);
-      document.removeEventListener('click', handleClickOutside);
       window.removeEventListener('blur', handleWindowBlur);
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('contextmenu', handleContextMenu);
     };
   }, []);
 
