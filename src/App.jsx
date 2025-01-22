@@ -82,7 +82,25 @@ function App() {
 
     const handleContextMenu = (event) => {
       event.preventDefault(); // Prevent default right-click menu
-      setContextMenu({ x: event.pageX, y: event.pageY });
+
+      const margin = 5; // Some margin for better visibility
+      const menuWidth = 160;  // Width of your context menu (adjust accordingly)
+      const menuHeight = 110; // Height of your context menu (adjust accordingly)
+
+      let x = event.pageX;
+      let y = event.pageY;
+
+      // Check if the context menu is near the right edge
+      if (x + menuWidth > window.innerWidth - margin) {
+        x = window.innerWidth - menuWidth - margin; // Shift to the left
+      }
+
+      // Check if the context menu is near the bottom edge
+      if (y + menuHeight > window.innerHeight - margin) {
+        y = window.innerHeight - menuHeight - margin; // Shift to the top
+      }
+
+      setContextMenu({ x, y });
     };
 
     const handleClickOutside = (event) => {
