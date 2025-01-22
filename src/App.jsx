@@ -85,19 +85,29 @@ function App() {
       setContextMenu({ x: event.pageX, y: event.pageY });
     };
 
-    const handleClick = () => {
-      setContextMenu(null); // Close menu on any click
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.custom-menu')) { // Ensure clicks inside the context menu don't close it
+        setContextMenu(null); // Close menu on any click outside
+      }
     };
 
-    window.addEventListener('resize', handleResize);
-    document.querySelector('body').addEventListener('contextmenu', handleContextMenu);
-    document.addEventListener('click', handleClick);
+    const handleWindowBlur = () => {
+      setContextMenu(null); // Close context menu when window loses focus (e.g., tab switch, app change)
+    };
 
+    // Add event listeners
+    window.addEventListener('resize', handleResize);
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('click', handleClickOutside);
+    window.addEventListener('blur', handleWindowBlur); // Listen for window blur (focus lost)
+
+    // Cleanup event listeners when component unmounts
     return () => {
       clearTimeout(timer);
       window.removeEventListener('resize', handleResize);
-      document.querySelector('body').removeEventListener('contextmenu', handleContextMenu);
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('click', handleClickOutside);
+      window.removeEventListener('blur', handleWindowBlur);
     };
   }, []);
 
