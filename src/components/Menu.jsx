@@ -4,18 +4,18 @@ import { useState, useEffect } from 'react';
 import logo from '../assets/images/logo-fff.webp';
 import { TbBolt, TbWifi, TbBluetooth, TbBluetoothX, TbWorldCancel } from 'react-icons/tb';
 
-const formatDateTime = (showSeconds, timeFormat, dateFormat, showDate) => {
+const formatDateTime = (settings) => {
   const now = new Date();
 
   let date;
   let timeOptions = {
     hour: '2-digit',
     minute: '2-digit',
-    hour12: timeFormat === '12-hour',
-    second: showSeconds ? '2-digit' : undefined,
+    hour12: settings.timeFormat === '12-hour',
+    second: settings.showSeconds ? '2-digit' : undefined,
   };
 
-  switch (dateFormat) {
+  switch (settings.dateFormat) {
     case 'DD/MM/YYYY':
       date = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
       break;
@@ -34,7 +34,7 @@ const formatDateTime = (showSeconds, timeFormat, dateFormat, showDate) => {
 
   const time = now.toLocaleTimeString('en-US', timeOptions);
 
-  return showDate ? `${date}, ${time}` : time;
+  return settings.showDate ? `${date}, ${time}` : time;
 };
 
 const useBatteryStatus = () => {
@@ -98,18 +98,18 @@ const useBluetoothStatus = () => {
   return isBluetoothOn;
 };
 
-export default function MenuBar({ windows, activeWindow, closeAllWindows, showBatteryPercentage, showSeconds, timeFormat, dateFormat, showDate }) {
+export default function MenuBar({ windows, settings, activeWindow, closeAllWindows }) {
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
   const isBluetoothOn = useBluetoothStatus();
-  const [dateTime, setDateTime] = useState(formatDateTime(showSeconds, timeFormat, dateFormat, showDate));
+  const [dateTime, setDateTime] = useState(() => formatDateTime(settings));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setDateTime(formatDateTime(showSeconds, timeFormat, dateFormat, showDate));
+      setDateTime(formatDateTime(settings));
     }, 1000);
     return () => clearInterval(interval);
-  }, [showSeconds, timeFormat, dateFormat, showDate]);
+  }, [settings]);
 
   const activeWindowName = windows.find(({ id }) => id === activeWindow)?.name || 'Welcome';
 
@@ -127,7 +127,7 @@ export default function MenuBar({ windows, activeWindow, closeAllWindows, showBa
         <span>
           {battery.level !== null && (
             <>
-              {showBatteryPercentage ? `${Math.round(battery.level * 100)}%` : null}
+              {settings.showBatteryPercentage && `${Math.round(battery.level * 100)}%`}
               <i
                 className={`${battery.charging ? 'charging' : ''}`}
                 style={{ '--level': `${Math.round(battery.level * 100)}%` }}
@@ -144,17 +144,20 @@ export default function MenuBar({ windows, activeWindow, closeAllWindows, showBa
 }
 
 MenuBar.propTypes = {
+  activeWindow: PropTypes.number,
   windows: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
-  activeWindow: PropTypes.number,
-  showDate: PropTypes.bool.isRequired,
-  showSeconds: PropTypes.bool.isRequired,
-  dateFormat: PropTypes.string.isRequired,
   closeAllWindows: PropTypes.func.isRequired,
-  showBatteryPercentage: PropTypes.bool.isRequired,
-  timeFormat: PropTypes.oneOf(['12-hour', '24-hour']).isRequired,
+  settings: PropTypes.shape({
+    showDate: PropTypes.bool.isRequired,
+    showSeconds: PropTypes.bool.isRequired,
+    dateFormat: PropTypes.string.isRequired,
+    dynamicWallpaper: PropTypes.bool.isRequired,
+    showBatteryPercentage: PropTypes.bool.isRequired,
+    timeFormat: PropTypes.oneOf(['12-hour', '24-hour']).isRequired,
+  }).isRequired,
 };

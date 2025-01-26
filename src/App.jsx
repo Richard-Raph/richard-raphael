@@ -14,16 +14,25 @@ import Preloader from './components/Preloader';
 function App() {
   const [windows, setWindows] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showDate, setShowDate] = useState(true);
   const [windowStack, setWindowStack] = useState([]);
   const [contextMenu, setContextMenu] = useState(null);
-  const [showSeconds, setShowSeconds] = useState(true);
   const [activeWindow, setActiveWindow] = useState(null);
-  const [timeFormat, setTimeFormat] = useState('12-hour');
-  const [dynamicWallpaper, setDynamicWallpaper] = useState(true);
-  const [dateFormat, setDateFormat] = useState('Day, Month DD, YYYY');
   const [deviceState, setDeviceState] = useState(() => getDeviceState());
-  const [showBatteryPercentage, setShowBatteryPercentage] = useState(true);
+  const [settings, setSettings] = useState({
+    showDate: true,
+    showSeconds: true,
+    timeFormat: '12-hour',
+    dynamicWallpaper: true,
+    showBatteryPercentage: true,
+    dateFormat: 'Day, Month DD, YYYY',
+  });
+
+  const updateSettings = (key, value) => {
+    setSettings((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const contentMap = {
     Home: <Home />,
@@ -31,38 +40,10 @@ function App() {
     About: <About />,
     Contact: <Contact />,
     Projects: <Projects />,
-    'Portfolio Preferences': <Settings
-      onDateFormatChange={setDateFormat}
-      onShowDateChange={handleShowDateChange}
-      onTimeFormatChange={handleTimeFormatChange}
-      onShowSecondsChange={handleShowSecondsChange}
-      onDynamicWallpaperChange={handleDynamicWallpaperChange}
-      onBatteryPercentageChange={handleBatteryPercentageChange}
-    />,
+    'Portfolio Preferences': (
+      <Settings settings={settings} updateSettings={updateSettings} />
+    ),
   };
-
-  function handleBatteryPercentageChange(showBattery) {
-    setShowBatteryPercentage(showBattery);
-  }
-
-  function handleDynamicWallpaperChange(isDynamic) {
-    setDynamicWallpaper(isDynamic);
-  }
-
-  function handleTimeFormatChange(format) {
-    setTimeFormat(format);
-  }
-
-  function handleShowSecondsChange(show) {
-    setShowSeconds(show);
-  }
-
-  function handleShowDateChange(show) {
-    setShowDate(show);
-    if (!show) {
-      setDateFormat('');
-    }
-  }
 
   function getDeviceState() {
     return {
@@ -185,27 +166,8 @@ function App() {
       {loading ? (
         <Preloader />
       ) : (
-        <Layout
-          windows={windows}
-          showDate={showDate}
-          openWindow={openWindow}
-          timeFormat={timeFormat}
-          dateFormat={dateFormat}
-          showSeconds={showSeconds}
-          activeWindow={activeWindow}
-          closeAllWindows={closeAllWindows}
-          dynamicWallpaper={dynamicWallpaper}
-          showBatteryPercentage={showBatteryPercentage}
-        >
-          {windows.map((window) => (
-            <Window
-              {...window}
-              key={window.id}
-              setActive={setActive}
-              closeWindow={closeWindow}
-              isActive={window.id === activeWindow}
-            />
-          ))}
+        <Layout windows={windows} settings={settings} openWindow={openWindow} closeAllWindows={closeAllWindows} activeWindow={activeWindow}>
+          {windows.map((window) => <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} isActive={window.id === activeWindow} />)}
         </Layout>
       )}
       {contextMenu && <Context x={contextMenu.x} y={contextMenu.y} />}

@@ -1,28 +1,7 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../assets/css/Settings.css';
 
-export default function Settings({ onDynamicWallpaperChange, onBatteryPercentageChange, onShowSecondsChange, onTimeFormatChange, onDateFormatChange, onShowDateChange }) {
-    const [showDate, setShowDate] = useState(true);
-    const [showSeconds, setShowSeconds] = useState(true);
-    const [timeFormat, setTimeFormat] = useState('12-hour');
-    const [dynamicWallpaper, setDynamicWallpaper] = useState(true);
-    const [dateFormat, setDateFormat] = useState('Day, Month DD, YYYY');
-    const [showBatteryPercentage, setShowBatteryPercentage] = useState(true);
-
-    const handleShowSecondsChange = (e) => {
-        const isChecked = e.target.checked;
-        setShowSeconds(isChecked);
-        onShowSecondsChange(isChecked);
-    };
-
-    const handleShowDateChange = (e) => {
-        const isChecked = e.target.checked;
-        setShowDate(isChecked);
-        onShowDateChange(isChecked);
-        onDateFormatChange(isChecked ? dateFormat : '');
-    };
-
+export default function Settings({ settings, updateSettings }) {
     return (
         <section className='window-content'>
             <form>
@@ -32,11 +11,8 @@ export default function Settings({ onDynamicWallpaperChange, onBatteryPercentage
                         <label>
                             <input
                                 type='checkbox'
-                                checked={dynamicWallpaper}
-                                onChange={(e) => {
-                                    setDynamicWallpaper(e.target.checked);
-                                    onDynamicWallpaperChange(e.target.checked);
-                                }}
+                                checked={settings.dynamicWallpaper}
+                                onChange={(e) => updateSettings('dynamicWallpaper', e.target.checked)}
                             />
                             Dynamic Wallpaper
                         </label>
@@ -50,11 +26,8 @@ export default function Settings({ onDynamicWallpaperChange, onBatteryPercentage
                         <label>
                             <input
                                 type='checkbox'
-                                checked={showBatteryPercentage}
-                                onChange={(e) => {
-                                    setShowBatteryPercentage(e.target.checked);
-                                    onBatteryPercentageChange(e.target.checked);
-                                }}
+                                checked={settings.showBatteryPercentage}
+                                onChange={(e) => updateSettings('showBatteryPercentage', e.target.checked)}
                             />
                             Show battery percentage
                         </label>
@@ -68,8 +41,8 @@ export default function Settings({ onDynamicWallpaperChange, onBatteryPercentage
                         <label>
                             <input
                                 type='checkbox'
-                                checked={showSeconds}
-                                onChange={handleShowSecondsChange}
+                                checked={settings.showSeconds}
+                                onChange={(e) => updateSettings('showSeconds', e.target.checked)}
                             />
                             Show seconds
                         </label>
@@ -78,11 +51,8 @@ export default function Settings({ onDynamicWallpaperChange, onBatteryPercentage
                                 type='radio'
                                 value='12-hour'
                                 name='timeFormat'
-                                checked={timeFormat === '12-hour'}
-                                onChange={(e) => {
-                                    setTimeFormat(e.target.value);
-                                    onTimeFormatChange(e.target.value);
-                                }}
+                                checked={settings.timeFormat === '12-hour'}
+                                onChange={(e) => updateSettings('timeFormat', e.target.value)}
                             />
                             12-Hour format
                         </label>
@@ -91,11 +61,8 @@ export default function Settings({ onDynamicWallpaperChange, onBatteryPercentage
                                 type='radio'
                                 value='24-hour'
                                 name='timeFormat'
-                                checked={timeFormat === '24-hour'}
-                                onChange={(e) => {
-                                    setTimeFormat(e.target.value);
-                                    onTimeFormatChange(e.target.value);
-                                }}
+                                checked={settings.timeFormat === '24-hour'}
+                                onChange={(e) => updateSettings('timeFormat', e.target.value)}
                             />
                             24-Hour format
                         </label>
@@ -109,8 +76,8 @@ export default function Settings({ onDynamicWallpaperChange, onBatteryPercentage
                         <label>
                             <input
                                 type='checkbox'
-                                checked={showDate}
-                                onChange={handleShowDateChange}
+                                checked={settings.showDate}
+                                onChange={(e) => updateSettings('showDate', e.target.checked)}
                             />
                             Show Date
                         </label>
@@ -121,12 +88,9 @@ export default function Settings({ onDynamicWallpaperChange, onBatteryPercentage
                                     type='radio'
                                     value={format}
                                     name='dateFormat'
-                                    disabled={!showDate}
-                                    checked={dateFormat === format}
-                                    onChange={(e) => {
-                                        setDateFormat(e.target.value);
-                                        onDateFormatChange(e.target.value);
-                                    }}
+                                    disabled={!settings.showDate}
+                                    checked={settings.dateFormat === format}
+                                    onChange={(e) => updateSettings('dateFormat', e.target.value)}
                                 />
                                 {format}
                             </label>
@@ -140,10 +104,13 @@ export default function Settings({ onDynamicWallpaperChange, onBatteryPercentage
 }
 
 Settings.propTypes = {
-    onShowDateChange: PropTypes.func.isRequired,
-    onTimeFormatChange: PropTypes.func.isRequired,
-    onDateFormatChange: PropTypes.func.isRequired,
-    onShowSecondsChange: PropTypes.func.isRequired,
-    onDynamicWallpaperChange: PropTypes.func.isRequired,
-    onBatteryPercentageChange: PropTypes.func.isRequired,
+    updateSettings: PropTypes.func.isRequired,
+    settings: PropTypes.shape({
+        showDate: PropTypes.bool.isRequired,
+        showSeconds: PropTypes.bool.isRequired,
+        dateFormat: PropTypes.string.isRequired,
+        dynamicWallpaper: PropTypes.bool.isRequired,
+        showBatteryPercentage: PropTypes.bool.isRequired,
+        timeFormat: PropTypes.oneOf(['12-hour', '24-hour']).isRequired,
+    }).isRequired,
 };

@@ -6,32 +6,27 @@ import { useState, useEffect } from 'react';
 import bgD from '../assets/images/darkBg.webp';
 import bgL from '../assets/images/lightBg.webp';
 
-export default function Layout({ children, openWindow, windows = [], closeAllWindows, activeWindow = 0, dynamicWallpaper, showBatteryPercentage, timeFormat, dateFormat, showDate, showSeconds }) {
+export default function Layout({ children, settings, openWindow, windows = [], closeAllWindows, activeWindow }) {
     const [background, setBackground] = useState(bgD);
 
     useEffect(() => {
-        if (dynamicWallpaper) {
+        if (settings.dynamicWallpaper) {
             const updateBackground = () => {
                 const hour = new Date().getHours();
-                if (hour >= 18 || hour < 7) {
-                    setBackground(bgD); // Use dark background for evening and night
-                } else {
-                    setBackground(bgL); // Use light background for daytime
-                }
+                setBackground(hour >= 18 || hour < 7 ? bgD : bgL);
             };
 
-            updateBackground(); // Initial call to set the correct background
-            const interval = setInterval(updateBackground, 60000); // Update every minute to ensure accuracy
-
-            return () => clearInterval(interval); // Cleanup interval on component unmount
+            updateBackground();
+            const interval = setInterval(updateBackground, 60000);
+            return () => clearInterval(interval);
         } else {
-            setBackground(bgD); // Revert to light mode if dynamic wallpaper is unchecked
+            setBackground(bgD);
         }
-    }, [dynamicWallpaper]);
+    }, [settings.dynamicWallpaper]);
 
     return (
         <>
-            <Menu windows={windows} showDate={showDate} timeFormat={timeFormat} dateFormat={dateFormat} showSeconds={showSeconds} activeWindow={activeWindow} closeAllWindows={closeAllWindows} showBatteryPercentage={showBatteryPercentage} />
+            <Menu windows={windows} settings={settings} activeWindow={activeWindow} closeAllWindows={closeAllWindows} />
             <main>
                 {children}
                 <section className='layout'>
@@ -50,20 +45,22 @@ export default function Layout({ children, openWindow, windows = [], closeAllWin
 }
 
 Layout.propTypes = {
+    children: PropTypes.node.isRequired,
     windows: PropTypes.arrayOf(
         PropTypes.shape({
-            name: PropTypes.string,
             id: PropTypes.number.isRequired,
+            name: PropTypes.string.isRequired,
         })
     ).isRequired,
     activeWindow: PropTypes.number,
-    children: PropTypes.node.isRequired,
-    showDate: PropTypes.bool.isRequired,
     openWindow: PropTypes.func.isRequired,
-    showSeconds: PropTypes.bool.isRequired,
-    timeFormat: PropTypes.string.isRequired,
-    dateFormat: PropTypes.string.isRequired,
     closeAllWindows: PropTypes.func.isRequired,
-    dynamicWallpaper: PropTypes.bool.isRequired,
-    showBatteryPercentage: PropTypes.bool.isRequired,
+    settings: PropTypes.shape({
+        showDate: PropTypes.bool.isRequired,
+        showSeconds: PropTypes.bool.isRequired,
+        timeFormat: PropTypes.string.isRequired,
+        dateFormat: PropTypes.string.isRequired,
+        dynamicWallpaper: PropTypes.bool.isRequired,
+        showBatteryPercentage: PropTypes.bool.isRequired,
+    }).isRequired,
 };
