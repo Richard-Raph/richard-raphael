@@ -1,24 +1,21 @@
 .custom-menu {
-    width: auto;
     z-index: 99;
-    height: auto;
-    color: white;
+    color: #fff;
     padding: 5px 0;
+    position: fixed;
     font-size: 14px;
     min-width: 160px;
     font-weight: 400;
-    position: absolute;
     border-radius: 5px;
-    background: rgba(30, 30, 31, 0.5);
-    backdrop-filter: blur(30px) saturate(1.5) brightness(1.2);
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25), 0 0 15px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.075), 0 0 0 1px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    background: rgba(30, 30, 31, 0.75);
+    backdrop-filter: blur(10px) saturate(1.5) brightness(1.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25), 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .custom-menu li {
-    padding: 6px 12px;
-    line-height: 22px;
+    padding: 8px 14px;
     white-space: nowrap;
-    text-overflow: ellipsis;
     transition: background 0.2s;
     cursor: url('../images/pointer.png') 12 12, pointer;
 }

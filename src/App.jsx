@@ -8,8 +8,8 @@ import Settings from './pages/Settings';
 import Layout from './components/Layout';
 import Window from './components/Window';
 import Context from './components/Context';
-import { useState, useEffect } from 'react';
 import Preloader from './components/Preloader';
+import { useMemo, useState, useEffect } from 'react';
 
 function App() {
   const [windows, setWindows] = useState([]);
@@ -34,16 +34,14 @@ function App() {
     }));
   };
 
-  const contentMap = {
+  const contentMap = useMemo(() => ({
     Home: <Home />,
     Blog: <Blog />,
     About: <About />,
     Contact: <Contact />,
     Projects: <Projects />,
-    'Portfolio Preferences': (
-      <Settings settings={settings} updateSettings={updateSettings} />
-    ),
-  };
+    'Portfolio Preferences': <Settings settings={settings} updateSettings={updateSettings} />,
+  }), [settings]);
 
   function getDeviceState() {
     return {
@@ -62,23 +60,21 @@ function App() {
     };
 
     const handleContextMenu = (event) => {
-      event.preventDefault(); // Prevent default right-click menu
+      event.preventDefault();
 
-      const margin = 5; // Some margin for better visibility
-      const menuWidth = 160;  // Width of your context menu (adjust accordingly)
-      const menuHeight = 110; // Height of your context menu (adjust accordingly)
+      const margin = 10;
+      const menuWidth = 160;
+      const menuHeight = 110;
 
-      let x = event.pageX;
-      let y = event.pageY;
+      let x = event.clientX;
+      let y = event.clientY;
 
-      // Check if the context menu is near the right edge
+      // Adjust position if the menu overflows the viewport
       if (x + menuWidth > window.innerWidth - margin) {
-        x = window.innerWidth - menuWidth - margin; // Shift to the left
+        x = window.innerWidth - menuWidth - margin;
       }
-
-      // Check if the context menu is near the bottom edge
       if (y + menuHeight > window.innerHeight - margin) {
-        y = window.innerHeight - menuHeight - margin; // Shift to the top
+        y = window.innerHeight - menuHeight - margin;
       }
 
       setContextMenu({ x, y });
@@ -140,15 +136,18 @@ function App() {
   };
 
   const setActive = (windowId) => {
+    setWindowStack((prevStack) => {
+      if (prevStack[prevStack.length - 1] === windowId) return prevStack;
+      return [...prevStack.filter((id) => id !== windowId), windowId];
+    });
     setActiveWindow(windowId);
-    setWindowStack((prevStack) => [...prevStack.filter((id) => id !== windowId), windowId]);
   };
 
   const closeWindow = (windowId) => {
     setWindows((prev) => prev.filter((win) => win.id !== windowId));
     setWindowStack((prevStack) => {
       const newStack = prevStack.filter((id) => id !== windowId);
-      setActiveWindow(newStack[newStack.length - 1] || null);
+      setActiveWindow(newStack.length > 0 ? newStack[newStack.length - 1] : null);
       return newStack;
     });
   };
