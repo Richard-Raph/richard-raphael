@@ -1,14 +1,14 @@
 .launchpad-overlay {
     inset: 0;
+    z-index: 99;
     width: 100%;
     height: 100%;
     display: flex;
-    z-index: 1000;
     position: fixed;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(10px);
-    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    background: rgba(17, 24, 39, 0.2);
 }
 
 .launchpad-content {

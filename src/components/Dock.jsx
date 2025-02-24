@@ -27,7 +27,7 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
       link.href = '/path/to/your-resume.pdf';
       link.download = 'Resume.pdf';
       link.click();
-    } else if (id === 'Launchpad') { setLaunchpadOpen(true); } else { openWindow(id); }
+    } else if (id === 'Launchpad') { setLaunchpadOpen((prevState) => !prevState); } else { openWindow(id); }
   };
 
   return (
