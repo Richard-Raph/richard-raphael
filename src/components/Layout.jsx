@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import bgD from '../assets/images/darkBg.webp';
 import bgL from '../assets/images/lightBg.webp';
 
-export default function Layout({ children, settings, openWindow, windows = [], closeAllWindows, activeWindow }) {
+export default function Layout({ children, settings, openWindow, windows = [], closeAllWindows, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
     const [background, setBackground] = useState(bgD);
 
     useEffect(() => {
@@ -39,22 +39,18 @@ export default function Layout({ children, settings, openWindow, windows = [], c
                     </div> */}
                 </section>
             </main>
-            <Dock windows={windows} openWindow={openWindow} activeWindow={activeWindow} />
+            <Dock windows={windows} openWindow={openWindow} activeWindow={activeWindow} isLaunchpadOpen={isLaunchpadOpen} setLaunchpadOpen={setLaunchpadOpen} />
         </>
     );
 }
 
 Layout.propTypes = {
-    children: PropTypes.node.isRequired,
     windows: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number.isRequired,
             name: PropTypes.string.isRequired,
         })
     ).isRequired,
-    activeWindow: PropTypes.number,
-    openWindow: PropTypes.func.isRequired,
-    closeAllWindows: PropTypes.func.isRequired,
     settings: PropTypes.shape({
         showDate: PropTypes.bool.isRequired,
         showSeconds: PropTypes.bool.isRequired,
@@ -63,4 +59,10 @@ Layout.propTypes = {
         dynamicWallpaper: PropTypes.bool.isRequired,
         showBatteryPercentage: PropTypes.bool.isRequired,
     }).isRequired,
+    activeWindow: PropTypes.string,
+    children: PropTypes.node.isRequired,
+    openWindow: PropTypes.func.isRequired,
+    closeAllWindows: PropTypes.func.isRequired,
+    isLaunchpadOpen: PropTypes.bool.isRequired,
+    setLaunchpadOpen: PropTypes.func.isRequired,
 };

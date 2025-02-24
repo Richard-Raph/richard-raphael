@@ -1,0 +1,28 @@
+.launchpad-overlay {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 1000;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.launchpad-content {
+    padding: 30px;
+    color: white;
+    text-align: center;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.launchpad-content h2 {
+    margin-bottom: 10px;
+}
+
+.launchpad-content p {
+    font-size: 1.2rem;
+}

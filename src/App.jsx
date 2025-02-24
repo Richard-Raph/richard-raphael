@@ -16,6 +16,7 @@ function App() {
   const [windowStack, setWindowStack] = useState([]);
   const [contextMenu, setContextMenu] = useState(null);
   const [activeWindow, setActiveWindow] = useState(null);
+  const [isLaunchpadOpen, setLaunchpadOpen] = useState(false);
   const [deviceState, setDeviceState] = useState(() => getDeviceState());
   const [settings, setSettings] = useState({
     showDate: true,
@@ -163,7 +164,7 @@ function App() {
       {loading ? (
         <Preloader />
       ) : (
-        <Layout windows={windows} settings={settings} openWindow={openWindow} closeAllWindows={closeAllWindows} activeWindow={activeWindow}>
+        <Layout windows={windows} settings={settings} openWindow={openWindow} closeAllWindows={closeAllWindows} activeWindow={activeWindow} isLaunchpadOpen={isLaunchpadOpen} setLaunchpadOpen={setLaunchpadOpen}>
           {windows.map((window) => <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} isActive={window.id === activeWindow} />)}
         </Layout>
       )}
