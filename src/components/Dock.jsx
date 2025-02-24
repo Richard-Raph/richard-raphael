@@ -27,7 +27,10 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
       link.href = '/path/to/your-resume.pdf';
       link.download = 'Resume.pdf';
       link.click();
-    } else if (id === 'Launchpad') { setLaunchpadOpen((prevState) => !prevState); } else { openWindow(id); }
+      return;
+    }
+
+    id === 'Launchpad' ? setLaunchpadOpen((prev) => !prev) : openWindow(id);
   };
 
   return (
@@ -39,7 +42,7 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
               {id === 'Portfolio Preferences' && <span className='separator' />}
               <li
                 onClick={() => handleIconClick(id)}
-                className={`icon ${activeWindow === id || windows.some((win) => win.name === id) ? 'open' : ''}`}
+                className={`icon ${id === 'Launchpad' ? (isLaunchpadOpen ? 'active' : '') : windows.some((win) => win.name === id) ? 'open' : ''}`}
               >
                 <img src={imgSrc} alt={tooltip} />
                 <span className='tooltip'>{tooltip}</span>
