@@ -37,18 +37,20 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
     <>
       <nav className='dock-bar'>
         <ul>
-          {icons.map(({ id, imgSrc, tooltip }) => (
-            <React.Fragment key={id}>
-              {id === 'Portfolio Preferences' && <span className='separator' />}
-              <li
-                onClick={() => handleIconClick(id)}
-                className={`icon ${id === 'Launchpad' ? (isLaunchpadOpen ? 'active' : '') : windows.some((win) => win.name === id) ? 'open' : ''}`}
-              >
-                <img src={imgSrc} alt={tooltip} />
-                <span className='tooltip'>{tooltip}</span>
-              </li>
-            </React.Fragment>
-          ))}
+          {icons
+            .toSorted((a, b) => (a.id === 'Launchpad' ? -1 : b.id === 'Launchpad' ? 1 : 0))
+            .map(({ id, imgSrc, tooltip }) => (
+              <React.Fragment key={id}>
+                {id === 'Portfolio Preferences' && <span className='separator' />}
+                <li
+                  onClick={() => handleIconClick(id)}
+                  className={`icon ${id === 'Launchpad' ? (isLaunchpadOpen ? 'active' : '') : windows.some((win) => win.name === id) ? 'open' : ''}`}
+                >
+                  <img src={imgSrc} alt={tooltip} />
+                  <span className='tooltip'>{tooltip}</span>
+                </li>
+              </React.Fragment>
+            ))}
         </ul>
       </nav>
 
