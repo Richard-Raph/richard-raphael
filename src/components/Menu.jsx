@@ -121,14 +121,14 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
       </div>
       <div className='stats'>
         {battery.level !== null && (
-          <>
+          <div>
             {settings.showBatteryPercentage && `${Math.round(battery.level * 100)}%`}
-            <div style={{ position: 'relative' }}>
+            <p style={{ marginLeft: '.3rem', position: 'relative' }}>
               <span />
-              <div style={{ width: '2px' }} />
+              <small style={{ width: '8px' }} />
               {battery.charging && <i />}
-            </div>
-          </>
+            </p>
+          </div>
         )}
         <span>
           {isOnline ? <TbWifi size={18} /> : <TbWifiOff size={18} />}
