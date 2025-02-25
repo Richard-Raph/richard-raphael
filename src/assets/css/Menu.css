@@ -45,7 +45,7 @@
     }
 
     .menu-bar .stats {
-        gap: .5rem;
+        gap: .3rem;
         display: flex;
     }
 
@@ -60,6 +60,9 @@
     
     .menu-bar .stats > *:hover {
         background-color: #f3f4f64d;
+    }
+    
+    .menu-bar .stats * {
         cursor: url('../images/pointer.png') 12.5 12.5, pointer;
     }
 

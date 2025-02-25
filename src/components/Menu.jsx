@@ -123,7 +123,7 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
         <div>
           {battery.level !== null && (
             <>
-              {settings.showBatteryPercentage && `${Math.round(battery.level * 100)}%`}
+              {settings.showBatteryPercentage && <ins style={{ marginRight: '4px' }}>{Math.round(battery.level * 100)}%</ins>}
               <p style={{ position: 'relative', display: 'inline-flex' }}>
                 <span />
                 <small style={{ width: '8px' }} />
