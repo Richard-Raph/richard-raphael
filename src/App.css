@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
 * {
   margin: 0;
@@ -9,7 +9,7 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
   transition: all .5s ease;
-  cursor: url('./assets/images/arrow.png') 12 12, auto;
+  cursor: url('./assets/images/arrow.png') 12.5 12.5, auto;
 }
 
 ::selection {
@@ -18,20 +18,20 @@
 }
 
 .loading {
-  cursor: url('./assets/images/loading.png') 12 12, wait;
+  cursor: url('./assets/images/loading.png') 12.5 12.5, wait;
 }
 
 a,
 svg,
 label,
 button {
-  cursor: url('./assets/images/pointer.png') 12 12, pointer;
+  cursor: url('./assets/images/pointer.png') 12.5 12.5, pointer;
 }
 
 .preloader {
   inset: 0;
-  display: grid;
   width: 100dvw;
+  display: grid;
   z-index: 9999;
   height: 100dvh;
   position: fixed;
@@ -51,7 +51,7 @@ body {
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font: 400 1vw 'Roboto', 'system-ui', 'Helvetica', 'Arial', 'sans-serif';
+  font: 400 1vw 'Comic Neue', 'system-ui', 'Helvetica', 'Arial', 'sans-serif';
 }
 
 main,

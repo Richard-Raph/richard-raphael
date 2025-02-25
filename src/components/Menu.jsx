@@ -120,16 +120,18 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
         <h3>{window.innerWidth < 600 ? 'Welcome' : activeWindowName}</h3>
       </div>
       <div className='stats'>
-        {battery.level !== null && (
-          <div>
-            {settings.showBatteryPercentage && `${Math.round(battery.level * 100)}%`}
-            <p style={{ marginLeft: '.3rem', position: 'relative' }}>
-              <span />
-              <small style={{ width: '8px' }} />
-              {battery.charging && <i />}
-            </p>
-          </div>
-        )}
+        <div>
+          {battery.level !== null && (
+            <>
+              {settings.showBatteryPercentage && `${Math.round(battery.level * 100)}%`}
+              <p style={{ position: 'relative', display: 'inline-flex' }}>
+                <span />
+                <small style={{ width: '8px' }} />
+                {battery.charging && <i />}
+              </p>
+            </>
+          )}
+        </div>
         <span>
           {isOnline ? <TbWifi size={18} /> : <TbWifiOff size={18} />}
           {isBluetoothOn ? <TbBluetooth size={18} /> : <TbBluetoothX size={18} />}

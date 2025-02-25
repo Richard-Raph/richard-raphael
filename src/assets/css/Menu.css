@@ -31,7 +31,6 @@
 
 .menu-bar .stats {
     display: none;
-    pointer-events: none;
 }
 
 @media only screen and (min-width: 600px) {
@@ -46,13 +45,22 @@
     }
 
     .menu-bar .stats {
+        gap: .5rem;
         display: flex;
     }
 
-    .menu-bar .stats * {
+    .menu-bar .stats > * {
         gap: 2px;
+        height: 1.5rem;
+        padding: 0 .25rem;
         align-items: center;
         display: inline-flex;
+        border-radius: .25rem;
+    }
+    
+    .menu-bar .stats > *:hover {
+        background-color: #f3f4f64d;
+        cursor: url('../images/pointer.png') 12.5 12.5, pointer;
     }
 
     .menu-bar .stats div span {
