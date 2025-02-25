@@ -121,10 +121,6 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
       </div>
       <div className='stats'>
         <span>
-          {isOnline ? <TbWifi size={18} /> : <TbWorldCancel size={18} />}
-          {isBluetoothOn ? <TbBluetooth size={18} /> : <TbBluetoothX size={18} />}
-        </span>
-        <span>
           {battery.level !== null && (
             <>
               {settings.showBatteryPercentage && `${Math.round(battery.level * 100)}%`}
@@ -136,6 +132,15 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
               </i>
             </>
           )}
+        </span>
+        <div className='battery'>
+          <span />
+          <div className='battery-level bg-yellow-500' style={{ width: `${Math.round(battery.level * 100)}%` }} />
+          {battery.charging && <i />}
+        </div>
+        <span>
+          {isOnline ? <TbWifi size={18} /> : <TbWorldCancel size={18} />}
+          {isBluetoothOn ? <TbBluetooth size={18} /> : <TbBluetoothX size={18} />}
         </span>
         <time>{dateTime}</time>
       </div>
