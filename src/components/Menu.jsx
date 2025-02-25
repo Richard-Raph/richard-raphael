@@ -135,7 +135,7 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
         </span>
         <div className='battery'>
           <span />
-          <div className='battery-level bg-yellow-500' style={{ width: `${Math.round(battery.level * 100)}%` }} />
+          <div style={{ width: `${Math.round(battery.level * 100)}%` }} />
           {battery.charging && <i />}
         </div>
         <span>
