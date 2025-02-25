@@ -2,7 +2,7 @@ import '../assets/css/Menu.css';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import logo from '../assets/images/logo-fff.webp';
-import { TbBolt, TbWifi, TbBluetooth, TbBluetoothX, TbWorldCancel } from 'react-icons/tb';
+import { TbWifi, TbWifiOff, TbBluetooth, TbBluetoothX } from 'react-icons/tb';
 
 const formatDateTime = (settings) => {
   const now = new Date();
@@ -120,26 +120,18 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
         <h3>{window.innerWidth < 600 ? 'Welcome' : activeWindowName}</h3>
       </div>
       <div className='stats'>
+        {battery.level !== null && (
+          <>
+            {settings.showBatteryPercentage && `${Math.round(battery.level * 100)}%`}
+            <div style={{ position: 'relative' }}>
+              <span />
+              <div style={{ width: '2px' }} />
+              {battery.charging && <i />}
+            </div>
+          </>
+        )}
         <span>
-          {battery.level !== null && (
-            <>
-              {settings.showBatteryPercentage && `${Math.round(battery.level * 100)}%`}
-              <i
-                className={`${battery.charging ? 'charging' : ''}`}
-                style={{ '--level': `${Math.round(battery.level * 100)}%` }}
-              >
-                {battery.charging && <TbBolt size={15} />}
-              </i>
-            </>
-          )}
-        </span>
-        <div className='battery' style={{ position: 'relative' }}>
-          <span />
-          <div style={{ width: `${Math.round(battery.level * 100)}%` }} />
-          {battery.charging && <i />}
-        </div>
-        <span>
-          {isOnline ? <TbWifi size={18} /> : <TbWorldCancel size={18} />}
+          {isOnline ? <TbWifi size={18} /> : <TbWifiOff size={18} />}
           {isBluetoothOn ? <TbBluetooth size={18} /> : <TbBluetoothX size={18} />}
         </span>
         <time>{dateTime}</time>
