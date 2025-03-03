@@ -126,7 +126,13 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
               {settings.showBatteryPercentage && <ins style={{ marginRight: '4px' }}>{Math.round(battery.level * 100)}%</ins>}
               <p style={{ position: 'relative', display: 'inline-flex' }}>
                 <span />
-                <small style={{ width: '8px' }} />
+                <small
+                  style={{
+                    width: `${0.1 + battery.level * 0.96}rem`,
+                    backgroundColor:
+                      battery.charging ? 'rgb(74 222 128 / 1)' : battery.level < .2 ? 'rgb(239 68 68 / 1)' : battery.level < .5 ? 'rgb(234 179 8 / 1)' : 'rgb(255 255 255 / 1)',
+                  }}
+                />
                 {battery.charging && <i />}
               </p>
             </>
