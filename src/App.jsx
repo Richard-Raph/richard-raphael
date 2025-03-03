@@ -1,11 +1,11 @@
 import './App.css';
-import Blog from './pages/Blog';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Projects from './pages/Projects';
-import Settings from './pages/Settings';
+import Blog from './windows/Blog';
+import About from './windows/About';
+import Contact from './windows/Contact';
 import Layout from './components/Layout';
 import Window from './components/Window';
+import Projects from './windows/Projects';
+import Settings from './windows/Settings';
 import Context from './components/Context';
 import Preloader from './components/Preloader';
 import { useMemo, useState, useEffect } from 'react';
