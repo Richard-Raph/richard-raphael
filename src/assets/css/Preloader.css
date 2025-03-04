@@ -1,6 +1,8 @@
 .chat-container {
+    gap: 15px;
     width: 90%;
     height: 400px;
+    padding: 10px;
     z-index: 9999;
     display: flex;
     max-width: 600px;
@@ -14,40 +16,85 @@
     content: '';
     height: 100dvh;
     position: fixed;
-    background: #1e1e1e;
+    animation: glowingBackground 10s infinite alternate;
+    background: linear-gradient(135deg, #020024, #090979, #00d4ff), 400% / 400%;
 }
 
 .chat-container p {
-    opacity: 0;
-    margin: 10px 0;
-    display: block;
-    max-width: 80%;
-    padding: 10px 15px;
+    color: white;
+    max-width: 60%;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 18px;
+    position: relative;
     border-radius: 10px;
-    align-self: flex-start;
-    transform: translateY(10px);
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.chat-container p.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.chat-container p.speaker {
-    color: #fff;
-    background: #007acc;
+    display: inline-block;
+    animation: popIn 0.4s ease-out;
 }
 
 .chat-container p.me {
     color: #ddd;
     align-self: end;
     background: #3c3c3c;
+    animation: slideInRight 0.5s ease-out;
 }
 
-.typing {
-    opacity: 0;
-    color: #888;
-    font-size: 14px;
-    transition: opacity 0.3s ease-in-out;
+.chat-container p.speaker {
+    color: #fff;
+    background: #007acc;
+    animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    80% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes glowingBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }

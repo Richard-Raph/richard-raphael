@@ -155,7 +155,7 @@ function App() {
   return (
     <>
       <Layout windows={windows} settings={settings} openWindow={openWindow} activeWindow={activeWindow} isLaunchpadOpen={isLaunchpadOpen} closeAllWindows={closeAllWindows} setLaunchpadOpen={setLaunchpadOpen}>
-        {!loadComplete && (<Preloader onComplete={() => setLoadComplete(true)} />)}
+        {/* {!loadComplete && (<Preloader onComplete={() => setLoadComplete(true)} />)} */}
         <Preloader onComplete={() => setLoadComplete(true)} />
         {windows.map((window) => (
           <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} isActive={window.id === activeWindow} />
