@@ -34,12 +34,12 @@
     transform: translateY(0);
 }
 
-.chat-container p.mentor {
+.chat-container p.speaker {
     color: #fff;
     background: #007acc;
 }
 
-.chat-container p.dev {
+.chat-container p.me {
     color: #ddd;
     align-self: end;
     background: #3c3c3c;
