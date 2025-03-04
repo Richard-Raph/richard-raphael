@@ -17,7 +17,7 @@
     background: #1e1e1e;
 }
 
-.chat {
+.chat-container p {
     opacity: 0;
     margin: 10px 0;
     display: block;
@@ -29,17 +29,17 @@
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
-.chat.visible {
+.chat-container p.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-.chat.mentor {
+.chat-container p.mentor {
     color: #fff;
     background: #007acc;
 }
 
-.chat.dev {
+.chat-container p.dev {
     color: #ddd;
     align-self: end;
     background: #3c3c3c;

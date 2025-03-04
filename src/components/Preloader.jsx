@@ -55,7 +55,7 @@ export default function Preloader({ onComplete }) {
   return (
     <div className='chat-container' ref={chatRef}>
       {currentMessages.map((msg, idx) => (
-        <p key={idx} className={`chat ${msg.sender} visible fade-in`}>{msg.text}</p>
+        <p key={idx} className={`${msg.sender} visible`}>{msg.text}</p>
       ))}
     </div>
   );
