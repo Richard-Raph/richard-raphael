@@ -7,17 +7,15 @@ import Window from './components/Window';
 import Projects from './windows/Projects';
 import Settings from './windows/Settings';
 import Context from './components/Context';
-import CodeIntro from './components/CodeIntro';
 import Preloader from './components/Preloader';
 import { useMemo, useState, useEffect } from 'react';
 
 function App() {
   const [windows, setWindows] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [windowStack, setWindowStack] = useState([]);
   const [contextMenu, setContextMenu] = useState(null);
   const [activeWindow, setActiveWindow] = useState(null);
-  const [showCodeIntro, setShowCodeIntro] = useState(false);
+  const [loadComplete, setLoadComplete] = useState(false);
   const [isLaunchpadOpen, setLaunchpadOpen] = useState(false);
   const [deviceState, setDeviceState] = useState(() => getDeviceState());
   const [settings, setSettings] = useState({
@@ -52,14 +50,6 @@ function App() {
   }
 
   useEffect(() => {
-    let preloaderTimer = setTimeout(() => {
-      setLoading(false);
-    }, 9000);
-
-    let codeIntroTimer = setTimeout(() => {
-      setShowCodeIntro(true);
-    }, 9200);
-
     const handleResize = () => {
       setDeviceState(getDeviceState());
       const isMobile = window.innerWidth < 1200;
@@ -94,15 +84,12 @@ function App() {
       setContextMenu(null);
     };
 
-    // Event Listeners
     window.addEventListener('resize', handleResize);
     window.addEventListener('blur', handleWindowBlur);
     document.addEventListener('click', handleClickOutside);
     document.addEventListener('contextmenu', handleContextMenu);
 
     return () => {
-      clearTimeout(preloaderTimer);
-      clearTimeout(codeIntroTimer);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('blur', handleWindowBlur);
       document.removeEventListener('click', handleClickOutside);
@@ -167,17 +154,14 @@ function App() {
 
   return (
     <>
-      {loading ? (
-        <Preloader />
-      ) : showCodeIntro ? (
-        <CodeIntro onComplete={() => setShowCodeIntro(false)} />
-      ) : (
-        <Layout windows={windows} settings={settings} openWindow={openWindow} activeWindow={activeWindow} isLaunchpadOpen={isLaunchpadOpen} closeAllWindows={closeAllWindows} setLaunchpadOpen={setLaunchpadOpen}>
-          {windows.map((window) => (
-            <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} isActive={window.id === activeWindow} />
-          ))}
-        </Layout>
-      )}
+      <Layout windows={windows} settings={settings} openWindow={openWindow} activeWindow={activeWindow} isLaunchpadOpen={isLaunchpadOpen} closeAllWindows={closeAllWindows} setLaunchpadOpen={setLaunchpadOpen}>
+        {!loadComplete && (<Preloader onComplete={() => setLoadComplete(true)} />)}
+        <Preloader onComplete={() => setLoadComplete(true)} />
+        {windows.map((window) => (
+          <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} isActive={window.id === activeWindow} />
+        ))}
+      </Layout>
+
       {contextMenu && <Context x={contextMenu.x} y={contextMenu.y} />}
     </>
   );

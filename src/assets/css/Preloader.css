@@ -1,14 +1,20 @@
 .chat-container {
     width: 90%;
     height: 400px;
-    padding: 20px;
+    z-index: 9999;
     display: flex;
     max-width: 600px;
     overflow-y: auto;
-    border-radius: 10px;
-    background: #1e1e1e;
     flex-direction: column;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.chat-container::before {
+    inset: 0;
+    width: 100%;
+    content: '';
+    height: 100dvh;
+    position: fixed;
+    background: #1e1e1e;
 }
 
 .chat {
@@ -18,6 +24,7 @@
     max-width: 80%;
     padding: 10px 15px;
     border-radius: 10px;
+    align-self: flex-start;
     transform: translateY(10px);
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
@@ -30,13 +37,11 @@
 .chat.mentor {
     color: #fff;
     background: #007acc;
-    align-self: flex-start;
 }
 
 .chat.dev {
     color: #ddd;
-    text-align: right;
-    align-self: flex-end;
+    align-self: end;
     background: #3c3c3c;
 }
 
