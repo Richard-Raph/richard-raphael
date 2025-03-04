@@ -1,0 +1,48 @@
+.chat-container {
+    width: 90%;
+    height: 400px;
+    padding: 20px;
+    display: flex;
+    max-width: 600px;
+    overflow-y: auto;
+    border-radius: 10px;
+    background: #1e1e1e;
+    flex-direction: column;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.chat {
+    opacity: 0;
+    margin: 10px 0;
+    display: block;
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transform: translateY(10px);
+    transition: all 0.5s ease-in-out;
+}
+
+.chat.mentor {
+    color: #fff;
+    background: #007acc;
+    align-self: flex-start;
+}
+
+.chat.dev {
+    color: #ddd;
+    text-align: right;
+    align-self: flex-end;
+    background: #3c3c3c;
+}
+
+.chat.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.typing {
+    opacity: 0;
+    color: #888;
+    font-size: 14px;
+    transition: opacity 0.3s ease-in-out;
+}

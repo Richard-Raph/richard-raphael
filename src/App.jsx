@@ -7,6 +7,7 @@ import Window from './components/Window';
 import Projects from './windows/Projects';
 import Settings from './windows/Settings';
 import Context from './components/Context';
+import CodeIntro from './components/CodeIntro';
 import Preloader from './components/Preloader';
 import { useMemo, useState, useEffect } from 'react';
 
@@ -16,6 +17,7 @@ function App() {
   const [windowStack, setWindowStack] = useState([]);
   const [contextMenu, setContextMenu] = useState(null);
   const [activeWindow, setActiveWindow] = useState(null);
+  const [showCodeIntro, setShowCodeIntro] = useState(false);
   const [isLaunchpadOpen, setLaunchpadOpen] = useState(false);
   const [deviceState, setDeviceState] = useState(() => getDeviceState());
   const [settings, setSettings] = useState({
@@ -50,7 +52,11 @@ function App() {
   }
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 9000);
+    // Show preloader for 9 seconds, then show CodeIntro
+    const preloaderTimer = setTimeout(() => {
+      setLoading(false);
+      setShowCodeIntro(true);
+    }, 9000);
 
     const handleResize = () => {
       setDeviceState(getDeviceState());
@@ -60,15 +66,12 @@ function App() {
 
     const handleContextMenu = (event) => {
       event.preventDefault();
-
       const margin = 10;
       const menuWidth = 160;
       const menuHeight = 110;
-
       let x = event.clientX;
       let y = event.clientY;
 
-      // Adjust position if the menu overflows the viewport
       if (x + menuWidth > window.innerWidth - margin) {
         x = window.innerWidth - menuWidth - margin;
       }
@@ -80,24 +83,23 @@ function App() {
     };
 
     const handleClickOutside = (event) => {
-      if (!event.target.closest('.custom-menu')) { // Ensure clicks inside the context menu don't close it
-        setContextMenu(null); // Close menu on any click outside
+      if (!event.target.closest('.custom-menu')) {
+        setContextMenu(null);
       }
     };
 
     const handleWindowBlur = () => {
-      setContextMenu(null); // Close context menu when window loses focus (e.g., tab switch, app change)
+      setContextMenu(null);
     };
 
-    // Add event listeners
+    // Event Listeners
     window.addEventListener('resize', handleResize);
     window.addEventListener('blur', handleWindowBlur);
     document.addEventListener('click', handleClickOutside);
     document.addEventListener('contextmenu', handleContextMenu);
 
-    // Cleanup event listeners when component unmounts
     return () => {
-      clearTimeout(timer);
+      clearTimeout(preloaderTimer);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('blur', handleWindowBlur);
       document.removeEventListener('click', handleClickOutside);
@@ -114,6 +116,7 @@ function App() {
           name: windowName,
           content: contentMap[windowName] || <div>Unknown Window</div>,
         };
+        setLaunchpadOpen((prev) => !prev);
         setActive(updatedWindow.id);
         return [updatedWindow];
       });
@@ -163,9 +166,13 @@ function App() {
     <>
       {loading ? (
         <Preloader />
+      ) : showCodeIntro ? (
+        <CodeIntro onComplete={() => setShowCodeIntro(false)} />
       ) : (
-        <Layout windows={windows} settings={settings} openWindow={openWindow} closeAllWindows={closeAllWindows} activeWindow={activeWindow} isLaunchpadOpen={isLaunchpadOpen} setLaunchpadOpen={setLaunchpadOpen}>
-          {windows.map((window) => <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} isActive={window.id === activeWindow} />)}
+        <Layout windows={windows} settings={settings} openWindow={openWindow} activeWindow={activeWindow} isLaunchpadOpen={isLaunchpadOpen} closeAllWindows={closeAllWindows} setLaunchpadOpen={setLaunchpadOpen}>
+          {windows.map((window) => (
+            <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} isActive={window.id === activeWindow} />
+          ))}
         </Layout>
       )}
       {contextMenu && <Context x={contextMenu.x} y={contextMenu.y} />}
