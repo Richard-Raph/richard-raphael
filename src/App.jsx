@@ -52,11 +52,13 @@ function App() {
   }
 
   useEffect(() => {
-    // Show preloader for 9 seconds, then show CodeIntro
-    const preloaderTimer = setTimeout(() => {
+    let preloaderTimer = setTimeout(() => {
       setLoading(false);
-      setShowCodeIntro(true);
     }, 9000);
+
+    let codeIntroTimer = setTimeout(() => {
+      setShowCodeIntro(true);
+    }, 9200);
 
     const handleResize = () => {
       setDeviceState(getDeviceState());
@@ -100,6 +102,7 @@ function App() {
 
     return () => {
       clearTimeout(preloaderTimer);
+      clearTimeout(codeIntroTimer);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('blur', handleWindowBlur);
       document.removeEventListener('click', handleClickOutside);

@@ -1,5 +1,5 @@
 import '../assets/css/CodeIntro.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const messages = [
     { text: 'It all just kinda happened...', sender: 'dev' },
@@ -18,7 +18,7 @@ const messages = [
     { text: 'So you became an instructor, a mentor, a leader in the tech space.', sender: 'mentor' },
     { text: 'And now, I guide others on this wild, unpredictable journey of web development!', sender: 'dev' },
     { text: 'So tell me... what do you do now?', sender: 'mentor' },
-    { text: 'We push commits, squash bugs, and deploy scalable solutions.', sender: 'dev' },
+    { text: 'I push commits, squash bugs, and deploy scalable solutions.', sender: 'dev' },
     { text: 'And how does that feel?', sender: 'mentor' },
     { text: 'Feels gooooood!', sender: 'dev' },
     { text: 'Push it!', sender: 'mentor' },
@@ -28,30 +28,35 @@ const messages = [
 ];
 
 export default function CodeIntro({ onComplete }) {
-    const [currentMessages, setCurrentMessages] = useState([]);
+    const chatRef = useRef(null);
     const [messageIndex, setMessageIndex] = useState(0);
+    const [currentMessages, setCurrentMessages] = useState([]);
 
     useEffect(() => {
         if (messageIndex >= messages.length) {
-            setTimeout(() => {
-                onComplete();
-            }, 2000);
+            setTimeout(() => onComplete(), 2000);
             return;
         }
 
         const timer = setTimeout(() => {
-            setCurrentMessages((prev) => [...prev, messages[messageIndex]]);
-            setMessageIndex((prev) => prev + 1);
+            setCurrentMessages(prev => [...prev, messages[messageIndex]]);
+            setMessageIndex(prev => prev + 1);
         }, 1500);
 
         return () => clearTimeout(timer);
     }, [messageIndex, onComplete]);
 
+    useEffect(() => {
+        if (chatRef.current) {
+            chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
+    }, [currentMessages]);
+
     return (
-        <div className='chat-container'>
+        <div className='chat-container' ref={chatRef}>
             {currentMessages.map((msg, idx) => (
-                <p key={idx} className={`chat ${msg.sender} visible`}>{msg.text}</p>
+                <p key={idx} className={`chat ${msg.sender} visible fade-in`}>{msg.text}</p>
             ))}
         </div>
     );
-};
+}

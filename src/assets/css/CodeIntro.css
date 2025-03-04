@@ -19,7 +19,12 @@
     padding: 10px 15px;
     border-radius: 10px;
     transform: translateY(10px);
-    transition: all 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.chat.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .chat.mentor {
@@ -33,11 +38,6 @@
     text-align: right;
     align-self: flex-end;
     background: #3c3c3c;
-}
-
-.chat.visible {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 .typing {
