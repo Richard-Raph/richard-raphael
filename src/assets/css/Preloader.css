@@ -11,14 +11,14 @@
 
 .chat-overlay span {
     position: absolute;
-    background: white;
     border-radius: 50%;
+    background-color: white;
     animation: moveStars linear infinite;
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
 }
 
 .chat-overlay .chat-container {
-    gap: 15px;
+    gap: 10px;
     width: 360px;
     height: 500px;
     padding: 20px;
@@ -28,7 +28,6 @@
     scrollbar-width: none;
     font-family: monospace;
     flex-direction: column;
-    background-color: #0d1117;
     border: 2px solid #30363d;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }

@@ -75,13 +75,13 @@ export default function Preloader({ onComplete }) {
     if (starsContainer) {
       for (let i = 0; i < 100; i++) {
         let star = document.createElement('span');
-        let size = Math.random() * 3; // Random star size
-        let duration = Math.random() * 5 + 5; // Random animation speed
+        let size = Math.random() * 3;
+        let duration = Math.random() * 5 + 5;
 
         star.style.width = `${size}px`;
         star.style.height = `${size}px`;
-        star.style.left = `${Math.random() * 100}vw`;
         star.style.top = `${Math.random() * 100}vh`;
+        star.style.left = `${Math.random() * 100}vw`;
         star.style.animationDuration = `${duration}s`;
 
         starsContainer.appendChild(star);
