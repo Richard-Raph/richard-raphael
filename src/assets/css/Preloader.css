@@ -1,100 +1,106 @@
-.chat-container {
-    gap: 15px;
-    width: 90%;
-    height: 400px;
-    padding: 10px;
-    z-index: 9999;
-    display: flex;
-    max-width: 600px;
-    overflow-y: auto;
-    flex-direction: column;
-}
-
-.chat-container::before {
+.chat-overlay {
     inset: 0;
-    width: 100%;
-    content: '';
-    height: 100dvh;
+    z-index: 9999;
+    display: grid;
     position: fixed;
-    animation: glowingBackground 10s infinite alternate;
-    background: linear-gradient(135deg, #020024, #090979, #00d4ff), 400% / 400%;
+    place-items: center;
+    background: #0d1117;
+    background-size: cover;
+    background-position: center;
+    /* background: url('../assets/images/tech-bg.gif'); */
 }
 
-.chat-container p {
-    color: white;
-    max-width: 60%;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 12px 18px;
-    position: relative;
+.chat-overlay .chat-container {
+    gap: 15px;
+    width: 360px;
+    height: 500px;
+    padding: 20px;
+    display: flex;
+    overflow: auto;
     border-radius: 10px;
+    scrollbar-width: none;
+    font-family: monospace;
+    flex-direction: column;
+    background-color: #0d1117;
+    border: 2px solid #30363d;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.chat-overlay .chat-container p {
+    opacity: 0;
+    max-width: 75%;
+    font-size: .9rem;
+    color: #e6edf3;
+    padding: 10px 15px;
+    position: relative;
+    border-radius: 6px;
     display: inline-block;
-    animation: popIn 0.4s ease-out;
 }
 
-.chat-container p.me {
-    color: #ddd;
-    align-self: end;
-    background: #3c3c3c;
-    animation: slideInRight 0.5s ease-out;
+.chat-overlay .chat-container p.me {
+    align-self: flex-end;
+    background-color: #238636;
+    border-left: 3px solid #2ea043;
+    animation: fadeIn 0.5s forwards, pulseGlow 2s infinite alternate;
 }
 
-.chat-container p.speaker {
-    color: #fff;
-    background: #007acc;
-    animation: slideInLeft 0.5s ease-out;
+.chat-overlay .chat-container p.speaker {
+    align-self: flex-start;
+    background-color: #161b22;
+    animation: fadeIn 0.5s forwards;
+    border-left: 3px solid #58a6ff;
 }
 
-@keyframes slideInLeft {
-    0% {
-        transform: translateX(-100%);
+.chat-overlay .chat-container .typing {
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    border-right: 2px solid white;
+    animation: typeWriter 1s steps(30) forwards, blink 0.7s infinite alternate;
+}
+
+@keyframes typeWriter {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink {
+    from {
+        border-color: white;
+    }
+
+    to {
+        border-color: transparent;
+    }
+}
+
+@keyframes fadeIn {
+    from {
         opacity: 0;
+        transform: translateY(10px);
     }
 
-    100% {
-        transform: translateX(0);
+    to {
         opacity: 1;
+        transform: translateY(0);
     }
 }
 
-@keyframes slideInRight {
+@keyframes pulseGlow {
     0% {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes popIn {
-    0% {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-
-    80% {
-        transform: scale(1.05);
-        opacity: 1;
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes glowingBackground {
-    0% {
-        background-position: 0% 50%;
+        text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
     }
 
     50% {
-        background-position: 100% 50%;
+        text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
     }
 
     100% {
-        background-position: 0% 50%;
+        text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
     }
 }
