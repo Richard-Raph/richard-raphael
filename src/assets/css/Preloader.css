@@ -41,47 +41,41 @@
     position: relative;
     border-radius: 6px;
     display: inline-block;
+    animation: fadeIn 0.5s forwards;
 }
 
 .chat-overlay .chat-container p.me {
     align-self: flex-end;
-    background-color: #238636;
+    background-color: #1f6b3b;
     border-left: 3px solid #2ea043;
-    animation: fadeIn 0.5s forwards, pulseGlow 2s infinite alternate;
 }
 
 .chat-overlay .chat-container p.speaker {
     align-self: flex-start;
     background-color: #161b22;
-    animation: fadeIn 0.5s forwards;
     border-left: 3px solid #58a6ff;
 }
 
 .chat-overlay .chat-container .typing {
-    overflow: hidden;
-    white-space: nowrap;
     display: inline-block;
-    border-right: 2px solid white;
-    animation: typeWriter 1s steps(30) forwards, blink 0.7s infinite alternate;
+    position: relative;
+    min-width: fit-content;
+    white-space: pre-line;
 }
 
-@keyframes typeWriter {
-    from {
-        width: 0;
-    }
-
-    to {
-        width: 100%;
-    }
+.chat-overlay .chat-container .typing::after {
+    content: '|';
+    display: inline-block;
+    animation: blink 0.7s infinite alternate;
 }
 
 @keyframes blink {
-    from {
-        border-color: white;
+    0% {
+        opacity: 1;
     }
 
-    to {
-        border-color: transparent;
+    100% {
+        opacity: 0;
     }
 }
 
@@ -106,19 +100,5 @@
     to {
         opacity: 0;
         transform: translateY(100vh);
-    }
-}
-
-@keyframes pulseGlow {
-    0% {
-        text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
-    }
-
-    50% {
-        text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-    }
-
-    100% {
-        text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
     }
 }

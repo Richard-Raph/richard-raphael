@@ -47,10 +47,10 @@ export default function Preloader({ onComplete }) {
 
     let charIndex = 0;
     const typeInterval = setInterval(() => {
-      if (charIndex < nextMessage.text.length) {
-        setTypingText((prev) => prev + nextMessage.text[charIndex]);
-        charIndex++;
-      } else {
+      setTypingText(nextMessage.text.slice(0, charIndex + 1)); // Smoother slicing
+      charIndex++;
+
+      if (charIndex === nextMessage.text.length) {
         clearInterval(typeInterval);
         setTimeout(() => {
           setCurrentMessages((prev) => [...prev, nextMessage]);
@@ -58,7 +58,7 @@ export default function Preloader({ onComplete }) {
           setIsTyping(false);
         }, 500);
       }
-    }, 40);
+    }, 30 + Math.random() * 20); // Variable speed for natural effect
 
     return () => clearInterval(typeInterval);
   }, [messageIndex, onComplete]);
