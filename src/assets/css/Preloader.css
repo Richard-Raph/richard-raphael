@@ -56,6 +56,10 @@
     border-left: 3px solid #58a6ff;
 }
 
+.chat-overlay .chat-container p a {
+    color: #000;
+}
+
 .chat-overlay .chat-container .typing {
     display: inline-block;
     position: relative;

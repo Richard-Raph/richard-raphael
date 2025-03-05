@@ -5,13 +5,13 @@ const messages = [
   { text: 'It all just kinda happened...', sender: 'me' },
   { text: 'You never really knew about tech, did you?', sender: 'speaker' },
   { text: 'Nope. Not at all.', sender: 'me' },
-  { text: 'Then you found Myteacher Institute.', sender: 'speaker' },
-  { text: 'Yeah, and I met Cadet Tonye—he gave me a glimpse of coding, but I wanted to know more.', sender: 'me' },
+  { text: 'Then you found <a href="https://myteacher.ng" target="_blank" rel="noopener noreferrer">Myteacher Institute</a>.', sender: 'speaker' },
+  { text: 'Yeah, and I met <a href="https://example.com/cadet-tonye" target="_blank" rel="noopener noreferrer">Cadet Tonye</a>—he gave me a glimpse of coding, but I wanted to know more.', sender: 'me' },
   { text: 'So you went deeper.', sender: 'speaker' },
   { text: 'Way deeper. One tutorial turned into another, then another... before I knew it, I was building full-stack applications!', sender: 'me' },
   { text: 'And now, the digital world calls you... (And he turned out to be...)', sender: 'speaker' },
   { text: 'You know the name.', sender: 'me' },
-  { text: 'Richard Raphael!', sender: 'speaker' },
+  { text: '<a href="https://linkedin.com/in/richard-raphael" target="_blank" rel="noopener noreferrer">Richard Raphael</a>!', sender: 'speaker' },
   { text: 'That\'s right, folks!', sender: 'me' },
   { text: 'But coding isn\'t a solo mission.', sender: 'speaker' },
   { text: 'Nope. I needed a squad.', sender: 'me' },
@@ -47,7 +47,7 @@ export default function Preloader({ onComplete }) {
 
     let charIndex = 0;
     const typeInterval = setInterval(() => {
-      setTypingText(nextMessage.text.slice(0, charIndex + 1)); // Smoother slicing
+      setTypingText(nextMessage.text.slice(0, charIndex + 1));
       charIndex++;
 
       if (charIndex === nextMessage.text.length) {
@@ -58,16 +58,10 @@ export default function Preloader({ onComplete }) {
           setIsTyping(false);
         }, 500);
       }
-    }, 30 + Math.random() * 20); // Variable speed for natural effect
+    }, 30 + Math.random() * 20);
 
     return () => clearInterval(typeInterval);
   }, [messageIndex, onComplete]);
-
-  useEffect(() => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
-    }
-  }, [currentMessages, typingText]);
 
   useEffect(() => {
     // Generate stars dynamically
@@ -89,14 +83,22 @@ export default function Preloader({ onComplete }) {
     }
   }, []);
 
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [currentMessages, typingText]);
+
   return (
     <section className='chat-overlay'>
       <div className='chat-container' ref={chatRef}>
         {currentMessages.map((msg, idx) => (
-          <p key={idx} className={`${msg.sender}`}>{msg.text}</p>
+          <p key={idx} className={`${msg.sender}`} dangerouslySetInnerHTML={{ __html: msg.text }} />
         ))}
 
-        {isTyping && <p className={`${messages[messageIndex]?.sender} typing`}>{typingText}</p>}
+        {isTyping && (
+          <p className={`${messages[messageIndex]?.sender} typing`} dangerouslySetInnerHTML={{ __html: typingText }} />
+        )}
       </div>
     </section>
   );
