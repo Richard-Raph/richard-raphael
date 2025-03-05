@@ -7,7 +7,14 @@
     background: #0d1117;
     background-size: cover;
     background-position: center;
-    /* background: url('../assets/images/tech-bg.gif'); */
+}
+
+.chat-overlay span {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: moveStars linear infinite;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
 }
 
 .chat-overlay .chat-container {
@@ -88,6 +95,18 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes moveStars {
+    from {
+        opacity: 1;
+        transform: translateY(-100vh);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(100vh);
     }
 }
 

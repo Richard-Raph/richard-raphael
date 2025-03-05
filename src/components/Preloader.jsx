@@ -17,14 +17,14 @@ const messages = [
   { text: 'Nope. I needed a squad.', sender: 'me' },
   { text: 'So you became an instructor, a speaker, a leader in the tech space.', sender: 'speaker' },
   { text: 'And now, I guide others on this wild, unpredictable journey of web development!', sender: 'me' },
-  { text: 'So tell me... what do you do now?', sender: 'speaker' },
+  { text: 'And now?', sender: 'speaker' },
   { text: 'I push commits, squash bugs, and deploy scalable solutions.', sender: 'me' },
   { text: 'And how does that feel?', sender: 'speaker' },
   { text: 'Feels gooooood!', sender: 'me' },
   { text: 'Push it!', sender: 'speaker' },
   { text: 'Up the repo!', sender: 'me' },
   { text: 'Ah, production crashed!', sender: 'speaker' },
-  { text: 'Ha!', sender: 'me' }
+  { text: 'Ha!', sender: 'me' },
 ];
 
 export default function Preloader({ onComplete }) {
@@ -48,13 +48,13 @@ export default function Preloader({ onComplete }) {
     let charIndex = 0;
     const typeInterval = setInterval(() => {
       if (charIndex < nextMessage.text.length) {
-        setTypingText(prev => prev + nextMessage.text[charIndex]);
+        setTypingText((prev) => prev + nextMessage.text[charIndex]);
         charIndex++;
       } else {
         clearInterval(typeInterval);
         setTimeout(() => {
-          setCurrentMessages(prev => [...prev, nextMessage]);
-          setMessageIndex(prev => prev + 1);
+          setCurrentMessages((prev) => [...prev, nextMessage]);
+          setMessageIndex((prev) => prev + 1);
           setIsTyping(false);
         }, 500);
       }
@@ -68,6 +68,26 @@ export default function Preloader({ onComplete }) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
   }, [currentMessages, typingText]);
+
+  useEffect(() => {
+    // Generate stars dynamically
+    const starsContainer = document.querySelector('.chat-overlay');
+    if (starsContainer) {
+      for (let i = 0; i < 100; i++) {
+        let star = document.createElement('span');
+        let size = Math.random() * 3; // Random star size
+        let duration = Math.random() * 5 + 5; // Random animation speed
+
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.animationDuration = `${duration}s`;
+
+        starsContainer.appendChild(star);
+      }
+    }
+  }, []);
 
   return (
     <section className='chat-overlay'>
