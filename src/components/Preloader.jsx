@@ -23,14 +23,14 @@ export default function Preloader({ onComplete }) {
         <div className='rhombus_small'>
           <div className='rhombus'>
             <div className='border_box'>
-              {[...Array(4)].map((_, i) => <span key={i} className={`line line0${i + 1}`}></span>)}
-              {[...Array(4)].map((_, i) => <span key={i} className={`circle circle0${i + 1}`}></span>)}
+              {[...Array(4)].map((_, i) => <span key={i} className={`line line0${i + 1}`} />)}
+              {[...Array(4)].map((_, i) => <span key={i} className={`circle circle0${i + 1}`} />)}
               {[...Array(8)].map((_, i) => (
-                <span key={i} className={`animation_line ${i % 2 === 1 ? `animation_line0${i + 1}_wrapper` : `animation_line0${i + 1}`}`}></span>
+                <span key={i} className={`animation_line ${i % 2 === 1 ? `animation_line0${i + 1}_wrapper` : `animation_line0${i + 1}`}`} />
               ))}
             </div>
             <div className='wave'>
-              <div className='wave_wrapper'><div className='wave_box'></div></div>
+              <div className='wave_wrapper'><div className='wave_box' /></div>
             </div>
           </div>
         </div>
@@ -47,8 +47,8 @@ export default function Preloader({ onComplete }) {
         </div>
         <div className='name'>
           <p>RICHARD-RAPHAEL</p>
-          <span className='name_circle01'></span>
-          <span className='name_circle02'></span>
+          <span className='name_circle01' />
+          <span className='name_circle02' />
         </div>
       </div>
     </div>
