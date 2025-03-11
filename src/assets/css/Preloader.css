@@ -6,7 +6,8 @@
     background-color: #212022;
 }
 
-.animation01 {
+.animation01,
+.animation02 {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -226,50 +227,32 @@
     animation: rhombus_small 0.4s linear 2.55s forwards;
 }
 
-/*===================
-animation02
-====================*/
-.animation02 {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
 .rhombus_box {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
+    inset: 0;
     width: 40vw;
     height: 40vw;
+    margin: auto;
+    position: absolute;
     animation: rhombus_box 0.4s linear 3.55s forwards;
 }
 
 .rhombus_item_wrapper {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    width: 2.1vw;
-    height: 2.1vw;
+    inset: 0;
     opacity: 0;
+    width: 2.1vw;
+    margin: auto;
+    height: 2.1vw;
+    position: absolute;
 }
 
 .rhombus_item {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     margin: auto;
     width: 2.1vw;
     height: 2.1vw;
-    background-color: #fff;
-    transform: rotate(45deg)
+    position: absolute;
+    transform: rotate(45deg);
+    background-color: white;
 }
 
 .rhombus_item01_wrapper {
@@ -281,87 +264,70 @@ animation02
 }
 
 .double_content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    inset: 50%;
     width: 100%;
     height: 100%;
+    position: absolute;
+    transform: translate(-50%, -50%);
 }
 
 .double_wrapper02 {
-    position: relative;
+    opacity: 0;
     width: 100%;
     height: 100%;
+    position: relative;
     animation: double_content forwards;
-    opacity: 0;
 }
 
 .double_wrapper01 {
     display: block;
+    overflow: hidden;
     position: absolute;
     border-radius: 50%;
-    overflow: hidden;
+}
+
+.dotted_right::before,
+.double_wrapper01::after,
+.double_wrapper01::before {
+    z-index: 3;
+    content: '';
+    display: block;
+    position: absolute;
+    background: #212022;
 }
 
 .double_wrapper01::before {
-    content: "";
-    display: block;
-    position: absolute;
-    background: #212022;
     z-index: 2;
 }
 
-.double_wrapper01::after {
-    content: "";
-    display: block;
-    position: absolute;
-    background: #212022;
-    z-index: 3;
-}
-
-/*============
-dotted circle
-============*/
 .dotted02 {
     top: 0;
     animation-delay: 4.2s;
 }
 
 .dotted_hide {
-    position: absolute;
+    inset: 50%;
+    z-index: 1;
     width: 31vw;
     height: 31vw;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
     overflow: hidden;
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .dotted01 {
+    z-index: 1;
+    inset: 50%;
     width: 30vw;
     height: 30vw;
-    border: dotted 0.5vw #fff;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     overflow: visible;
+    border: dotted 0.5vw #fff;
+    transform: translate(-50%, -50%);
 }
 
 .dotted_right::before {
-    content: "";
-    display: block;
-    position: absolute;
-    background: #212022;
-    z-index: 3;
-}
-
-.dotted_right::before {
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 32vw;
     height: 32vw;
     transform-origin: left 16vw;
@@ -369,131 +335,72 @@ dotted circle
 }
 
 .dotted_right {
-    position: absolute;
+    z-index: 1;
     width: 16vw;
     height: 32vw;
-    z-index: 1;
-    top: 50%;
-    left: 75%;
-    transform: translate(-50%, -50%);
+    inset: 50% 75%;
     overflow: hidden;
+    position: absolute;
+    transform: translate(-50%, -50%);
 }
 
 .dotted01::after {
-    top: -1vw;
-    left: -17vw;
     width: 32vw;
     height: 32vw;
+    inset: -1vw -17vw;
     transform-origin: right 16vw;
     animation: rotate-circle-left01 0.5s linear 4.2s forwards;
 }
 
-@keyframes rotate-circle-left01 {
-    0% {
-        transform: rotate(0deg);
-        background: #212022;
-        opacity: 1;
-    }
-
-    50% {
-        transform: rotate(-180deg);
-        background: #212022;
-        opacity: 1;
-    }
-
-    50.01% {
-        transform: rotate(0deg);
-        opacity: 0;
-    }
-
-    100% {
-        transform: rotate(0deg);
-        opacity: 0;
-    }
-}
-
-/*============
-white circle
-============*/
 .white02 {
     top: -100%;
     animation-delay: 4.7s;
 }
 
 .white01 {
+    inset: 50%;
+    z-index: 1;
     width: 29vw;
     height: 29vw;
     background: #fff;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
 }
 
 .white01::before {
-    top: 0;
-    left: 14.5vw;
     width: 29vw;
     height: 29vw;
+    inset: 0 14.5vw;
     transform-origin: left 14.5vw;
     animation: rotate-circle-right 0.3s linear 4.7s forwards;
 
 }
 
 .white01::after {
-    top: 0;
-    left: -14.5vw;
     width: 29vw;
     height: 29vw;
+    inset: 0 -14.5vw;
     transform-origin: right 14.5vw;
     animation: rotate-circle-left 0.3s linear 4.7s forwards;
 }
 
-@keyframes rotate-circle-left {
-    0% {
-        transform: rotate(0deg);
-        background: #212022;
-    }
-
-    50% {
-        transform: rotate(-180deg);
-        background: #212022;
-    }
-
-    50.01% {
-        transform: rotate(-360deg);
-        background: #fff;
-    }
-
-    100% {
-        transform: rotate(-360deg);
-        background: #fff;
-    }
-}
-
-/*============
-gray circle
-============*/
 .gray02 {
     top: -200%;
     animation-delay: 4.8s;
 }
 
 .gray01 {
+    inset: 50%;
     width: 8vw;
+    z-index: 1;
     height: 8vw;
     background: #808184;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
 }
 
 .gray01::before {
-    top: 0;
-    left: 4vw;
     width: 8vw;
     height: 8vw;
+    inset: 0 4vw;
     background: #fff;
     transform-origin: left 4vw;
     animation: rotate-circle-right 0.5s linear 4.8s forwards;
@@ -501,60 +408,32 @@ gray circle
 }
 
 .gray01::after {
-    top: 0;
-    left: -4vw;
     width: 8vw;
     height: 8vw;
+    inset: 0 -4vw;
     background: #fff;
     transform-origin: right 4vw;
     animation: rotate-circle-left03 0.5s linear 4.8s forwards;
 }
 
-@keyframes rotate-circle-left03 {
-    0% {
-        transform: rotate(0deg);
-        background: #fff;
-    }
-
-    50% {
-        transform: rotate(-180deg);
-        background: #fff;
-    }
-
-    50.01% {
-        transform: rotate(-360deg);
-        background: #808184;
-    }
-
-    100% {
-        transform: rotate(-360deg);
-        background: #808184;
-    }
-}
-
-/*============
-orange circle
-============*/
 .orange02 {
     top: -300%;
     animation-delay: 5.3s;
 }
 
 .orange01 {
+    inset: 50%;
+    z-index: 1;
     width: 27vw;
     height: 27vw;
     background: #f47141;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
 }
 
 .orange01::before {
-    top: 0;
-    left: 13.5vw;
     width: 27vw;
     height: 27vw;
+    inset: 0 13.5vw;
     background: #fff;
     transform-origin: left 13.5vw;
     animation: rotate-circle-right 0.5s linear 5.3s forwards;
@@ -562,35 +441,55 @@ orange circle
 }
 
 .orange01::after {
-    top: 0;
-    left: -13.5vw;
     width: 27vw;
     height: 27vw;
+    inset: 0 -13.5vw;
     background: #fff;
     transform-origin: right 13.5vw;
     animation: rotate-circle-left02 0.5s linear 5.3s forwards;
 }
 
-@keyframes rotate-circle-left02 {
-    0% {
-        transform: rotate(0deg);
-        background: #fff;
-    }
+.name {
+    inset: 50%;
+    opacity: 0;
+    width: 30vw;
+    height: 30vw;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    animation: name 1.0s cubic-bezier(0.165, 0.84, 0.44, 1) 5.9s forwards;
+}
 
-    50% {
-        transform: rotate(-180deg);
-        background: #fff;
-    }
+.name p {
+    color: #fff;
+    font-size: 2vw;
+    font-size: 1.9rem;
+    position: absolute;
+    letter-spacing: 0.1em;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
 
-    50.01% {
-        transform: rotate(-360deg);
-        background: #f47141;
-    }
+.name_circle01 {
+    width: 2vw;
+    height: 2vw;
+    inset: 50% 20%;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #fff;
+    transform: translate(-50%, -50%);
+}
 
-    100% {
-        transform: rotate(-360deg);
-        background: #f47141;
-    }
+.name_circle02 {
+    width: 2vw;
+    height: 2vw;
+    inset: 50% 80%;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #fff;
+    transform: translate(-50%, -50%);
 }
 
 @keyframes double_content {
@@ -601,67 +500,6 @@ orange circle
     100% {
         opacity: 1;
     }
-}
-
-@keyframes rotate-circle-right {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    50% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(-180deg);
-    }
-}
-
-.name {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 30vw;
-    height: 30vw;
-    display: flex;
-    align-items: center;
-    animation: name 1.0s cubic-bezier(0.165, 0.84, 0.44, 1) 5.9s forwards;
-    opacity: 0;
-}
-
-.name p {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    font-size: 2vw;
-    font-size: 1.9rem;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    letter-spacing: 0.1em;
-}
-
-.name_circle01 {
-    position: absolute;
-    top: 50%;
-    left: 20%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    width: 2vw;
-    height: 2vw;
-    border-radius: 50%;
-}
-
-.name_circle02 {
-    position: absolute;
-    top: 50%;
-    left: 80%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    width: 2vw;
-    height: 2vw;
-    border-radius: 50%;
 }
 
 @keyframes name {
@@ -802,6 +640,33 @@ orange circle
     }
 }
 
+@keyframes rotate-circle-right {
+
+    0%,
+    50% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-180deg);
+    }
+}
+
+@keyframes animation01_circle {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale3d(0, 0, 1);
+    }
+
+    40%,
+    60% {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
 @keyframes rhombus_small {
     0% {
         opacity: 1;
@@ -819,8 +684,47 @@ orange circle
     }
 }
 
-@keyframes animation01_wave_wrapper {
+@keyframes rotate-circle-left02 {
     0% {
+        transform: rotate(0deg);
+        background-color: white;
+    }
+
+    50% {
+        transform: rotate(-180deg);
+        background-color: white;
+    }
+
+    100%,
+    50.01% {
+        background: #f47141;
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes rotate-circle-left03 {
+    0% {
+        transform: rotate(0deg);
+        background-color: white;
+    }
+
+    50% {
+        background-color: white;
+        transform: rotate(-180deg);
+    }
+
+    100%,
+    50.01% {
+        transform: rotate(-360deg);
+        background-color: #808184;
+    }
+}
+
+@keyframes animation01_wave_wrapper {
+
+    0%,
+    50%,
+    100% {
         transform: rotate(0);
     }
 
@@ -828,37 +732,45 @@ orange circle
         transform: rotate(15deg);
     }
 
-    50% {
-        transform: rotate(0);
-    }
-
     75% {
         transform: rotate(-15deg);
     }
+}
 
-    100% {
-        transform: rotate(0);
+@keyframes rotate-circle-left {
+    0% {
+        transform: rotate(0deg);
+        background-color: #212022;
+    }
+
+    50% {
+        transform: rotate(-180deg);
+        background-color: #212022;
+    }
+
+    100%,
+    50.01% {
+        background-color: white;
+        transform: rotate(-360deg);
     }
 }
 
-@keyframes animation01_circle {
+@keyframes rotate-circle-left01 {
     0% {
         opacity: 1;
-        transform: scale3d(0, 0, 1);
+        background: #212022;
+        transform: rotate(0deg);
     }
 
-    40% {
+    50% {
         opacity: 1;
-        transform: scale3d(1, 1, 1);
+        background: #212022;
+        transform: rotate(-180deg);
     }
 
-    60% {
-        opacity: 1;
-        transform: scale3d(1, 1, 1);
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale3d(0, 0, 1);
+    100%,
+    50.01% {
+        opacity: 0;
+        transform: rotate(0deg);
     }
 }
