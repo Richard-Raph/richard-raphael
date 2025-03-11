@@ -46,7 +46,7 @@ export default function Preloader({ onComplete }) {
           ))}
         </div>
         <div className='name'>
-          <p>KURI-CHAN</p>
+          <p>RICHARD-RAPHAEL</p>
           <span className='name_circle01'></span>
           <span className='name_circle02'></span>
         </div>
