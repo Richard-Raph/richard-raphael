@@ -6,8 +6,8 @@ export default function Preloader({ onComplete }) {
 
   useEffect(() => {
     // Simulate asset loading before animation starts
-    const delayBeforeAnimation = setTimeout(() => setShowAnimation(true), 1500); // Adjust as needed
-    const timeout = setTimeout(onComplete, 6500); // Adjust total duration as needed
+    const delayBeforeAnimation = setTimeout(() => setShowAnimation(true), 1000); // Adjust as needed
+    const timeout = setTimeout(onComplete, 9000); // Adjust total duration as needed
 
     return () => {
       clearTimeout(delayBeforeAnimation);
