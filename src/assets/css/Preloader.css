@@ -17,10 +17,10 @@
 }
 
 .border_box {
-    inset: 50%;
     width: 15vw;
     height: 15vw;
     position: absolute;
+    inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
 }
 
@@ -112,8 +112,8 @@
     width: 200%;
     height: 150%;
     margin: 0 auto;
-    inset: -25% -50%;
     position: absolute;
+    inset: -25% 0 0 -50%;
     animation: animation01_wave_wrapper 1s linear 1s forwards;
 }
 
@@ -147,9 +147,9 @@
 
 .animation_line01 {
     width: 0.2vw;
-    inset: -15% 0;
     height: 0.7vw;
     transform-origin: top;
+    inset: -15% auto auto 0;
     animation: animation_line01 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
 }
 
@@ -341,16 +341,16 @@
     z-index: 1;
     width: 16vw;
     height: 32vw;
-    inset: 50% 75%;
     overflow: hidden;
     position: absolute;
+    inset: 50% auto auto 75%;
     transform: translate(-50%, -50%);
 }
 
 .dotted01::after {
     width: 32vw;
     height: 32vw;
-    inset: -1vw -17vw;
+    inset: -1vw auto auto -17vw;
     transform-origin: right 16vw;
     animation: rotate-circle-left01 0.5s linear 4.2s forwards;
 }
@@ -457,9 +457,7 @@
     opacity: 0;
     width: 30vw;
     height: 30vw;
-    display: flex;
     position: absolute;
-    align-items: center;
     transform: translate(-50%, -50%);
     animation: name 1.0s cubic-bezier(0.165, 0.84, 0.44, 1) 5.9s forwards;
 }
