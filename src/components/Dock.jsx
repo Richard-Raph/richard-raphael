@@ -23,10 +23,15 @@ const icons = [
 export default function DockBar({ windows, openWindow, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
   const handleIconClick = (id) => {
     if (id === 'Terminal') {
+      const pdfUrl = '/RICHARD.pdf';
+      window.open(pdfUrl, '_blank');
       const link = document.createElement('a');
-      link.href = '/path/to/your-resume.pdf';
-      link.download = 'Resume.pdf';
+      link.href = pdfUrl;
+      link.download = 'RICHARD.pdf';
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
+
       return;
     }
 
