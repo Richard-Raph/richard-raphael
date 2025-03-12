@@ -100,11 +100,11 @@
 }
 
 .wave {
-    inset: 50%;
     width: 13.5vw;
     height: 13.5vw;
     overflow: hidden;
     position: absolute;
+    inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
 }
 
@@ -216,7 +216,8 @@
     animation: animation_line07 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
 }
 
-.rhombus {
+.rhombus,
+.rhombus_small {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -224,9 +225,6 @@
 }
 
 .rhombus_small {
-    width: 100%;
-    height: 100%;
-    position: absolute;
     animation: rhombus_small 0.4s linear 2.55s forwards;
 }
 
@@ -267,10 +265,10 @@
 }
 
 .double_content {
-    inset: 50%;
     width: 100%;
     height: 100%;
     position: absolute;
+    inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
 }
 
@@ -309,30 +307,30 @@
 }
 
 .dotted_hide {
-    inset: 50%;
     z-index: 1;
     width: 31vw;
     height: 31vw;
     overflow: hidden;
     position: absolute;
     border-radius: 50%;
+    inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
 }
 
 .dotted01 {
     z-index: 1;
-    inset: 50%;
     width: 30vw;
     height: 30vw;
     overflow: visible;
+    inset: 50% auto auto 50%;
     border: dotted 0.5vw #fff;
     transform: translate(-50%, -50%);
 }
 
 .dotted_right::before {
-    inset: 0;
     width: 32vw;
     height: 32vw;
+    inset: 0 auto auto 0;
     transform-origin: left 16vw;
     animation: rotate-circle-right 0.5s linear 4.2s forwards;
 }
@@ -361,18 +359,18 @@
 }
 
 .white01 {
-    inset: 50%;
     z-index: 1;
     width: 29vw;
     height: 29vw;
     background: #fff;
+    inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
 }
 
 .white01::before {
     width: 29vw;
     height: 29vw;
-    inset: 0 14.5vw;
+    inset: 0 auto auto 14.5vw;
     transform-origin: left 14.5vw;
     animation: rotate-circle-right 0.3s linear 4.7s forwards;
 
@@ -381,7 +379,7 @@
 .white01::after {
     width: 29vw;
     height: 29vw;
-    inset: 0 -14.5vw;
+    inset: 0 auto auto -14.5vw;
     transform-origin: right 14.5vw;
     animation: rotate-circle-left 0.3s linear 4.7s forwards;
 }
@@ -392,29 +390,28 @@
 }
 
 .gray01 {
-    inset: 50%;
     width: 8vw;
     z-index: 1;
     height: 8vw;
     background: #808184;
+    inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
 }
 
 .gray01::before {
     width: 8vw;
     height: 8vw;
-    inset: 0 4vw;
     background: #fff;
+    inset: 0 auto auto 4vw;
     transform-origin: left 4vw;
     animation: rotate-circle-right 0.5s linear 4.8s forwards;
-
 }
 
 .gray01::after {
     width: 8vw;
     height: 8vw;
-    inset: 0 -4vw;
     background: #fff;
+    inset: 0 auto auto -4vw;
     transform-origin: right 4vw;
     animation: rotate-circle-left03 0.5s linear 4.8s forwards;
 }
@@ -425,39 +422,38 @@
 }
 
 .orange01 {
-    inset: 50%;
     z-index: 1;
     width: 27vw;
     height: 27vw;
     background: #f47141;
+    inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
 }
 
 .orange01::before {
     width: 27vw;
     height: 27vw;
-    inset: 0 13.5vw;
     background: #fff;
+    inset: 0 auto auto 13.5vw;
     transform-origin: left 13.5vw;
     animation: rotate-circle-right 0.5s linear 5.3s forwards;
-
 }
 
 .orange01::after {
     width: 27vw;
     height: 27vw;
-    inset: 0 -13.5vw;
     background: #fff;
+    inset: 0 auto auto -13.5vw;
     transform-origin: right 13.5vw;
     animation: rotate-circle-left02 0.5s linear 5.3s forwards;
 }
 
 .name {
-    inset: 50%;
     opacity: 0;
     width: 30vw;
     height: 30vw;
     position: absolute;
+    inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
     animation: name 1.0s cubic-bezier(0.165, 0.84, 0.44, 1) 5.9s forwards;
 }
@@ -475,9 +471,9 @@
 .name_circle01 {
     width: 2vw;
     height: 2vw;
-    inset: 50% 20%;
     position: absolute;
     border-radius: 50%;
+    inset: 50% auto auto 20%;
     background-color: #fff;
     transform: translate(-50%, -50%);
 }
@@ -485,9 +481,9 @@
 .name_circle02 {
     width: 2vw;
     height: 2vw;
-    inset: 50% 80%;
     position: absolute;
     border-radius: 50%;
+    inset: 50% auto auto 80%;
     background-color: #fff;
     transform: translate(-50%, -50%);
 }
