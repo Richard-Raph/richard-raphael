@@ -33,11 +33,19 @@
 }
 
 .line01 {
-    inset: 0 100%;
     width: 0.15vw;
     height: 15.15vw;
+    inset: 0 auto auto 100%;
     transform-origin: bottom;
     animation: animation01_line01 0.2s linear 0.3s forwards;
+}
+
+.line02 {
+    width: 15.15vw;
+    height: 0.15vw;
+    inset: 100% auto auto 0;
+    transform-origin: right;
+    animation: animation01_line02 0.2s linear 0.4s forwards;
 }
 
 .line03 {
@@ -46,14 +54,6 @@
     height: 15.15vw;
     transform-origin: bottom;
     animation: animation01_line01 0.2s linear 0.6s forwards;
-}
-
-.line02 {
-    inset: 100% 0;
-    width: 15.15vw;
-    height: 0.15vw;
-    transform-origin: right;
-    animation: animation01_line02 0.2s linear 0.4s forwards;
 }
 
 .line04 {
@@ -76,26 +76,26 @@
 }
 
 .circle01 {
-    inset: 96%;
     margin: 0 auto;
+    inset: 96% auto auto 96%;
     animation: animation01_circle 0.3s linear 0.3s forwards;
 }
 
 .circle02 {
     margin: 0 auto;
-    inset: 96% -99%;
+    inset: 96% auto auto -99%;
     animation: animation01_circle 0.3s linear 0.45s forwards;
 }
 
 .circle03 {
     margin: 0 auto;
-    inset: -4% -99%;
+    inset: -4% auto auto -99%;
     animation: animation01_circle 0.3s linear 0.65s forwards;
 }
 
 .circle04 {
-    inset: -4% 96%;
     margin: 0 auto;
+    inset: -4% auto auto 96%;
     animation: animation01_circle 0.3s linear 0.85s forwards;
 }
 
