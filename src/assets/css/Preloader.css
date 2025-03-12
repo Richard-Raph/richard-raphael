@@ -162,40 +162,40 @@
 
 .animation_line02 {
     width: 0.2vw;
-    inset: -35% 0;
     height: 0.7vw;
     transform-origin: top;
+    inset: -35% auto auto 0;
     animation: animation_line01 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
 }
 
 .animation_line03 {
     width: 0.7vw;
     height: 0.2vw;
-    inset: 50% 110%;
     transform-origin: right;
+    inset: 50% auto auto 110%;
     animation: animation_line03 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
 }
 
 .animation_line04 {
     width: 0.7vw;
     height: 0.2vw;
-    inset: 50% 128%;
     transform-origin: right;
+    inset: 50% auto auto 128%;
     animation: animation_line03 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
 }
 
 .animation_line05 {
     width: 0.2vw;
-    inset: 110% 0;
     height: 0.7vw;
+    inset: 110% auto auto 0;
     transform-origin: bottom;
     animation: animation_line05 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
 }
 
 .animation_line06 {
     width: 0.2vw;
-    inset: 128% 0;
     height: 0.7vw;
+    inset: 128% auto auto 0;
     transform-origin: bottom;
     animation: animation_line05 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
 }
@@ -203,16 +203,16 @@
 .animation_line07 {
     width: 0.7vw;
     height: 0.2vw;
-    inset: 50% -130%;
     transform-origin: left;
+    inset: 50% auto auto -130%;
     animation: animation_line07 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
 }
 
 .animation_line08 {
     width: 0.7vw;
     height: 0.2vw;
-    inset: 50% -162%;
     transform-origin: left;
+    inset: 50% auto auto -162%;
     animation: animation_line07 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
 }
 
