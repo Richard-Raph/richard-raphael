@@ -49,17 +49,17 @@
 }
 
 .line03 {
-    inset: 0;
     width: 0.15vw;
     height: 15.15vw;
+    inset: 0 auto auto 0;
     transform-origin: bottom;
     animation: animation01_line01 0.2s linear 0.6s forwards;
 }
 
 .line04 {
-    inset: 0;
     width: 15.15vw;
     height: 0.15vw;
+    inset: 0 auto auto 0;
     transform-origin: left;
     animation: animation01_line02 0.2s linear 0.8s forwards;
 }
