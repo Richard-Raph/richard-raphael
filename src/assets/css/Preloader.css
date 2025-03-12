@@ -1,8 +1,11 @@
 .preloader {
-    width: 100%;
-    height: 100%;
+    inset: 0;
+    width: 100dvw;
+    z-index: 9999;
+    height: 100dvh;
     position: fixed;
     overflow: hidden;
+    background-color: #090909;
     background-color: #212022;
 }
 
@@ -463,7 +466,7 @@
 
 .name p {
     color: #fff;
-    font-size: 1.9rem;
+    font-size: 1.7rem;
     position: absolute;
     letter-spacing: 0.1em;
     inset: 50% auto auto 50%;
@@ -491,7 +494,7 @@
     transform: translate(-50%, -50%);
 }
 
-@keyframes double_content {
+@keyframes name {
     0% {
         opacity: 0;
     }
@@ -501,7 +504,7 @@
     }
 }
 
-@keyframes name {
+@keyframes double_content {
     0% {
         opacity: 0;
     }
@@ -683,6 +686,44 @@
     }
 }
 
+@keyframes rotate-circle-left {
+    0% {
+        transform: rotate(0deg);
+        background-color: #212022;
+    }
+
+    50% {
+        transform: rotate(-180deg);
+        background-color: #212022;
+    }
+
+    100%,
+    50.01% {
+        background-color: white;
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes rotate-circle-left01 {
+    0% {
+        opacity: 1;
+        transform: rotate(0deg);
+        background-color: #212022;
+    }
+
+    50% {
+        opacity: 1;
+        transform: rotate(-180deg);
+        background-color: #212022;
+    }
+
+    100%,
+    50.01% {
+        opacity: 0;
+        transform: rotate(0deg);
+    }
+}
+
 @keyframes rotate-circle-left02 {
     0% {
         transform: rotate(0deg);
@@ -733,43 +774,5 @@
 
     75% {
         transform: rotate(-15deg);
-    }
-}
-
-@keyframes rotate-circle-left {
-    0% {
-        transform: rotate(0deg);
-        background-color: #212022;
-    }
-
-    50% {
-        transform: rotate(-180deg);
-        background-color: #212022;
-    }
-
-    100%,
-    50.01% {
-        background-color: white;
-        transform: rotate(-360deg);
-    }
-}
-
-@keyframes rotate-circle-left01 {
-    0% {
-        opacity: 1;
-        background: #212022;
-        transform: rotate(0deg);
-    }
-
-    50% {
-        opacity: 1;
-        background: #212022;
-        transform: rotate(-180deg);
-    }
-
-    100%,
-    50.01% {
-        opacity: 0;
-        transform: rotate(0deg);
     }
 }

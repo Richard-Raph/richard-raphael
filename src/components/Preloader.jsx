@@ -25,9 +25,15 @@ export default function Preloader({ onComplete }) {
             <div className='border_box'>
               {[...Array(4)].map((_, i) => <span key={i} className={`line line0${i + 1}`} />)}
               {[...Array(4)].map((_, i) => <span key={i} className={`circle circle0${i + 1}`} />)}
-              {[...Array(8)].map((_, i) => (
-                <span key={i} className={`animation_line ${i % 2 === 1 ? `animation_line0${i + 1}_wrapper` : `animation_line0${i + 1}`}`} />
-              ))}
+              {[...Array(8)].map((_, i) =>
+                i % 2 === 1 ? (
+                  <span key={i} className={`animation_line_wrapper animation_line0${i + 1}_wrapper`}>
+                    <span className={`animation_line animation_line0${i + 1}`} />
+                  </span>
+                ) : (
+                  <span key={i} className={`animation_line animation_line0${i + 1}`} />
+                )
+              )}
             </div>
             <div className='wave'>
               <div className='wave_wrapper'><div className='wave_box' /></div>
