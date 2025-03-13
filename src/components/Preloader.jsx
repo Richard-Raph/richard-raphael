@@ -2,20 +2,33 @@ import '../assets/css/Preloader.css';
 import { useState, useEffect } from 'react';
 
 export default function Preloader({ onComplete }) {
-  const [showAnimation, setShowAnimation] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate asset loading before animation starts
-    const delayBeforeAnimation = setTimeout(() => setShowAnimation(true), 1000); // Adjust as needed
-    const timeout = setTimeout(onComplete, 9000); // Adjust total duration as needed
+    const minPreloaderTime = 8500; // 7 seconds in milliseconds
+    const startTime = Date.now();
 
-    return () => {
-      clearTimeout(delayBeforeAnimation);
-      clearTimeout(timeout);
+    const handleLoad = () => {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, minPreloaderTime - elapsedTime);
+
+      setTimeout(() => {
+        setIsLoading(false);
+        onComplete(); // Call when loading is complete
+      }, remainingTime);
     };
+
+    // Ensure assets are fully loaded before hiding the preloader
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
+
+    return () => window.removeEventListener('load', handleLoad);
   }, [onComplete]);
 
-  if (!showAnimation) return null;
+  if (!isLoading) return null;
 
   return (
     <div className='preloader'>

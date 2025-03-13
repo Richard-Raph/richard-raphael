@@ -60,28 +60,15 @@ const useNetworkStatus = () => {
   const [isOnline, setIsOnline] = useState(false);
 
   useEffect(() => {
-    const checkInternetAccess = async () => {
-      try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1', { method: 'HEAD' });
-        setIsOnline(response.ok);
-      } catch {
-        setIsOnline(false);
-      }
-    };
-
-    const handleOffline = () => setIsOnline(false);
-    const handleOnline = () => checkInternetAccess();
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    const interval = setInterval(checkInternetAccess, 2000);
-    checkInternetAccess();
+    navigator.onLine ? setIsOnline(true) : setIsOnline(false);
+    const updateOnlineStatus = () => setIsOnline(true);
+    const updateOfflineStatus = () => setIsOnline(false);
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOfflineStatus);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-      clearInterval(interval);
+      window.removeEventListener('online', updateOnlineStatus);
+      window.removeEventListener('offline', updateOfflineStatus);
     };
   }, []);
 
