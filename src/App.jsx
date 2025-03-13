@@ -18,14 +18,20 @@ function App() {
   const [loadComplete, setLoadComplete] = useState(false);
   const [isLaunchpadOpen, setLaunchpadOpen] = useState(false);
   const [deviceState, setDeviceState] = useState(() => getDeviceState());
-  const [settings, setSettings] = useState({
-    showDate: true,
-    showSeconds: true,
-    timeFormat: '12-hour',
-    dynamicWallpaper: true,
-    showBatteryPercentage: true,
-    dateFormat: 'Day, Month DD, YYYY',
+  const [settings, setSettings] = useState(() => {
+    return JSON.parse(localStorage.getItem('userSettings')) || {
+      showDate: true,
+      showSeconds: true,
+      timeFormat: '12-hour',
+      dynamicWallpaper: true,
+      showBatteryPercentage: true,
+      dateFormat: 'Day, Month DD, YYYY',
+    };
   });
+
+  useEffect(() => {
+    localStorage.setItem('userSettings', JSON.stringify(settings));
+  }, [settings]);
 
   const updateSettings = (key, value) => {
     setSettings((prev) => ({
@@ -100,12 +106,10 @@ function App() {
   const openWindow = (windowName) => {
     if (deviceState.isSmallScreen) {
       setWindows((prev) => {
-        const updatedWindow = {
-          ...prev[0],
-          id: windowName,
-          name: windowName,
-          content: contentMap[windowName] || <div>Unknown Window</div>,
-        };
+        const updatedWindow = prev.length
+          ? { ...prev[0], id: windowName, name: windowName, content: contentMap[windowName] || <div>Unknown Window</div> }
+          : { id: windowName, name: windowName, content: contentMap[windowName] || <div>Unknown Window</div> };
+
         setLaunchpadOpen((prev) => !prev);
         setActive(updatedWindow.id);
         return [updatedWindow];
@@ -128,10 +132,9 @@ function App() {
   };
 
   const setActive = (windowId) => {
-    setWindowStack((prevStack) => {
-      if (prevStack[prevStack.length - 1] === windowId) return prevStack;
-      return [...prevStack.filter((id) => id !== windowId), windowId];
-    });
+    setWindowStack((prevStack) =>
+      prevStack.includes(windowId) ? [...prevStack.filter((id) => id !== windowId), windowId] : [...prevStack, windowId]
+    );
     setActiveWindow(windowId);
   };
 
@@ -154,7 +157,7 @@ function App() {
 
   return (
     <>
-      <Layout windows={windows} settings={settings} openWindow={openWindow} activeWindow={activeWindow} isLaunchpadOpen={isLaunchpadOpen} closeAllWindows={closeAllWindows} setLaunchpadOpen={setLaunchpadOpen}>
+      <Layout windows={windows} settings={settings} openWindow={openWindow} activeWindow={activeWindow} updateSettings={updateSettings} isLaunchpadOpen={isLaunchpadOpen} closeAllWindows={closeAllWindows} setLaunchpadOpen={setLaunchpadOpen}>
         {!loadComplete && (<Preloader onComplete={() => setLoadComplete(true)} />)}
         {/* <Preloader onComplete={() => setLoadComplete(true)} /> */}
         {windows.map((window) => (

@@ -29,33 +29,3 @@
     position: fixed;
     object-fit: cover;
 }
-
-.layout .layout-content {
-    gap: .25rem;
-    width: 100%;
-    display: flex;
-    font-size: 1em;
-    flex-flow: column;
-}
-
-.layout-content .layout-text {
-    gap: .6rem;
-    display: flex;
-    align-items: baseline;
-}
-
-.layout-content .layout-text:nth-child(even) {
-    align-self: flex-end;
-}
-
-.layout-content .layout-text span {
-    letter-spacing: -.05em;
-    font: italic clamp(1.5em, 3.5vw, 5em) 'Noto Serif Display', 'serif';
-}
-
-.layout-content .layout-text h1 {
-    letter-spacing: -.02em;
-    text-transform: uppercase;
-    line-height: .90 !important;
-    font: 500 clamp(8em, 10vw, 13em) 'Roboto', 'sans-serif';
-}
