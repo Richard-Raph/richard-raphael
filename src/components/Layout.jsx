@@ -19,9 +19,7 @@ export default function Layout({ children, settings, openWindow, windows = [], u
             updateBackground();
             const interval = setInterval(updateBackground, 60000);
             return () => clearInterval(interval);
-        } else {
-            setBackground(bgD);
-        }
+        } else { setBackground(bgD); }
     }, [settings.dynamicWallpaper]);
 
     return (

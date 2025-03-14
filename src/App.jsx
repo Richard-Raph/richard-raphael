@@ -10,6 +10,23 @@ import Context from './components/Context';
 import Preloader from './components/Preloader';
 import { useMemo, useState, useEffect } from 'react';
 
+const getDeviceState = () => {
+  return {
+    isSmallScreen: window.innerWidth < 1200,
+    isTabletAndAbove: window.innerWidth >= 600,
+  };
+}
+
+const getInitialSettings = () => {
+  try {
+    const storedSettings = JSON.parse(localStorage.getItem('userSettings'));
+    return storedSettings && typeof storedSettings === 'object' ? storedSettings : {};
+  } catch (error) {
+    console.error("Error loading settings:", error);
+    return {};
+  }
+};
+
 function App() {
   const [windows, setWindows] = useState([]);
   const [windowStack, setWindowStack] = useState([]);
@@ -18,42 +35,34 @@ function App() {
   const [loadComplete, setLoadComplete] = useState(false);
   const [isLaunchpadOpen, setLaunchpadOpen] = useState(false);
   const [deviceState, setDeviceState] = useState(() => getDeviceState());
-  const [settings, setSettings] = useState(() => {
-    return JSON.parse(localStorage.getItem('userSettings')) || {
-      showDate: true,
-      showSeconds: true,
-      timeFormat: '12-hour',
-      dynamicWallpaper: true,
-      showBatteryPercentage: true,
-      dateFormat: 'Day, Month DD, YYYY',
-    };
-  });
-
-  useEffect(() => {
-    localStorage.setItem('userSettings', JSON.stringify(settings));
-  }, [settings]);
+  const [settings, setSettings] = useState(() => ({
+    showDate: getInitialSettings().showDate ?? true,
+    showSeconds: getInitialSettings().showSeconds ?? true,
+    timeFormat: getInitialSettings().timeFormat ?? '12-hour',
+    dynamicWallpaper: getInitialSettings().dynamicWallpaper ?? true,
+    dateFormat: getInitialSettings().dateFormat ?? 'Day, Month DD, YYYY',
+    showBatteryPercentage: getInitialSettings().showBatteryPercentage ?? true,
+  }));
 
   const updateSettings = (key, value) => {
-    setSettings((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
+    setSettings((prev) => {
+      const newSettings = { ...prev, [key]: value };
+      console.log("Updated settings:", newSettings);
+      localStorage.setItem('userSettings', JSON.stringify(newSettings));
+      return newSettings;
+    });
   };
 
-  const contentMap = useMemo(() => ({
-    Blog: <Blog />,
-    About: <About />,
-    Contact: <Contact />,
-    Projects: <Projects />,
-    'Portfolio Preferences': <Settings settings={settings} updateSettings={updateSettings} />,
-  }), [settings]);
-
-  function getDeviceState() {
-    return {
-      isSmallScreen: window.innerWidth < 1200,
-      isTabletAndAbove: window.innerWidth >= 600,
-    };
-  }
+  const getWindowContent = (windowName) => {
+    switch (windowName) {
+      case 'Blog': return <Blog />;
+      case 'About': return <About />;
+      case 'Contact': return <Contact />;
+      case 'Projects': return <Projects />;
+      case 'Portfolio Preferences': return <Settings settings={settings} updateSettings={updateSettings} />;
+      default: return <div>Unknown Window</div>;
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -107,8 +116,17 @@ function App() {
     if (deviceState.isSmallScreen) {
       setWindows((prev) => {
         const updatedWindow = prev.length
-          ? { ...prev[0], id: windowName, name: windowName, content: contentMap[windowName] || <div>Unknown Window</div> }
-          : { id: windowName, name: windowName, content: contentMap[windowName] || <div>Unknown Window</div> };
+          ? {
+            ...prev[0],
+            id: windowName,
+            name: windowName,
+            content: getWindowContent(windowName)
+          }
+          : {
+            id: windowName,
+            name: windowName,
+            content: getWindowContent(windowName)
+          };
 
         setLaunchpadOpen((prev) => !prev);
         setActive(updatedWindow.id);
@@ -124,7 +142,7 @@ function App() {
       const newWindow = {
         id: windowName,
         name: windowName,
-        content: contentMap[windowName] || <div>Unknown Window</div>,
+        content: getWindowContent(windowName),
       };
       setWindows((prev) => [...prev, newWindow]);
       setActive(newWindow.id);
@@ -161,7 +179,7 @@ function App() {
         {!loadComplete && (<Preloader onComplete={() => setLoadComplete(true)} />)}
         {/* <Preloader onComplete={() => setLoadComplete(true)} /> */}
         {windows.map((window) => (
-          <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} isActive={window.id === activeWindow} />
+          <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} content={getWindowContent(window.id)} isActive={window.id === activeWindow} />
         ))}
       </Layout>
 

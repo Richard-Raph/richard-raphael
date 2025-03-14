@@ -11,8 +11,8 @@ export default function Settings({ settings = {}, updateSettings }) {
                         <label>
                             <input
                                 type='checkbox'
-                                checked={!!settings.dynamicWallpaper}
-                                onChange={(e) => updateSettings?.('dynamicWallpaper', e.target.checked)}
+                                checked={Boolean(settings.dynamicWallpaper)}
+                                onChange={(e) => updateSettings('dynamicWallpaper', e.target.checked)}
                             />
                             Dynamic Wallpaper
                         </label>
@@ -26,8 +26,8 @@ export default function Settings({ settings = {}, updateSettings }) {
                         <label>
                             <input
                                 type='checkbox'
-                                checked={!!settings.showBatteryPercentage}
-                                onChange={(e) => updateSettings?.('showBatteryPercentage', e.target.checked)}
+                                checked={Boolean(!!settings.showBatteryPercentage)}
+                                onChange={(e) => updateSettings('showBatteryPercentage', e.target.checked)}
                             />
                             Show battery percentage
                         </label>
@@ -41,8 +41,8 @@ export default function Settings({ settings = {}, updateSettings }) {
                         <label>
                             <input
                                 type='checkbox'
-                                checked={!!settings.showSeconds}
-                                onChange={(e) => updateSettings?.('showSeconds', e.target.checked)}
+                                checked={Boolean(!!settings.showSeconds)}
+                                onChange={(e) => updateSettings('showSeconds', e.target.checked)}
                             />
                             Show seconds
                         </label>
@@ -52,7 +52,7 @@ export default function Settings({ settings = {}, updateSettings }) {
                                 value='12-hour'
                                 name='timeFormat'
                                 checked={settings.timeFormat === '12-hour'}
-                                onChange={(e) => updateSettings?.('timeFormat', e.target.value)}
+                                onChange={(e) => updateSettings('timeFormat', e.target.value)}
                             />
                             12-Hour format
                         </label>
@@ -62,7 +62,7 @@ export default function Settings({ settings = {}, updateSettings }) {
                                 value='24-hour'
                                 name='timeFormat'
                                 checked={settings.timeFormat === '24-hour'}
-                                onChange={(e) => updateSettings?.('timeFormat', e.target.value)}
+                                onChange={(e) => updateSettings('timeFormat', e.target.value)}
                             />
                             24-Hour format
                         </label>
@@ -76,8 +76,8 @@ export default function Settings({ settings = {}, updateSettings }) {
                         <label>
                             <input
                                 type='checkbox'
-                                checked={!!settings.showDate}
-                                onChange={(e) => updateSettings?.('showDate', e.target.checked)}
+                                checked={Boolean(!!settings.showDate)}
+                                onChange={(e) => updateSettings('showDate', e.target.checked)}
                             />
                             Show Date
                         </label>
@@ -90,7 +90,7 @@ export default function Settings({ settings = {}, updateSettings }) {
                                     name='dateFormat'
                                     disabled={!settings.showDate}
                                     checked={settings.dateFormat === format}
-                                    onChange={(e) => updateSettings?.('dateFormat', e.target.value)}
+                                    onChange={(e) => updateSettings('dateFormat', e.target.value)}
                                 />
                                 {format}
                             </label>
