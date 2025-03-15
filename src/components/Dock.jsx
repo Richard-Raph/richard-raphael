@@ -31,11 +31,12 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
       return;
     }
 
-    id === 'Launchpad' ? setLaunchpadOpen((prev) => !prev) : openWindow(id);
+    id === 'Launchpad'
+      ? setLaunchpadOpen((prev) => !prev)
+      : (setLaunchpadOpen(false), openWindow(id));
   };
 
   return (
