@@ -297,9 +297,9 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
       style={{
         width: pos.width ? `${pos.width}px` : undefined,
         height: pos.height ? `${pos.height}px` : undefined,
+        top: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.top}px`,
         left: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.left}px`,
-        top: name === 'Portfolio Preferences' ? `${pos.top + 25}px` : (deviceState.isSmallScreen || isMaximized ? '0' : `${pos.top}px`),
-        ...(deviceState.isSmallScreen ? { width: '100vw', height: '100vh' } : name === 'Portfolio Preferences' ? { width: '750px', height: '510px' } : {}),
+        ...(deviceState.isSmallScreen ? { width: '100vw', height: '100vh' } : name === 'Portfolio Preferences' ? { width: '750px' } : {}),
       }}
     >
       <div className='window-bar' onMouseDown={handleDragStart}>
