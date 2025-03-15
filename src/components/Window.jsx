@@ -323,14 +323,14 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
       </div>
       {!deviceState.isSmallScreen && !isMaximized && (
         <>
-          <div className="resize-handle top" onMouseDown={createResizeHandler('top')} />
-          <div className="resize-handle left" onMouseDown={createResizeHandler('left')} />
-          <div className="resize-handle right" onMouseDown={createResizeHandler('right')} />
-          <div className="resize-handle bottom" onMouseDown={createResizeHandler('bottom')} />
-          <div className="resize-handle top-left" onMouseDown={createResizeHandler('top-left')} />
-          <div className="resize-handle top-right" onMouseDown={createResizeHandler('top-right')} />
-          <div className="resize-handle bottom-left" onMouseDown={createResizeHandler('bottom-left')} />
-          <div className="resize-handle bottom-right" onMouseDown={createResizeHandler('bottom-right')} />
+          <div className="window-resize top" onMouseDown={createResizeHandler('top')} />
+          <div className="window-resize left" onMouseDown={createResizeHandler('left')} />
+          <div className="window-resize right" onMouseDown={createResizeHandler('right')} />
+          <div className="window-resize bottom" onMouseDown={createResizeHandler('bottom')} />
+          <div className="window-resize top-left" onMouseDown={createResizeHandler('top-left')} />
+          <div className="window-resize top-right" onMouseDown={createResizeHandler('top-right')} />
+          <div className="window-resize bottom-left" onMouseDown={createResizeHandler('bottom-left')} />
+          <div className="window-resize bottom-right" onMouseDown={createResizeHandler('bottom-right')} />
         </>
       )}
       {content}

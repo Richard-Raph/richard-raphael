@@ -126,78 +126,6 @@
     box-shadow: 0px -3px 15px 0px #ffffff40 inset;
 }
 
-.resize-handle {
-    position: absolute;
-    background: transparent;
-    z-index: 10;
-}
-
-/* Edges */
-.resize-handle.top {
-    top: 0;
-    left: 5px;
-    right: 5px;
-    height: 5px;
-    cursor: ns-resize;
-}
-
-.resize-handle.bottom {
-    bottom: 0;
-    left: 5px;
-    right: 5px;
-    height: 5px;
-    cursor: ns-resize;
-}
-
-.resize-handle.left {
-    left: 0;
-    top: 5px;
-    bottom: 5px;
-    width: 5px;
-    cursor: ew-resize;
-}
-
-.resize-handle.right {
-    right: 0;
-    top: 5px;
-    bottom: 5px;
-    width: 5px;
-    cursor: ew-resize;
-}
-
-/* Corners */
-.resize-handle.top-left {
-    top: 0;
-    left: 0;
-    width: 10px;
-    height: 10px;
-    cursor: nwse-resize;
-}
-
-.resize-handle.top-right {
-    top: 0;
-    right: 0;
-    width: 10px;
-    height: 10px;
-    cursor: nesw-resize;
-}
-
-.resize-handle.bottom-left {
-    bottom: 0;
-    left: 0;
-    width: 10px;
-    height: 10px;
-    cursor: nesw-resize;
-}
-
-.resize-handle.bottom-right {
-    bottom: 0;
-    right: 0;
-    width: 10px;
-    height: 10px;
-    cursor: nwse-resize;
-}
-
 @media only screen and (min-width: 600px) {
     .window {
         width: 65%;
@@ -228,6 +156,64 @@
         width: 100vw !important;
         height: 100vh !important;
         background: rgba(0, 0, 0, 0.7);
+    }
+
+    .window-resize {
+        z-index: 10;
+        position: absolute;
+        background: transparent;
+    }
+
+    .window-resize.top {
+        height: 5px;
+        inset: 0 5px auto;
+        cursor: ns-resize;
+    }
+
+    .window-resize.bottom {
+        height: 5px;
+        inset: auto 5px 0;
+        cursor: ns-resize;
+    }
+
+    .window-resize.left {
+        width: 5px;
+        cursor: ew-resize;
+        inset: 5px auto 5px 0;
+    }
+
+    .window-resize.right {
+        width: 5px;
+        cursor: ew-resize;
+        inset: 5px 0 5px auto;
+    }
+
+    .window-resize.top-left {
+        width: 10px;
+        height: 10px;
+        cursor: nwse-resize;
+        inset: 0 auto auto 0;
+    }
+
+    .window-resize.top-right {
+        width: 10px;
+        height: 10px;
+        cursor: nesw-resize;
+        inset: 0 0 auto auto;
+    }
+
+    .window-resize.bottom-left {
+        width: 10px;
+        height: 10px;
+        cursor: nesw-resize;
+        inset: auto auto 0 0;
+    }
+
+    .window-resize.bottom-right {
+        width: 10px;
+        height: 10px;
+        cursor: nwse-resize;
+        inset: auto 0 0 auto;
     }
 
     .window-bar {
