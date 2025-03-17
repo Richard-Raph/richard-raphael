@@ -53,6 +53,8 @@ form {
     height: 100%;
     padding: 1rem;
     display: grid;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
 
 form fieldset {

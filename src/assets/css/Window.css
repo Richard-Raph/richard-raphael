@@ -131,6 +131,11 @@
         border-radius: 10px;
     }
 
+    .window:has(.settings-content) {
+        width: 55%;
+        height: 80%;
+    }
+
     .window::after,
     .window::before {
         border-radius: 10px;
