@@ -7,10 +7,11 @@
     overflow: hidden;
     position: absolute;
     pointer-events: all;
+    transform-origin: top left;
     transform-style: preserve-3d;
     transform-origin: center center;
     box-shadow: 0 40px 60px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.5);
-    transition: all 0.2s, top 0.2s ease-in-out, left 0.2s ease-in-out, transform 0.2s ease-in-out, width 0.2s ease-in-out, height 0.2s ease-in-out, z-index 0ms, box-shadow 0ms;
+    transition: opacity 0.2s ease, top 0.2s ease-in-out, left 0.2s ease-in-out, width 0.2s ease-in-out, height 0.2s ease-in-out, transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .window::after,
@@ -50,7 +51,6 @@
     transition: background-image 0.3s ease;
 }
 
-.window.min,
 .window-bar .window-dots {
     display: none;
 }
@@ -149,6 +149,12 @@
     .window.active::before {
         background: rgba(30, 30, 31, 0.75);
         box-shadow: 0 50px 80px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 1px black;
+    }
+
+    .window.min {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease 0.1s, visibility 0s linear 0.3s, transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
     }
 
     .window.max {

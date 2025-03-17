@@ -1,13 +1,13 @@
 import '../assets/css/Dock.css';
 import PropTypes from 'prop-types';
 import Launchpad from './Launchpad';
-import React, { useState } from 'react';
 import blog from '../assets/icons/blog.webp';
 import about from '../assets/icons/about.webp';
 import project from '../assets/icons/project.webp';
 import contact from '../assets/icons/contact.webp';
 import terminal from '../assets/icons/terminal.webp';
 import settings from '../assets/icons/settings.webp';
+import React, { useState, useCallback } from 'react';
 import launchpad from '../assets/icons/launchpad.webp';
 
 const icons = [
@@ -21,6 +21,17 @@ const icons = [
 ];
 
 export default function DockBar({ windows, openWindow, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
+  const [restoringWindow, setRestoringWindow] = useState(null);
+
+  const handleMinimizeRestore = useCallback((id) => {
+    const windowState = windows.find(win => win.id === id);
+    if (windowState?.isMinimized) {
+      setRestoringWindow(id);
+      setTimeout(() => setRestoringWindow(null), 300);
+    }
+    openWindow(id);
+  }, [openWindow, windows]);
+
   const handleIconClick = (id) => {
     if (id === 'Terminal') {
       const pdfUrl = '/RICHARD.pdf';
@@ -34,9 +45,14 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
       return;
     }
 
-    id === 'Launchpad'
-      ? setLaunchpadOpen((prev) => !prev)
-      : (setLaunchpadOpen(false), openWindow(id));
+    const windowState = windows.find(win => win.id === id);
+    if (windowState) {
+      handleMinimizeRestore(id);
+    } else {
+      id === 'Launchpad'
+        ? setLaunchpadOpen(prev => !prev)
+        : (setLaunchpadOpen(false), openWindow(id));
+    }
   };
 
   return (
@@ -49,8 +65,9 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
               <React.Fragment key={id}>
                 {id === 'Portfolio Preferences' && <span className='separator' />}
                 <li
+                  data-window-id={id}
                   onClick={() => handleIconClick(id)}
-                  className={`icon ${id === 'Launchpad' ? (isLaunchpadOpen ? 'active' : '') : windows.some((win) => win.name === id) ? 'open' : ''}`}
+                  className={`icon  ${restoringWindow === id ? 'restoring' : ''} ${windows.some(win => win.id === id) ? 'open' : ''} ${id === 'Launchpad' ? (isLaunchpadOpen ? 'active' : '') : ''}`}
                 >
                   <img src={imgSrc} alt={tooltip} />
                   <span className='tooltip'>{tooltip}</span>

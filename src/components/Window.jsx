@@ -6,6 +6,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 export default function Window({ id, name, content, isActive, setActive, closeWindow, isMinimized, isMaximized, updateContent, minimizeWindow, maximizeWindow, setDraggedWindow }) {
   const dragRef = useRef(null);
   const [menu, setMenu] = useState(false);
+  const [minAnimate, setMinAnimate] = useState(false);
   const [deviceState, setDeviceState] = useState(() => ({
     isSmallScreen: window.innerWidth < 600,
     isTabletAndAbove: window.innerWidth >= 600,
@@ -13,20 +14,6 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
   }));
   const [pos, setPos] = useState({ top: -50, left: 0, width: null, height: null });
-
-  // Update device state on window resize
-  useEffect(() => {
-    const handleResize = () => {
-      setDeviceState({
-        isSmallScreen: window.innerWidth < 600,
-        isTabletAndAbove: window.innerWidth >= 600,
-        isLaptopAndAbove: window.innerWidth >= 1200,
-        isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
-      });
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   // Update content on activation if not on a laptop or larger
   useEffect(() => {
@@ -48,53 +35,19 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     }
   }, [isActive]);
 
-  const handleMenu = () => setMenu(prev => !prev);
-
-  const handleMouseDown = useCallback(() => {
-    setActive(id);
-    if (deviceState.isLaptopAndAbove && !deviceState.isTouchDevice) {
-      setDraggedWindow?.(id);
-    }
-  }, [id, setActive, setDraggedWindow, deviceState]);
-
-  const handleClose = useCallback((e) => {
-    e.stopPropagation();
-    closeWindow(id);
-  }, [id, closeWindow]);
-
-  const handleMinimize = useCallback((e) => {
-    e.stopPropagation();
-    minimizeWindow(id);
-  }, [id, minimizeWindow]);
-
-  const handleMaximize = useCallback((e) => {
-    e.stopPropagation();
-    maximizeWindow(id);
-  }, [id, maximizeWindow]);
-
-  const handleDragStart = (e) => {
-    e.preventDefault();
-    if (!deviceState.isLaptopAndAbove || isMaximized || deviceState.isTouchDevice) return;
-
-    const offsetY = e.clientY - pos.top;
-    const offsetX = e.clientX - pos.left;
-
-    const handleMouseMove = ({ clientY, clientX }) => {
-      setPos(prev => ({
-        ...prev,
-        left: Math.min(Math.max(0, clientX - offsetX), window.innerWidth - prev.width),
-        top: Math.min(Math.max(0, clientY - offsetY), window.innerHeight - prev.height),
-      }));
+  // Update device state on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setDeviceState({
+        isSmallScreen: window.innerWidth < 600,
+        isTabletAndAbove: window.innerWidth >= 600,
+        isLaptopAndAbove: window.innerWidth >= 1200,
+        isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+      });
     };
-
-    const handleMouseUp = () => {
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('mousemove', handleMouseMove);
-    };
-
-    document.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('mousemove', handleMouseMove);
-  };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const createResizeHandler = (direction) => (e) => {
     e.preventDefault();
@@ -106,10 +59,10 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     const startHeight = pos.height;
 
     const handleMouseMove = (e) => {
+      const minSize = 100;
+      const newPos = { ...pos };
       const deltaX = e.clientX - startX;
       const deltaY = e.clientY - startY;
-      const newPos = { ...pos };
-      const minSize = 100;
 
       // Horizontal resizing
       if (direction.includes('left')) {
@@ -149,6 +102,85 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     document.addEventListener('mousemove', handleMouseMove);
   };
 
+  const handleDragStart = (e) => {
+    e.preventDefault();
+    if (!deviceState.isLaptopAndAbove || isMaximized || deviceState.isTouchDevice) return;
+
+    const offsetY = e.clientY - pos.top;
+    const offsetX = e.clientX - pos.left;
+
+    const handleMouseMove = ({ clientY, clientX }) => {
+      setPos(prev => ({
+        ...prev,
+        left: Math.min(Math.max(0, clientX - offsetX), window.innerWidth - prev.width),
+        top: Math.min(Math.max(0, clientY - offsetY), window.innerHeight - prev.height),
+      }));
+    };
+
+    const handleMouseUp = () => {
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mousemove', handleMouseMove);
+    };
+
+    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('mousemove', handleMouseMove);
+  };
+
+  const calculateDockPosition = useCallback(() => {
+    const dockIcon = document.querySelector(`[data-window-id="${id}"]`);
+    if (!dockIcon || !dragRef.current) return;
+
+    const dockRect = dockIcon.getBoundingClientRect();
+    const windowRect = dragRef.current.getBoundingClientRect();
+
+    return {
+      x: dockRect.left - windowRect.left + (dockRect.width - windowRect.width) / 2,
+      y: dockRect.top - windowRect.top + (dockRect.height - windowRect.height) / 2,
+    };
+  }, [id]);
+
+  // Update the handleMinimize function in Window.jsx
+  const handleMinimize = useCallback((e) => {
+    e.stopPropagation();
+    const position = calculateDockPosition();
+    if (position) {
+      const originalStyle = {
+        opacity: dragRef.current.style.opacity,
+        transform: dragRef.current.style.transform,
+      };
+
+      dragRef.current.style.opacity = '0';
+      dragRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(0.1)`;
+      dragRef.current.style.transition = 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.2s';
+
+      setTimeout(() => {
+        minimizeWindow(id);
+        dragRef.current.style.opacity = originalStyle.opacity;
+        dragRef.current.style.transform = originalStyle.transform;
+        dragRef.current.style.transition = originalStyle.transition;
+      }, 300);
+    }
+  }, [id, minimizeWindow, calculateDockPosition]);
+
+  const handleMouseDown = useCallback(() => {
+    setActive(id);
+    if (deviceState.isLaptopAndAbove && !deviceState.isTouchDevice) {
+      setDraggedWindow?.(id);
+    }
+  }, [id, setActive, setDraggedWindow, deviceState]);
+
+  const handleClose = useCallback((e) => {
+    e.stopPropagation();
+    closeWindow(id);
+  }, [id, closeWindow]);
+
+  const handleMaximize = useCallback((e) => {
+    e.stopPropagation();
+    maximizeWindow(id);
+  }, [id, maximizeWindow]);
+
+  const handleMenu = () => setMenu(prev => !prev);
+
   return (
     <section
       ref={dragRef}
@@ -160,6 +192,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
         top: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.top}px`,
         ...(deviceState.isSmallScreen && { width: '100vw', height: '100vh' }),
         left: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.left}px`,
+        transition: minAnimate ? 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s' : '',
       }}
     >
       <div className='window-bar' onMouseDown={handleDragStart}>
