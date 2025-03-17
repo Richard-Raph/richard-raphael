@@ -89,7 +89,7 @@
     overflow-y: auto;
     position: relative;
     scrollbar-width: none;
-    padding: 1rem 1rem 5rem;
+    /* padding: 1rem 1rem 5rem; */
     height: calc(100% - 40px);
 }
 

@@ -9,13 +9,22 @@ export default function Settings({ settings = {}, updateSettings }) {
         <section className='settings-content'>
             <div className='settings-bar'>
                 <div className='settings-profile'>
+                    <figure>
+                        <img src={Profile} alt="Profile" />
+                        <figcaption>Profile.</figcaption>
+                    </figure>
                     <div>
-                        <img src={Profile} alt='Profile' />
+                        <p>Richard Raphael</p>
+                        <span>Software Dev, & Data Enthusiast</span>
                     </div>
                 </div>
                 <div className='settings-icons'>
-                    <img src={GitHub} alt='GitHub' />
-                    <img src={WhatsApp} alt='WhatsApp' />
+                    <a href='https://github.com/Richard-Raph' target='_blank' rel='noopener noreferrer'>
+                        <img src={GitHub} alt='GitHub' />
+                    </a>
+                    <a href='#' target='_blank' rel='noopener noreferrer'>
+                        <img src={WhatsApp} alt='WhatsApp' />
+                    </a>
                 </div>
             </div>
             <form>
