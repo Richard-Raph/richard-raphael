@@ -213,6 +213,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
   }, [id, maximizeWindow, deviceState.isTabletAndAbove]);
 
   const handleDragStart = (e) => {
+    e.preventDefault();
     if (!deviceState.isLaptopAndAbove || isMaximized || deviceState.isTouchDevice) return;
 
     const offsetY = e.clientY - pos.top;
@@ -233,7 +234,6 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
 
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('mousemove', handleMouseMove);
-    e.preventDefault();
   };
 
   const createResizeHandler = (direction) => (e) => {
@@ -303,23 +303,23 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
       }}
     >
       <div className='window-bar' onMouseDown={handleDragStart}>
-        {!deviceState.isSmallScreen ? (
+        {!deviceState.isSmallScreen && (
           <div className='window-dots'>
-            <button className='red' onClick={handleClose} />
-            <button className='yellow' />
+            <button className='red' onClick={handleClose} aria-label='Close Window' />
+            <button className='yellow' aria-label='Minimize Window' />
             <button
+              aria-label='Maximize Window'
               className={name === 'Portfolio Preferences' ? '' : 'green'}
-              onClick={name === 'Portfolio Preferences' ? null : handleMaximize}
+              onClick={name === 'Portfolio Preferences' ? undefined : handleMaximize}
               style={{ pointerEvents: name === 'Portfolio Preferences' ? 'none' : 'auto' }}
             />
           </div>
-        ) : (
-          <div className='window-header'>
-            <h3>{name}</h3>
-            {name === 'Portfolio Preferences' ? null : <TbTableFilled onClick={handleMenu} size={20} />}
-            {menu && <div className='window-menu' />}
-          </div>
         )}
+        <div className='window-header'>
+          <h3>{name}</h3>
+          {name !== 'Portfolio Preferences' && deviceState.isSmallScreen && (<TbTableFilled onClick={handleMenu} size={20} />)}
+          {deviceState.isSmallScreen && menu && (<div className='window-menu' />)}
+        </div>
       </div>
       {content}
       {!deviceState.isSmallScreen && !isMaximized && (
