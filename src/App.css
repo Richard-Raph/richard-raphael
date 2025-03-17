@@ -16,7 +16,7 @@
 }
 
 .loading {
-  cursor: url('./assets/icons/loading.png') 12.5 12.5, wait;
+  cursor: url('./assets/icons/busy.png') 12.5 12.5, wait;
 }
 
 a,

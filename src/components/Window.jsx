@@ -300,7 +300,6 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
         top: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.top}px`,
         ...(deviceState.isSmallScreen && { width: '100vw', height: '100vh' }),
         left: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.left}px`,
-        // ...(deviceState.isSmallScreen ? { width: '100vw', height: '100vh' } : name === 'Portfolio Preferences' ? { width: '60%' } : {}),
       }}
     >
       <div className='window-bar' onMouseDown={handleDragStart}>
