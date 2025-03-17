@@ -7,8 +7,8 @@ import Window from './components/Window';
 import Projects from './windows/Projects';
 import Settings from './windows/Settings';
 import Context from './components/Context';
+import { useState, useEffect } from 'react';
 import Preloader from './components/Preloader';
-import { useMemo, useState, useEffect } from 'react';
 
 const getDeviceState = () => {
   return {

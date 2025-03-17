@@ -64,10 +64,11 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     closeWindow(id);
   }, [closeWindow, id]);
 
-  const handleMinimize = (e) => {
+  const handleMinimize = useCallback((e) => {
     e.stopPropagation();
-    setIsMinimized(true);
-  };
+    setIsMinimized(prev => !prev);
+    minimizeWindow?.(id);
+  }, [id, minimizeWindow]);
 
   const handleMaximize = useCallback((e) => {
     e.stopPropagation();
@@ -158,7 +159,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     <section
       ref={dragRef}
       onMouseDown={handleMouseDown}
-      className={`window ${isActive ? 'active' : ''} ${isMaximized ? 'max' : ''}`}
+      className={`window ${isActive ? 'active' : ''} ${isMinimized ? 'min' : ''} ${isMaximized ? 'max' : ''}`}
       style={{
         width: pos.width ? `${pos.width}px` : undefined,
         height: pos.height ? `${pos.height}px` : undefined,
