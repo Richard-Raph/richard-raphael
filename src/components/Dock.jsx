@@ -35,7 +35,6 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
   const handleIconClick = (id) => {
     if (id === 'Terminal') {
       const pdfUrl = '/RICHARD.pdf';
-      window.open(pdfUrl, '_blank');
       const link = document.createElement('a');
       link.href = pdfUrl;
       link.download = 'RICHARD.pdf';
@@ -45,13 +44,11 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
       return;
     }
 
-    const windowState = windows.find(win => win.id === id);
-    if (windowState) {
-      handleMinimizeRestore(id);
+    if (id === 'Launchpad') {
+      setLaunchpadOpen(prev => !prev);
     } else {
-      id === 'Launchpad'
-        ? setLaunchpadOpen(prev => !prev)
-        : (setLaunchpadOpen(false), openWindow(id));
+      setLaunchpadOpen(false);
+      windows.some(win => win.id === id) ? handleMinimizeRestore(id) : openWindow(id);
     }
   };
 
