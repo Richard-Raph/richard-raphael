@@ -64,6 +64,84 @@ function App() {
     }
   };
 
+  const minimizeWindow = (windowId) => {
+    setWindows(prevWindows =>
+      prevWindows.map(win =>
+        win.id === windowId ? { ...win, isMinimized: !win.isMinimized } : win
+      )
+    );
+  };
+
+  const maximizeWindow = (windowId) => {
+    setWindows(prevWindows =>
+      prevWindows.map(win =>
+        win.id === windowId ? { ...win, isMaximized: !win.isMaximized, isMinimized: false } : win
+      )
+    );
+  };
+
+  const openWindow = (windowName) => {
+    if (deviceState.isSmallScreen) {
+      setWindows((prev) => {
+        const updatedWindow = prev.length ? {
+          ...prev[0],
+          id: windowName,
+          name: windowName,
+          isMinimized: false,
+          content: getWindowContent(windowName),
+        } : {
+          id: windowName,
+          name: windowName,
+          isMinimized: false,
+          content: getWindowContent(windowName),
+        };
+        setActive(updatedWindow.id);
+        return [updatedWindow];
+      });
+      return;
+    }
+
+    const existingWindow = windows.find((win) => win.id === windowName);
+    if (existingWindow) {
+      setActive(existingWindow.id);
+      setWindows(prev => prev.map(win => win.id === windowName ? { ...win, isMinimized: false } : win));
+    } else {
+      const newWindow = {
+        id: windowName,
+        name: windowName,
+        isMinimized: false,
+        isMaximized: false,
+        content: getWindowContent(windowName),
+      };
+      setWindows((prev) => [...prev, newWindow]);
+      setActive(newWindow.id);
+    }
+  };
+
+  const setActive = (windowId) => {
+    setWindowStack((prevStack) =>
+      prevStack.includes(windowId) ? [...prevStack.filter((id) => id !== windowId), windowId] : [...prevStack, windowId]
+    );
+    setActiveWindow(windowId);
+  };
+
+  const closeWindow = (windowId) => {
+    setWindows((prev) => prev.filter((win) => win.id !== windowId));
+    setWindowStack((prevStack) => {
+      const newStack = prevStack.filter((id) => id !== windowId);
+      setActiveWindow(newStack.length > 0 ? newStack[newStack.length - 1] : null);
+      return newStack;
+    });
+  };
+
+  const closeAllWindows = () => {
+    if (windows.length > 0) {
+      setWindows([]);
+      setWindowStack([]);
+      setActiveWindow(null);
+    }
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setDeviceState(getDeviceState());
@@ -112,74 +190,13 @@ function App() {
     };
   }, []);
 
-  const openWindow = (windowName) => {
-    if (deviceState.isSmallScreen) {
-      setWindows((prev) => {
-        const updatedWindow = prev.length
-          ? {
-            ...prev[0],
-            id: windowName,
-            name: windowName,
-            content: getWindowContent(windowName)
-          }
-          : {
-            id: windowName,
-            name: windowName,
-            content: getWindowContent(windowName)
-          };
-
-        setLaunchpadOpen((prev) => !prev);
-        setActive(updatedWindow.id);
-        return [updatedWindow];
-      });
-      return;
-    }
-
-    const existingWindow = windows.find((win) => win.id === windowName);
-    if (existingWindow) {
-      setActive(existingWindow.id);
-    } else {
-      const newWindow = {
-        id: windowName,
-        name: windowName,
-        content: getWindowContent(windowName),
-      };
-      setWindows((prev) => [...prev, newWindow]);
-      setActive(newWindow.id);
-    }
-  };
-
-  const setActive = (windowId) => {
-    setWindowStack((prevStack) =>
-      prevStack.includes(windowId) ? [...prevStack.filter((id) => id !== windowId), windowId] : [...prevStack, windowId]
-    );
-    setActiveWindow(windowId);
-  };
-
-  const closeWindow = (windowId) => {
-    setWindows((prev) => prev.filter((win) => win.id !== windowId));
-    setWindowStack((prevStack) => {
-      const newStack = prevStack.filter((id) => id !== windowId);
-      setActiveWindow(newStack.length > 0 ? newStack[newStack.length - 1] : null);
-      return newStack;
-    });
-  };
-
-  const closeAllWindows = () => {
-    if (windows.length > 0) {
-      setWindows([]);
-      setWindowStack([]);
-      setActiveWindow(null);
-    }
-  };
-
   return (
     <>
       <Layout windows={windows} settings={settings} openWindow={openWindow} activeWindow={activeWindow} updateSettings={updateSettings} isLaunchpadOpen={isLaunchpadOpen} closeAllWindows={closeAllWindows} setLaunchpadOpen={setLaunchpadOpen}>
         {!loadComplete && (<Preloader onComplete={() => setLoadComplete(true)} />)}
         {/* <Preloader onComplete={() => setLoadComplete(true)} /> */}
         {windows.map((window) => (
-          <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} content={getWindowContent(window.id)} isActive={window.id === activeWindow} />
+          <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} minimizeWindow={minimizeWindow} maximizeWindow={maximizeWindow} isActive={window.id === activeWindow} content={getWindowContent(window.id)} />
         ))}
       </Layout>
 

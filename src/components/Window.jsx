@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { TbTableFilled } from 'react-icons/tb';
 import { useState, useRef, useEffect, useCallback } from 'react';
 
-export default function Window({ id, name, content, isActive, setActive, closeWindow, updateContent, minimizeWindow, maximizeWindow, setDraggedWindow }) {
+export default function Window({ id, name, content, isActive, setActive, closeWindow, isMinimized, isMaximized, updateContent, minimizeWindow, maximizeWindow, setDraggedWindow }) {
   const dragRef = useRef(null);
   const [menu, setMenu] = useState(false);
-  const [isMaximized, setIsMaximized] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
   const [deviceState, setDeviceState] = useState(() => ({
     isSmallScreen: window.innerWidth < 600,
     isTabletAndAbove: window.innerWidth >= 600,
@@ -62,21 +60,17 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
   const handleClose = useCallback((e) => {
     e.stopPropagation();
     closeWindow(id);
-  }, [closeWindow, id]);
+  }, [id, closeWindow]);
 
   const handleMinimize = useCallback((e) => {
     e.stopPropagation();
-    setIsMinimized(prev => !prev);
-    minimizeWindow?.(id);
+    minimizeWindow(id);
   }, [id, minimizeWindow]);
 
   const handleMaximize = useCallback((e) => {
     e.stopPropagation();
-    if (deviceState.isTabletAndAbove) {
-      setIsMaximized(prev => !prev);
-      maximizeWindow?.(id);
-    }
-  }, [id, maximizeWindow, deviceState.isTabletAndAbove]);
+    maximizeWindow(id);
+  }, [id, maximizeWindow]);
 
   const handleDragStart = (e) => {
     e.preventDefault();
@@ -205,6 +199,8 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
 }
 
 Window.propTypes = {
+  isMinimized: PropTypes.bool,
+  isMaximized: PropTypes.bool,
   updateContent: PropTypes.func,
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
@@ -212,7 +208,7 @@ Window.propTypes = {
   isActive: PropTypes.bool.isRequired,
   setActive: PropTypes.func.isRequired,
   closeWindow: PropTypes.func.isRequired,
-  maximizeWindow: PropTypes.func.isRequired,
   minimizeWindow: PropTypes.func.isRequired,
+  maximizeWindow: PropTypes.func.isRequired,
   setDraggedWindow: PropTypes.func.isRequired,
 };
