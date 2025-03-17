@@ -169,53 +169,53 @@
     .window-resize.top {
         height: 5px;
         inset: 0 5px auto;
-        cursor: ns-resize;
+        cursor: url('../../assets/icons/ns.png') 12.5 12.5, pointer;
     }
 
     .window-resize.bottom {
         height: 5px;
         inset: auto 5px 0;
-        cursor: ns-resize;
+        cursor: url('../../assets/icons/ns.png') 12.5 12.5, pointer;
     }
 
     .window-resize.left {
         width: 5px;
-        cursor: ew-resize;
         inset: 5px auto 5px 0;
+        cursor: url('../../assets/icons/ew.png') 12.5 12.5, pointer;
     }
 
     .window-resize.right {
         width: 5px;
-        cursor: ew-resize;
         inset: 5px 0 5px auto;
+        cursor: url('../../assets/icons/ew.png') 12.5 12.5, pointer;
     }
 
     .window-resize.top-left {
         width: 10px;
         height: 10px;
-        cursor: nwse-resize;
         inset: 0 auto auto 0;
+        cursor: url('../../assets/icons/nwse.png') 12.5 12.5, pointer;
     }
 
     .window-resize.top-right {
         width: 10px;
         height: 10px;
-        cursor: nesw-resize;
         inset: 0 0 auto auto;
+        cursor: url('../../assets/icons/nesw.png') 12.5 12.5, pointer;
     }
 
     .window-resize.bottom-left {
         width: 10px;
         height: 10px;
-        cursor: nesw-resize;
         inset: auto auto 0 0;
+        cursor: url('../../assets/icons/nesw.png') 12.5 12.5, pointer;
     }
 
     .window-resize.bottom-right {
         width: 10px;
         height: 10px;
-        cursor: nwse-resize;
         inset: auto 0 0 auto;
+        cursor: url('../../assets/icons/nwse.png') 12.5 12.5, pointer;
     }
 
     .window-bar {
