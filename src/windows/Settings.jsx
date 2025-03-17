@@ -1,9 +1,23 @@
 import PropTypes from 'prop-types';
 import '../assets/css/Settings.css';
+import GitHub from '../assets/icons/github.webp';
+import Profile from '../assets/images/doodle.webp';
+import WhatsApp from '../assets/icons/whatsapp.webp';
 
 export default function Settings({ settings = {}, updateSettings }) {
     return (
-        <section className='window-content'>
+        <section className='settings-content'>
+            <div className='settings-bar'>
+                <div className='settings-profile'>
+                    <div>
+                        <img src={Profile} alt='Profile' />
+                    </div>
+                </div>
+                <div className='settings-icons'>
+                    <img src={GitHub} alt='GitHub' />
+                    <img src={WhatsApp} alt='WhatsApp' />
+                </div>
+            </div>
             <form>
                 <fieldset>
                     <p>Desktop and Screensaver:</p>

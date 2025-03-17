@@ -321,6 +321,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
           </div>
         )}
       </div>
+      {content}
       {!deviceState.isSmallScreen && !isMaximized && (
         <>
           <div className='window-resize top' onMouseDown={createResizeHandler('top')} />
@@ -333,7 +334,6 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
           <div className='window-resize bottom-right' onMouseDown={createResizeHandler('bottom-right')} />
         </>
       )}
-      {content}
     </section>
   );
 }

@@ -56,7 +56,7 @@
   width: 100%;
   height: 100%;
   user-select: none;
-  cursor: url('../images/pointer.png') 12.5 12.5, pointer;
+  cursor: url('../icons/pointer.png') 12.5 12.5, pointer;
 }
 
 .icon:hover .tooltip,

@@ -63,7 +63,7 @@
     }
     
     .menu-bar .stats * {
-        cursor: url('../images/pointer.png') 12.5 12.5, pointer;
+        cursor: url('../icons/pointer.png') 12.5 12.5, pointer;
     }
 
     .menu-bar .stats div span {

@@ -2,13 +2,13 @@ import '../assets/css/Dock.css';
 import PropTypes from 'prop-types';
 import Launchpad from './Launchpad';
 import React, { useState } from 'react';
-import blog from '../assets/images/blog.webp';
-import about from '../assets/images/about.webp';
-import project from '../assets/images/project.webp';
-import contact from '../assets/images/contact.webp';
-import terminal from '../assets/images/terminal.webp';
-import settings from '../assets/images/settings.webp';
-import launchpad from '../assets/images/launchpad.webp';
+import blog from '../assets/icons/blog.webp';
+import about from '../assets/icons/about.webp';
+import project from '../assets/icons/project.webp';
+import contact from '../assets/icons/contact.webp';
+import terminal from '../assets/icons/terminal.webp';
+import settings from '../assets/icons/settings.webp';
+import launchpad from '../assets/icons/launchpad.webp';
 
 const icons = [
   { id: 'About', imgSrc: about, tooltip: 'About Me' },

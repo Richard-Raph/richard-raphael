@@ -17,7 +17,7 @@
     padding: 8px 14px;
     white-space: nowrap;
     transition: background 0.2s;
-    cursor: url('../images/pointer.png') 12.5 12.5, pointer;
+    cursor: url('../icons/pointer.png') 12.5 12.5, pointer;
 }
 
 .custom-menu li:hover {
