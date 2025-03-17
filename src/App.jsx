@@ -65,11 +65,12 @@ function App() {
   };
 
   const minimizeWindow = (windowId) => {
-    setWindows(prevWindows =>
-      prevWindows.map(win =>
-        win.id === windowId ? { ...win, isMinimized: !win.isMinimized } : win
-      )
-    );
+    setWindows(prevWindows => prevWindows.map(win => win.id === windowId ? { ...win, isMinimized: !win.isMinimized } : win));
+    setWindowStack((prevStack) => {
+      const newStack = prevStack.filter((id) => id !== windowId);
+      setActiveWindow(newStack.length > 0 ? newStack[newStack.length - 1] : null);
+      return newStack;
+    });
   };
 
   const maximizeWindow = (windowId) => {
