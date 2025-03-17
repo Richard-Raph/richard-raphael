@@ -3,23 +3,23 @@ import Dock from './Dock';
 import '../assets/css/Layout.css';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import bgD from '../assets/images/darkBg.webp';
-import bgL from '../assets/images/lightBg.webp';
+import day from '../assets/images/day.webp';
+import night from '../assets/images/night.webp';
 
 export default function Layout({ children, settings, openWindow, windows = [], updateSettings, closeAllWindows, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
-    const [background, setBackground] = useState(bgD);
+    const [background, setBackground] = useState(night);
 
     useEffect(() => {
         if (settings.dynamicWallpaper) {
             const updateBackground = () => {
                 const hour = new Date().getHours();
-                setBackground(hour >= 18 || hour < 7 ? bgD : bgL);
+                setBackground(hour >= 18 || hour < 7 ? night : day);
             };
 
             updateBackground();
             const interval = setInterval(updateBackground, 60000);
             return () => clearInterval(interval);
-        } else { setBackground(bgD); }
+        } else { setBackground(night); }
     }, [settings.dynamicWallpaper]);
 
     return (
