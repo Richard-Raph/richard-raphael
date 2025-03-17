@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { TbTableFilled } from 'react-icons/tb';
 import { useState, useRef, useEffect, useCallback } from 'react';
 
-export default function Window({ id, name, content, isActive, setActive, closeWindow, updateContent, maximizeWindow, setDraggedWindow }) {
+export default function Window({ id, name, content, isActive, setActive, closeWindow, updateContent, minimizeWindow, maximizeWindow, setDraggedWindow }) {
   const dragRef = useRef(null);
   const [menu, setMenu] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   const [deviceState, setDeviceState] = useState(() => ({
     isSmallScreen: window.innerWidth < 600,
     isTabletAndAbove: window.innerWidth >= 600,
@@ -51,17 +52,22 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
 
   const handleMenu = () => setMenu(prev => !prev);
 
-  const handleClose = useCallback((e) => {
-    e.stopPropagation();
-    closeWindow(id);
-  }, [closeWindow, id]);
-
   const handleMouseDown = useCallback(() => {
     setActive(id);
     if (deviceState.isLaptopAndAbove && !deviceState.isTouchDevice) {
       setDraggedWindow?.(id);
     }
   }, [id, setActive, setDraggedWindow, deviceState]);
+
+  const handleClose = useCallback((e) => {
+    e.stopPropagation();
+    closeWindow(id);
+  }, [closeWindow, id]);
+
+  const handleMinimize = (e) => {
+    e.stopPropagation();
+    setIsMinimized(true);
+  };
 
   const handleMaximize = useCallback((e) => {
     e.stopPropagation();
@@ -165,7 +171,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
         {!deviceState.isSmallScreen && (
           <div className='window-dots'>
             <button className='red' onClick={handleClose} aria-label='Close Window' />
-            <button className='yellow' aria-label='Minimize Window' />
+            <button className='yellow' onClick={handleMinimize} aria-label='Minimize Window' />
             <button
               aria-label='Maximize Window'
               className={name === 'Portfolio Preferences' ? '' : 'green'}
@@ -206,5 +212,6 @@ Window.propTypes = {
   setActive: PropTypes.func.isRequired,
   closeWindow: PropTypes.func.isRequired,
   maximizeWindow: PropTypes.func.isRequired,
+  minimizeWindow: PropTypes.func.isRequired,
   setDraggedWindow: PropTypes.func.isRequired,
 };
