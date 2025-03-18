@@ -4,61 +4,53 @@
     position: fixed;
     min-width: 220px;
     border-radius: 12px;
-    transform-origin: top left;
     backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.95);
     animation: menuAppear 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.context-menu>span {
+    height: 1px;
+    margin: 5px 0;
+    display: block;
+    background: rgba(0, 0, 0, 0.08);
 }
 
 .context-menu .menu-section {
     padding: 4px 0;
 }
 
-.context-menu>span {
-    height: 1px;
-    margin: 6px 0;
-    display: block;
-    background: rgba(0, 0, 0, 0.08);
-}
-
 .menu-section .menu-item {
-    gap: 12px;
+    gap: 15px;
     display: flex;
-    font-size: 13px;
     color: #1f1f1f;
     padding: 8px 16px;
+    font-size: 0.8rem;
     align-items: center;
-    transition: all 0.15s;
-    cursor: url('../../assets/icons/pointer.png') 12.5 12.5, pointer;
+    transition: background 0.15s;
 }
 
 .menu-section .menu-item:hover {
     background: rgba(0, 122, 255, 0.08);
 }
 
-.menu-section .menu-item:active {
-    background: rgba(0, 122, 255, 0.15);
-}
-
-.menu-section .menu-item span {
-    flex-grow: 1;
-    font-weight: 500;
-    margin-left: 10px;
-    letter-spacing: -0.1px;
-    cursor: url('../../assets/icons/pointer.png') 12.5 12.5, pointer;
+.menu-section .menu-item svg {
+    width: 20px;
+    height: 20px;
+    color: rgba(0, 0, 0, 0.8);
 }
 
 @keyframes menuAppear {
     0% {
         opacity: 0;
-        transform: scale(0.96);
+        transform: translateY(-5px);
     }
 
     100% {
         opacity: 1;
-        transform: scale(1);
+        transform: translateY(0);
     }
 }
 
