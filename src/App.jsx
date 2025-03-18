@@ -40,7 +40,7 @@ function App() {
     showSeconds: getInitialSettings().showSeconds ?? true,
     timeFormat: getInitialSettings().timeFormat ?? '12-hour',
     dynamicWallpaper: getInitialSettings().dynamicWallpaper ?? true,
-    dateFormat: getInitialSettings().dateFormat ?? 'Day, Month DD, YYYY',
+    dateFormat: getInitialSettings().dateFormat ?? 'Day, Month DD',
     showBatteryPercentage: getInitialSettings().showBatteryPercentage ?? true,
   }));
 

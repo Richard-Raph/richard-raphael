@@ -6,107 +6,116 @@ import WhatsApp from '../assets/icons/whatsapp.webp';
 
 export default function Settings({ settings = {}, updateSettings }) {
     return (
-        <section className='settings-content'>
-            <div className='settings-bar'>
-                <div className='settings-profile'>
-                    <figure>
-                        <img src={Profile} alt="Profile" />
-                        <figcaption>Profile.</figcaption>
-                    </figure>
-                    <div>
-                        <p>Richard Raphael</p>
-                        <span>Software Dev, & Data Enthusiast</span>
+        <section className='macos-settings dark'>
+            <div className='settings-sidebar'>
+                <div className='profile-section'>
+                    <img src={Profile} alt='Profile' className='profile-image' />
+                    <div className='profile-info'>
+                        <h3>Richard Raphael</h3>
+                        <p>Software Developer & Data Enthusiast</p>
                     </div>
                 </div>
-                <div className='settings-icons'>
-                    <a href='https://github.com/Richard-Raph' target='_blank' rel='noopener noreferrer'>
+                <div className='social-links'>
+                    <a href='https://github.com/Richard-Raph' target='_blank' rel='noopener noreferrer' className='social-icon'>
                         <img src={GitHub} alt='GitHub' />
+                        <span>GitHub</span>
                     </a>
-                    <a href='#' target='_blank' rel='noopener noreferrer'>
+                    <a href='#' target='_blank' rel='noopener noreferrer' className='social-icon'>
                         <img src={WhatsApp} alt='WhatsApp' />
+                        <span>WhatsApp</span>
                     </a>
                 </div>
             </div>
-            <form>
-                <fieldset>
-                    <p>Desktop and Screensaver:</p>
-                    <div>
-                        <label>
+
+            <div className='settings-main'>
+                <div className='settings-group'>
+                    <h2 className='group-title'>Appearance</h2>
+                    <div className='setting-item'>
+                        <label className='macos-toggle'>
                             <input
                                 type='checkbox'
-                                checked={Boolean(settings.dynamicWallpaper)}
+                                checked={settings.dynamicWallpaper}
                                 onChange={(e) => updateSettings('dynamicWallpaper', e.target.checked)}
                             />
-                            Dynamic Wallpaper
+                            <span className='toggle-slider'></span>
+                            <span className='setting-label'>Dynamic Wallpaper</span>
                         </label>
-                        <span>Wallpaper changes between day and night mode automatically.</span>
+                        <p className='setting-description'>Automatically switch between day and night themes</p>
                     </div>
-                </fieldset>
+                </div>
 
-                <fieldset>
-                    <p>Battery:</p>
-                    <div>
-                        <label>
+                <div className='settings-group'>
+                    <h2 className='group-title'>Status Bar</h2>
+                    <div className='setting-item'>
+                        <label className='macos-toggle'>
                             <input
                                 type='checkbox'
-                                checked={Boolean(!!settings.showBatteryPercentage)}
+                                checked={settings.showBatteryPercentage}
                                 onChange={(e) => updateSettings('showBatteryPercentage', e.target.checked)}
                             />
-                            Show battery percentage
+                            <span className='toggle-slider'></span>
+                            <span className='setting-label'>Show Battery Percentage</span>
                         </label>
-                        <span>Remaining battery percentage will be displayed.</span>
                     </div>
-                </fieldset>
+                </div>
 
-                <fieldset>
-                    <p>Time:</p>
-                    <div>
-                        <label>
+                <div className='settings-group'>
+                    <h2 className='group-title'>Time</h2>
+                    <div className='setting-item'>
+                        <label className='macos-toggle'>
                             <input
                                 type='checkbox'
-                                checked={Boolean(!!settings.showSeconds)}
+                                checked={settings.showSeconds}
                                 onChange={(e) => updateSettings('showSeconds', e.target.checked)}
                             />
-                            Show seconds
+                            <span className='toggle-slider'></span>
+                            <span className='setting-label'>Show Seconds</span>
                         </label>
-                        <label>
-                            <input
-                                type='radio'
-                                value='12-hour'
-                                name='timeFormat'
-                                checked={settings.timeFormat === '12-hour'}
-                                onChange={(e) => updateSettings('timeFormat', e.target.value)}
-                            />
-                            12-Hour format
-                        </label>
-                        <label>
-                            <input
-                                type='radio'
-                                value='24-hour'
-                                name='timeFormat'
-                                checked={settings.timeFormat === '24-hour'}
-                                onChange={(e) => updateSettings('timeFormat', e.target.value)}
-                            />
-                            24-Hour format
-                        </label>
-                        <span>Show seconds & choose between 12-hour or 24-hour format.</span>
                     </div>
-                </fieldset>
+                    <div className='time-format'>
+                        <div className='radio-group'>
+                            <label className='macos-radio'>
+                                <input
+                                    type='radio'
+                                    name='timeFormat'
+                                    value='12-hour'
+                                    checked={settings.timeFormat === '12-hour'}
+                                    onChange={(e) => updateSettings('timeFormat', e.target.value)}
+                                />
+                                <span className='radio-check'></span>
+                                12-Hour Format
+                            </label>
+                            <label className='macos-radio'>
+                                <input
+                                    type='radio'
+                                    name='timeFormat'
+                                    value='24-hour'
+                                    checked={settings.timeFormat === '24-hour'}
+                                    onChange={(e) => updateSettings('timeFormat', e.target.value)}
+                                />
+                                <span className='radio-check'></span>
+                                24-Hour Format
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
-                <fieldset>
-                    <p>Date:</p>
-                    <div>
-                        <label>
+                <div className='settings-group'>
+                    <h2 className='group-title'>Date</h2>
+                    <div className='setting-item'>
+                        <label className='macos-toggle'>
                             <input
                                 type='checkbox'
-                                checked={Boolean(!!settings.showDate)}
+                                checked={settings.showDate}
                                 onChange={(e) => updateSettings('showDate', e.target.checked)}
                             />
-                            Show Date
+                            <span className='toggle-slider'></span>
+                            <span className='setting-label'>Show Date</span>
                         </label>
-
-                        {["Day, Month DD, YYYY", "DD/MM/YYYY", "MM/DD/YYYY", "YYYY/MM/DD"].map((format) => (
-                            <label key={format}>
+                    </div>
+                    <div className='date-format'>
+                        {['Day, Month DD', 'DD/MM/YYYY', 'MM/DD/YYYY', 'YYYY/MM/DD'].map((format) => (
+                            <label className='macos-radio' key={format}>
                                 <input
                                     type='radio'
                                     value={format}
@@ -115,13 +124,13 @@ export default function Settings({ settings = {}, updateSettings }) {
                                     checked={settings.dateFormat === format}
                                     onChange={(e) => updateSettings('dateFormat', e.target.value)}
                                 />
+                                <span className='radio-check'></span>
                                 {format}
                             </label>
                         ))}
-                        <span>Show date & select your preferred date format.</span>
                     </div>
-                </fieldset>
-            </form>
+                </div>
+            </div>
         </section>
     );
 }

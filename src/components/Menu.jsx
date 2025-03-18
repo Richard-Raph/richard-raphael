@@ -25,8 +25,8 @@ const formatDateTime = (settings) => {
     case 'YYYY/MM/DD':
       date = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`;
       break;
-    case 'Day, Month DD, YYYY':
-      date = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    case 'Day, Month DD':
+      date = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).replace(/,/g, '');
       break;
     default:
       date = now.toLocaleDateString('en-US');
@@ -34,7 +34,7 @@ const formatDateTime = (settings) => {
 
   const time = now.toLocaleTimeString('en-US', timeOptions);
 
-  return settings.showDate ? `${date}, ${time}` : time;
+  return { date, time };
 };
 
 const useBatteryStatus = () => {
@@ -129,7 +129,8 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
           {isOnline ? <TbWifi size={18} /> : <TbWifiOff size={18} />}
           {isBluetoothOn ? <TbBluetooth size={18} /> : <TbBluetoothX size={18} />}
         </span>
-        <time>{dateTime}</time>
+        {settings.showDate && <time>{dateTime.date}</time>}
+        <time>{dateTime.time}</time>
       </div>
     </header>
   );
