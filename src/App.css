@@ -33,7 +33,7 @@ body {
   line-height: 1.2;
   position: relative;
   color: rgba(255, 255, 255, 0.87);
-  font: 400 1vw 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font: 400 1vw -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell;
 }
 
 main,

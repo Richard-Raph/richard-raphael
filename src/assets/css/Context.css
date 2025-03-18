@@ -1,26 +1,74 @@
-.custom-menu {
+.context-menu {
     z-index: 9999;
-    color: #fff;
-    padding: 5px 0;
+    padding: 8px 0;
     position: fixed;
-    font-size: 14px;
-    min-width: 160px;
-    font-weight: 400;
-    border-radius: 5px;
-    pointer-events: auto;
-    background: rgba(30, 30, 31, 0.75);
-    backdrop-filter: blur(10px) saturate(1.5) brightness(1.2);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25), 0 0 10px rgba(0, 0, 0, 0.1);
+    min-width: 220px;
+    border-radius: 9px;
+    transform-origin: top left;
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: menuAppear 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-.custom-menu li {
+.context-menu .menu-section {
+    padding: 4px 0;
+}
+
+.context-menu>span {
+    height: 1px;
+    margin: 4px 0;
+    display: block;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.menu-section .menu-item {
+    display: flex;
+    color: #1a1a1a;
+    font-size: 0.8rem;
     padding: 8px 14px;
-    white-space: nowrap;
-    transition: background 0.2s;
-    cursor: url('../icons/pointer.png') 12.5 12.5, pointer;
+    position: relative;
+    align-items: center;
+    transition: background 0.15s;
+    cursor: url('../../assets/icons/pointer.png') 12.5 12.5, pointer;
 }
 
-.custom-menu li:hover {
-    background-color: #006AFF;
-    color: rgba(255, 255, 255, 0.9);
+.menu-section .menu-item:hover {
+    background: rgba(0, 122, 255, 0.12);
+}
+
+.menu-section .menu-item:active {
+    background: rgba(0, 122, 255, 0.2);
+}
+
+.menu-section .menu-item span {
+    flex-grow: 1;
+    font-weight: 500;
+    margin-left: 10px;
+    letter-spacing: -0.1px;
+    cursor: url('../../assets/icons/pointer.png') 12.5 12.5, pointer;
+}
+
+@keyframes menuAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (pointer: coarse) {
+    .context-menu {
+        padding: 12px 0;
+        min-width: 240px;
+    }
+
+    .menu-section .menu-item {
+        padding: 10px 20px;
+    }
 }
