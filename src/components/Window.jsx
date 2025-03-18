@@ -58,7 +58,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     const startHeight = pos.height;
 
     const handleMouseMove = (e) => {
-      const minSize = 350;
+      const minSize = 250;
       const newPos = { ...pos };
       const deltaX = e.clientX - startX;
       const deltaY = e.clientY - startY;
@@ -199,9 +199,9 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
             <button className='yellow' onClick={handleMinimize} aria-label='Minimize Window' />
             <button
               aria-label='Maximize Window'
-              className={name === 'Portfolio Preferences' ? '' : 'green'}
-              onClick={name === 'Portfolio Preferences' ? undefined : handleMaximize}
-              style={{ pointerEvents: name === 'Portfolio Preferences' ? 'none' : 'auto' }}
+              className={name === 'Preferences' ? '' : 'green'}
+              onClick={name === 'Preferences' ? undefined : handleMaximize}
+              style={{ pointerEvents: name === 'Preferences' ? 'none' : 'auto' }}
             />
           </div>
         )}

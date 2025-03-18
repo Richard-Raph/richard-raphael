@@ -17,7 +17,7 @@ const icons = [
   { id: 'Contact', imgSrc: contact, tooltip: 'Talk to me' },
   { id: 'Terminal', imgSrc: terminal, tooltip: 'Hire me!' },
   { id: 'Launchpad', imgSrc: launchpad, tooltip: 'Launchpad' },
-  { id: 'Portfolio Preferences', imgSrc: settings, tooltip: 'Preferences' },
+  { id: 'Preferences', imgSrc: settings, tooltip: 'Portfolio Preferences' },
 ];
 
 export default function DockBar({ windows, openWindow, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
@@ -61,7 +61,7 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
             .toSorted((a, b) => (a.id === 'Launchpad' ? -1 : b.id === 'Launchpad' ? 1 : 0))
             .map(({ id, imgSrc, tooltip }) => (
               <React.Fragment key={id}>
-                {id === 'Portfolio Preferences' && <span className='separator' />}
+                {id === 'Preferences' && <span className='separator' />}
                 <li
                   data-window-id={id}
                   onClick={() => handleIconClick(id)}

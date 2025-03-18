@@ -39,8 +39,8 @@ function App() {
     showDate: getInitialSettings().showDate ?? true,
     showSeconds: getInitialSettings().showSeconds ?? true,
     timeFormat: getInitialSettings().timeFormat ?? '12-hour',
-    dynamicWallpaper: getInitialSettings().dynamicWallpaper ?? true,
     dateFormat: getInitialSettings().dateFormat ?? 'Day, Month DD',
+    dynamicWallpaper: getInitialSettings().dynamicWallpaper ?? true,
     showBatteryPercentage: getInitialSettings().showBatteryPercentage ?? true,
   }));
 
@@ -59,7 +59,7 @@ function App() {
       case 'About': return <About />;
       case 'Contact': return <Contact />;
       case 'Projects': return <Projects />;
-      case 'Portfolio Preferences': return <Settings settings={settings} updateSettings={updateSettings} />;
+      case 'Preferences': return <Settings settings={settings} updateSettings={updateSettings} />;
       default: return <div>Unknown Window</div>;
     }
   };

@@ -198,8 +198,8 @@
         display: flex;
         width: max-content;
         position: relative;
+        padding-left: 1rem;
         align-items: center;
-        padding-left: 1.5rem;
     }
 
     .window-dots button {
