@@ -1,6 +1,5 @@
 import '../assets/css/Window.css';
 import PropTypes from 'prop-types';
-import { TbTableFilled } from 'react-icons/tb';
 import { useState, useRef, useEffect, useCallback } from 'react';
 
 export default function Window({ id, name, content, isActive, setActive, closeWindow, isMinimized, isMaximized, updateContent, minimizeWindow, maximizeWindow, setDraggedWindow }) {
@@ -59,7 +58,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     const startHeight = pos.height;
 
     const handleMouseMove = (e) => {
-      const minSize = 100;
+      const minSize = 350;
       const newPos = { ...pos };
       const deltaX = e.clientX - startX;
       const deltaY = e.clientY - startY;
@@ -179,8 +178,6 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     maximizeWindow(id);
   }, [id, maximizeWindow]);
 
-  const handleMenu = () => setMenu(prev => !prev);
-
   return (
     <section
       ref={dragRef}
@@ -208,13 +205,12 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
             />
           </div>
         )}
-        <div className='window-header'>
-          <h3>{name}</h3>
-          {name !== 'Portfolio Preferences' && deviceState.isSmallScreen && (<TbTableFilled onClick={handleMenu} size={20} />)}
-          {deviceState.isSmallScreen && menu && (<div className='window-menu' />)}
-        </div>
+        <h3>{name}</h3>
       </div>
-      {content}
+      <section>
+        <aside></aside>
+        <div className='window-main'>{content}</div>
+      </section>
       {!deviceState.isSmallScreen && !isMaximized && (
         <>
           <div className='window-resize top' onMouseDown={createResizeHandler('top')} />
