@@ -35,9 +35,10 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
   const handleIconClick = (id) => {
     if (id === 'Terminal') {
       const pdfUrl = '/RICHARD.pdf';
+      window.open(pdfUrl, '_blank');
       const link = document.createElement('a');
       link.href = pdfUrl;
-      link.download = 'RICHARD.pdf';
+      link.download = 'Richard_Raphael.pdf';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

@@ -1,24 +1,13 @@
 import PropTypes from 'prop-types';
 import '../assets/css/Context.css';
-import {
-    FiSun,
-    FiBook,
-    FiCopy,
-    FiMail,
-    FiMoon,
-    FiFolder,
-    FiGithub,
-    FiFileText,
-    FiLinkedin,
-    FiRefreshCcw,
-} from 'react-icons/fi';
+import { FiSun, FiBook, FiCopy, FiMail, FiMoon, FiFolder, FiGithub, FiFileText, FiLinkedin, FiRefreshCcw } from 'react-icons/fi';
 
 export default function Context({ x, y, settings, openWindow, updateSettings }) {
     const handleResumeDownload = () => {
         const pdfUrl = '/RICHARD.pdf';
         const link = document.createElement('a');
         link.href = pdfUrl;
-        link.download = 'Richard_Raphael_Resume.pdf';
+        link.download = 'Richard_Raphael.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -26,7 +15,6 @@ export default function Context({ x, y, settings, openWindow, updateSettings }) 
 
     return (
         <div className='context-menu' style={{ top: `${y}px`, left: `${x}px` }}>
-            {/* Main Section */}
             <div className='menu-section'>
                 <div className='menu-item' onClick={() => window.location.reload()}>
                     <FiRefreshCcw size={20} color='rgba(0, 0, 0, 0.8)' />
@@ -40,7 +28,6 @@ export default function Context({ x, y, settings, openWindow, updateSettings }) 
 
             <span />
 
-            {/* Portfolio Options */}
             <div className='menu-section'>
                 <div className='menu-item' onClick={() => openWindow('Blog')}>
                     <FiBook size={20} color='rgba(0, 0, 0, 0.8)' />
@@ -58,7 +45,6 @@ export default function Context({ x, y, settings, openWindow, updateSettings }) 
 
             <span />
 
-            {/* Social & Contact */}
             <div className='menu-section'>
                 <div className='menu-item' onClick={() => navigator.clipboard.writeText(window.location.href)}>
                     <FiCopy size={20} color='rgba(0, 0, 0, 0.8)' />
