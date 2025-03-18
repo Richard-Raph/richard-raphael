@@ -201,7 +201,7 @@ function App() {
         ))}
       </Layout>
 
-      {contextMenu && <Context x={contextMenu.x} y={contextMenu.y} />}
+      {contextMenu && <Context x={contextMenu.x} y={contextMenu.y} settings={settings} openWindow={openWindow} updateSettings={updateSettings} />}
     </>
   );
 }

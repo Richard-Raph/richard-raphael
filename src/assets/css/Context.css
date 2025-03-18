@@ -3,11 +3,11 @@
     padding: 8px 0;
     position: fixed;
     min-width: 220px;
-    border-radius: 9px;
+    border-radius: 12px;
     transform-origin: top left;
     backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     animation: menuAppear 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1);
 }
@@ -18,28 +18,28 @@
 
 .context-menu>span {
     height: 1px;
-    margin: 4px 0;
+    margin: 6px 0;
     display: block;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.08);
 }
 
 .menu-section .menu-item {
+    gap: 12px;
     display: flex;
-    color: #1a1a1a;
-    font-size: 0.8rem;
-    padding: 8px 14px;
-    position: relative;
+    font-size: 13px;
+    color: #1f1f1f;
+    padding: 8px 16px;
     align-items: center;
-    transition: background 0.15s;
+    transition: all 0.15s;
     cursor: url('../../assets/icons/pointer.png') 12.5 12.5, pointer;
 }
 
 .menu-section .menu-item:hover {
-    background: rgba(0, 122, 255, 0.12);
+    background: rgba(0, 122, 255, 0.08);
 }
 
 .menu-section .menu-item:active {
-    background: rgba(0, 122, 255, 0.2);
+    background: rgba(0, 122, 255, 0.15);
 }
 
 .menu-section .menu-item span {
