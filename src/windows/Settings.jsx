@@ -89,7 +89,7 @@ export default function Settings({ settings = {}, updateSettings }) {
                             />
                             24-Hour format
                         </label>
-                        <span>Show seconds along with hours and minutes.<br />Choose between 12-hour or 24-hour format.</span>
+                        <span>Show seconds & choose between 12-hour or 24-hour format.</span>
                     </div>
                 </fieldset>
 
@@ -118,7 +118,7 @@ export default function Settings({ settings = {}, updateSettings }) {
                                 {format}
                             </label>
                         ))}
-                        <span>Show date.<br />Select your preferred date format.</span>
+                        <span>Show date & select your preferred date format.</span>
                     </div>
                 </fieldset>
             </form>

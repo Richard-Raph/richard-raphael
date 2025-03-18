@@ -14,23 +14,20 @@ export default function Context({ x, y, settings, openWindow, updateSettings }) 
         let adjustedX = x;
         let adjustedY = y;
 
-        // Horizontal adjustment
         if (x + width > window.innerWidth - margin) {
             adjustedX = window.innerWidth - width - margin;
         } else if (x < margin) {
             adjustedX = margin;
         }
 
-        // Vertical adjustment
         if (y + height > window.innerHeight - margin) {
             adjustedY = window.innerHeight - height - margin;
         } else if (y < margin) {
             adjustedY = margin;
         }
 
-        // Apply final position
-        menuRef.current.style.left = `${adjustedX}px`;
         menuRef.current.style.top = `${adjustedY}px`;
+        menuRef.current.style.left = `${adjustedX}px`;
     }, [x, y]);
 
     const handleResumeDownload = () => {
