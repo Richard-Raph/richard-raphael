@@ -112,8 +112,8 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     const handleMouseMove = ({ clientY, clientX }) => {
       setPos(prev => ({
         ...prev,
-        left: Math.min(Math.max(0, clientX - offsetX), window.innerWidth - prev.width),
-        top: Math.min(Math.max(0, clientY - offsetY), window.innerHeight - prev.height),
+        left: Math.min(Math.max(0, clientX - offsetX), window.innerWidth - prev.width * 0.5),
+        top: Math.min(Math.max(0, clientY - offsetY), window.innerHeight - prev.height * 0.5)
       }));
     };
 
