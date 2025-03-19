@@ -137,7 +137,7 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
 }
 
 MenuBar.propTypes = {
-  activeWindow: PropTypes.number,
+  activeWindow: PropTypes.string,
   windows: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

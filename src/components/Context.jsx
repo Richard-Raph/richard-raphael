@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useRef, useLayoutEffect } from 'react';
 import { FiSun, FiBook, FiCopy, FiMail, FiMoon, FiFolder, FiGithub, FiFileText, FiLinkedin, FiRefreshCcw } from 'react-icons/fi';
 
-export default function Context({ x, y, settings, openWindow, updateSettings }) {
+export default function Context({ x, y, settings, openWindow, updateSettings, setLaunchpadOpen }) {
     const menuRef = useRef(null);
     const margin = 10;
 
@@ -39,6 +39,11 @@ export default function Context({ x, y, settings, openWindow, updateSettings }) 
         document.body.removeChild(link);
     };
 
+    const handleOpenWindow = (windowName) => {
+        setLaunchpadOpen(false);
+        openWindow(windowName);
+    };
+
     return (
         <div ref={menuRef} className='context-menu'>
             <div className='menu-section'>
@@ -49,8 +54,8 @@ export default function Context({ x, y, settings, openWindow, updateSettings }) 
             <span />
 
             <div className='menu-section'>
-                <MenuItem icon={<FiBook />} label='Open Blog' action={() => openWindow('Blog')} />
-                <MenuItem icon={<FiFolder />} label='Open Projects' action={() => openWindow('Projects')} />
+                <MenuItem icon={<FiBook />} label='Open Blog' action={() => handleOpenWindow('Blog')} />
+                <MenuItem icon={<FiFolder />} label='Open Projects' action={() => handleOpenWindow('Projects')} />
                 <MenuItem icon={<FiFileText />} label='Download Resume' action={handleResumeDownload} />
             </div>
 
@@ -83,4 +88,5 @@ Context.propTypes = {
     settings: PropTypes.object.isRequired,
     openWindow: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
+    setLaunchpadOpen: PropTypes.func.isRequired,
 };

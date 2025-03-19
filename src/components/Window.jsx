@@ -1,6 +1,9 @@
 import '../assets/css/Window.css';
 import PropTypes from 'prop-types';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
+
+export const AsideContent = ({ children }) => <>{children}</>;
+export const Content = ({ children }) => <>{children}</>;
 
 export default function Window({ id, name, content, isActive, setActive, closeWindow, isMinimized, isMaximized, asideContent, updateContent, minimizeWindow, maximizeWindow, setDraggedWindow }) {
   const dragRef = useRef(null);
@@ -165,7 +168,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
   };
 
   const calculateDockPosition = useCallback(() => {
-    const dockIcon = document.querySelector(`[data-window-id="${id}"]`);
+    const dockIcon = document.querySelector(`[data-window-id='${id}']`);
     if (!dockIcon || !dragRef.current) return;
 
     const dockRect = dockIcon.getBoundingClientRect();
@@ -247,17 +250,21 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
         <h3>{name}</h3>
       </div>
       <section className={`${name.toLowerCase()}-content`}>
-        <aside
-          onMouseDown={handleAsideResizeStart}
-          className={`window-aside ${isAsideCollapsed ? 'collapsed' : ''}`}
-          style={{
-            width: asideWidth,
-            cursor: isResizingAside ? 'grabbing' : 'ew-resize'
-          }}
-        >
-          {!isAsideCollapsed && asideContent}
-          <div className="aside-resize" />
-        </aside>
+        {asideContent && (
+          <aside
+            onMouseDown={handleAsideResizeStart}
+            className={`window-aside ${isAsideCollapsed ? 'collapsed' : ''}`}
+            style={{
+              width: asideWidth,
+              cursor: isResizingAside ? 'grabbing' : 'ew-resize'
+            }}
+          >
+            <div className='aside-wrapper'>
+              {!isAsideCollapsed && asideContent}
+            </div>
+            <div className='aside-resize' />
+          </aside>
+        )}
         <div className='window-main'>{content}</div>
       </section>
       {!deviceState.isSmallScreen && !isMaximized && (
@@ -281,7 +288,7 @@ Window.propTypes = {
   isMaximized: PropTypes.bool,
   asideContent: PropTypes.node,
   updateContent: PropTypes.func,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   content: PropTypes.node.isRequired,
   isActive: PropTypes.bool.isRequired,

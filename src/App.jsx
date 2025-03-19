@@ -7,8 +7,9 @@ import Window from './components/Window';
 import Projects from './windows/Projects';
 import Settings from './windows/Settings';
 import Context from './components/Context';
-import { useState, useEffect } from 'react';
 import Preloader from './components/Preloader';
+import React, { useState, useEffect } from 'react';
+import { AsideContent, Content } from './components/Window';
 
 const getDeviceState = () => {
   return {
@@ -54,14 +55,31 @@ function App() {
   };
 
   const getWindowContent = (windowName) => {
-    switch (windowName) {
-      case 'Blog': return <Blog />;
-      case 'About': return <About />;
-      case 'Contact': return <Contact />;
-      case 'Projects': return <Projects />;
-      case 'Preferences': return <Settings settings={settings} updateSettings={updateSettings} />;
-      default: return <div>Unknown Window</div>;
-    }
+    const content = (() => {
+      switch (windowName) {
+        case 'Blog': return <Blog />;
+        case 'About': return <About />;
+        case 'Contact': return <Contact />;
+        case 'Projects': return <Projects />;
+        case 'Preferences': return <Settings settings={settings} updateSettings={updateSettings} />;
+        default: return <div>Unknown Window</div>;
+      }
+    })();
+
+    // Extract sections from component structure
+    let asideContent = null;
+    let mainContent = null;
+
+    React.Children.forEach(content.props.children, (child) => {
+      if (child?.type === AsideContent) {
+        asideContent = child.props.children;
+      }
+      if (child?.type === Content) {
+        mainContent = child.props.children;
+      }
+    });
+
+    return { asideContent, content: mainContent };
   };
 
   const minimizeWindow = (windowId) => {
@@ -84,17 +102,20 @@ function App() {
   const openWindow = (windowName) => {
     if (deviceState.isSmallScreen) {
       setWindows((prev) => {
+        const windowContent = getWindowContent(windowName);
         const updatedWindow = prev.length ? {
           ...prev[0],
           id: windowName,
           name: windowName,
           isMinimized: false,
-          content: getWindowContent(windowName),
+          content: windowContent.content,
+          asideContent: windowContent.asideContent
         } : {
           id: windowName,
           name: windowName,
           isMinimized: false,
-          content: getWindowContent(windowName),
+          content: windowContent.content,
+          asideContent: windowContent.asideContent
         };
         setActive(updatedWindow.id);
         return [updatedWindow];
@@ -105,14 +126,19 @@ function App() {
     const existingWindow = windows.find((win) => win.id === windowName);
     if (existingWindow) {
       setActive(existingWindow.id);
-      setWindows(prev => prev.map(win => win.id === windowName ? { ...win, isMinimized: false } : win));
+      setWindows(prev => prev.map(win => win.id === windowName ? {
+        ...win,
+        isMinimized: false
+      } : win));
     } else {
+      const windowContent = getWindowContent(windowName);
       const newWindow = {
         id: windowName,
         name: windowName,
         isMinimized: false,
         isMaximized: false,
-        content: getWindowContent(windowName),
+        content: windowContent.content,
+        asideContent: windowContent.asideContent
       };
       setWindows((prev) => [...prev, newWindow]);
       setActive(newWindow.id);
@@ -206,12 +232,12 @@ function App() {
             maximizeWindow={maximizeWindow}
             isActive={window.id === activeWindow}
             content={getWindowContent(window.id).content}
-            asideContent={getWindowContent(window.id).aside}
+            asideContent={getWindowContent(window.id).asideContent}
           />
         ))}
       </Layout>
 
-      {contextMenu && <Context x={contextMenu.x} y={contextMenu.y} settings={settings} openWindow={openWindow} updateSettings={updateSettings} />}
+      {contextMenu && <Context x={contextMenu.x} y={contextMenu.y} settings={settings} openWindow={openWindow} updateSettings={updateSettings} setLaunchpadOpen={setLaunchpadOpen} />}
     </>
   );
 }
