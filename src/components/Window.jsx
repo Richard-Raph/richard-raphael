@@ -1,14 +1,16 @@
 import '../assets/css/Window.css';
 import PropTypes from 'prop-types';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 
 export const AsideContent = ({ children }) => <>{children}</>;
 export const Content = ({ children }) => <>{children}</>;
 
-export default function Window({ id, name, content, isActive, setActive, closeWindow, isMinimized, isMaximized, asideContent, updateContent, minimizeWindow, maximizeWindow, setDraggedWindow }) {
+export default function Window({ id, name, content, isActive, children, setActive, closeWindow, isMinimized, isMaximized, minimizeWindow, maximizeWindow, setDraggedWindow }) {
   const dragRef = useRef(null);
   const [asideWidth, setAsideWidth] = useState(250);
   const [minAnimate, setMinAnimate] = useState(false);
+  const [mainContent, setMainContent] = useState(null);
+  const [asideContent, setAsideContent] = useState(null);
   const asideResizeRef = useRef({ startX: 0, startWidth: 250 });
   const [isResizingAside, setIsResizingAside] = useState(false);
   const [isAsideCollapsed, setIsAsideCollapsed] = useState(false);
@@ -19,13 +21,6 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
   }));
   const [pos, setPos] = useState({ top: -50, left: 0, width: null, height: null });
-
-  // Update content on activation if not on a laptop or larger
-  useEffect(() => {
-    if (isActive && !deviceState.isLaptopAndAbove) {
-      updateContent?.(content);
-    }
-  }, [content, isActive, updateContent, deviceState.isLaptopAndAbove]);
 
   // Center window on activation
   useEffect(() => {
@@ -53,6 +48,36 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    const traverse = (node) => {
+      if (!node) return;
+
+      // Handle React.memo and other wrappers
+      const type = node.type?.displayName || node.type?.name || node.type;
+
+      if (type === 'Fragment') {
+        React.Children.forEach(node.props.children, traverse);
+        return;
+      }
+
+      if (type === AsideContent) {
+        setAsideContent(node.props.children);
+      } else if (type === Content) {
+        setMainContent(node.props.children);
+      }
+
+      if (node.props?.children) {
+        React.Children.forEach(node.props.children, child => {
+          if (child && typeof child !== 'string' && child.props) {
+            traverse(child);
+          }
+        });
+      }
+    };
+
+    traverse(children);
+  }, [children]);
 
   const createResizeHandler = (direction) => (e) => {
     e.preventDefault();
@@ -259,13 +284,11 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
               cursor: isResizingAside ? 'grabbing' : 'ew-resize'
             }}
           >
-            <div className='aside-wrapper'>
-              {!isAsideCollapsed && asideContent}
-            </div>
+            {asideContent}
             <div className='aside-resize' />
           </aside>
         )}
-        <div className='window-main'>{content}</div>
+        <div className='window-main'>{mainContent}</div>
       </section>
       {!deviceState.isSmallScreen && !isMaximized && (
         <>
@@ -284,17 +307,15 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
 }
 
 Window.propTypes = {
+  children: PropTypes.node,
   isMinimized: PropTypes.bool,
   isMaximized: PropTypes.bool,
-  asideContent: PropTypes.node,
-  updateContent: PropTypes.func,
   id: PropTypes.string.isRequired,
+  setDraggedWindow: PropTypes.func,
   name: PropTypes.string.isRequired,
-  content: PropTypes.node.isRequired,
   isActive: PropTypes.bool.isRequired,
   setActive: PropTypes.func.isRequired,
   closeWindow: PropTypes.func.isRequired,
   minimizeWindow: PropTypes.func.isRequired,
   maximizeWindow: PropTypes.func.isRequired,
-  setDraggedWindow: PropTypes.func.isRequired,
 };

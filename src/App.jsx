@@ -55,6 +55,9 @@ function App() {
   };
 
   const getWindowContent = (windowName) => {
+    let asideContent = null;
+    let mainContent = null;
+
     const content = (() => {
       switch (windowName) {
         case 'Blog': return <Blog />;
@@ -66,18 +69,29 @@ function App() {
       }
     })();
 
-    // Extract sections from component structure
-    let asideContent = null;
-    let mainContent = null;
+    const traverse = (node) => {
+      if (!node) return;
 
-    React.Children.forEach(content.props.children, (child) => {
-      if (child?.type === AsideContent) {
-        asideContent = child.props.children;
+      // Handle React Fragments
+      if (node.type?.toString() === 'Symbol(react.fragment)') {
+        React.Children.forEach(node.props.children, traverse);
+        return;
       }
-      if (child?.type === Content) {
-        mainContent = child.props.children;
+
+      if (node.type === AsideContent) {
+        asideContent = node.props.children;
+      } else if (node.type === Content) {
+        mainContent = node.props.children;
       }
-    });
+
+      if (node.props?.children) {
+        React.Children.forEach(node.props.children, child => {
+          if (typeof child !== 'string') traverse(child);
+        });
+      }
+    };
+
+    traverse(content);
 
     return { asideContent, content: mainContent };
   };
@@ -101,48 +115,29 @@ function App() {
 
   const openWindow = (windowName) => {
     if (deviceState.isSmallScreen) {
-      setWindows((prev) => {
-        const windowContent = getWindowContent(windowName);
-        const updatedWindow = prev.length ? {
-          ...prev[0],
-          id: windowName,
-          name: windowName,
-          isMinimized: false,
-          content: windowContent.content,
-          asideContent: windowContent.asideContent
-        } : {
-          id: windowName,
-          name: windowName,
-          isMinimized: false,
-          content: windowContent.content,
-          asideContent: windowContent.asideContent
-        };
-        setActive(updatedWindow.id);
-        return [updatedWindow];
-      });
-      return;
-    }
-
-    const existingWindow = windows.find((win) => win.id === windowName);
-    if (existingWindow) {
-      setActive(existingWindow.id);
-      setWindows(prev => prev.map(win => win.id === windowName ? {
-        ...win,
-        isMinimized: false
-      } : win));
-    } else {
-      const windowContent = getWindowContent(windowName);
-      const newWindow = {
+      setWindows(prev => [{
         id: windowName,
         name: windowName,
         isMinimized: false,
-        isMaximized: false,
-        content: windowContent.content,
-        asideContent: windowContent.asideContent
-      };
-      setWindows((prev) => [...prev, newWindow]);
-      setActive(newWindow.id);
+        isMaximized: false
+      }]);
+      return;
     }
+
+    const existingWindow = windows.find(win => win.id === windowName);
+    if (existingWindow) {
+      setWindows(prev => prev.map(win =>
+        win.id === windowName ? { ...win, isMinimized: false } : win
+      ));
+    } else {
+      setWindows(prev => [...prev, {
+        id: windowName,
+        name: windowName,
+        isMinimized: false,
+        isMaximized: false
+      }]);
+    }
+    setActive(windowName);
   };
 
   const setActive = (windowId) => {
@@ -222,7 +217,7 @@ function App() {
       <Layout windows={windows} settings={settings} openWindow={openWindow} activeWindow={activeWindow} updateSettings={updateSettings} isLaunchpadOpen={isLaunchpadOpen} closeAllWindows={closeAllWindows} setLaunchpadOpen={setLaunchpadOpen}>
         {!loadComplete && (<Preloader onComplete={() => setLoadComplete(true)} />)}
         {/* <Preloader onComplete={() => setLoadComplete(true)} /> */}
-        {windows.map((window) => (
+        {windows.map(window => (
           <Window
             {...window}
             key={window.id}
@@ -231,9 +226,18 @@ function App() {
             minimizeWindow={minimizeWindow}
             maximizeWindow={maximizeWindow}
             isActive={window.id === activeWindow}
-            content={getWindowContent(window.id).content}
-            asideContent={getWindowContent(window.id).asideContent}
-          />
+          >
+            {(() => {
+              switch (window.id) {
+                case 'Blog': return <Blog />;
+                case 'About': return <About />;
+                case 'Contact': return <Contact />;
+                case 'Projects': return <Projects />;
+                case 'Preferences': return <Settings settings={settings} updateSettings={updateSettings} />;
+                default: return <div>Unknown Window</div>;
+              }
+            })()}
+          </Window>
         ))}
       </Layout>
 
