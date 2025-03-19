@@ -2,10 +2,13 @@ import '../assets/css/Window.css';
 import PropTypes from 'prop-types';
 import { useState, useRef, useEffect, useCallback } from 'react';
 
-export default function Window({ id, name, content, isActive, setActive, closeWindow, isMinimized, isMaximized, updateContent, minimizeWindow, maximizeWindow, setDraggedWindow }) {
+export default function Window({ id, name, content, isActive, setActive, closeWindow, isMinimized, isMaximized, asideContent, updateContent, minimizeWindow, maximizeWindow, setDraggedWindow }) {
   const dragRef = useRef(null);
-  const [menu, setMenu] = useState(false);
+  const [asideWidth, setAsideWidth] = useState(250);
   const [minAnimate, setMinAnimate] = useState(false);
+  const asideResizeRef = useRef({ startX: 0, startWidth: 250 });
+  const [isResizingAside, setIsResizingAside] = useState(false);
+  const [isAsideCollapsed, setIsAsideCollapsed] = useState(false);
   const [deviceState, setDeviceState] = useState(() => ({
     isSmallScreen: window.innerWidth < 600,
     isTabletAndAbove: window.innerWidth >= 600,
@@ -99,6 +102,42 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
 
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('mousemove', handleMouseMove);
+  };
+
+  const handleAsideResizeStart = (e) => {
+    e.preventDefault();
+    setIsResizingAside(true);
+    asideResizeRef.current = {
+      startX: e.clientX,
+      startWidth: asideWidth
+    };
+
+    const handleMouseMove = (e) => {
+      if (!isResizingAside) return;
+      const delta = e.clientX - asideResizeRef.current.startX;
+      let newWidth = asideResizeRef.current.startWidth + delta;
+
+      // Constrain between 200px and 50px before collapsing
+      newWidth = Math.max(50, Math.min(newWidth, 400));
+
+      if (newWidth <= 50) {
+        setIsAsideCollapsed(true);
+        newWidth = 50;
+      } else {
+        setIsAsideCollapsed(false);
+      }
+
+      setAsideWidth(newWidth);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizingAside(false);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
   };
 
   const handleDragStart = (e) => {
@@ -207,8 +246,18 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
         )}
         <h3>{name}</h3>
       </div>
-      <section>
-        <aside></aside>
+      <section className={`${name.toLowerCase()}-content`}>
+        <aside
+          onMouseDown={handleAsideResizeStart}
+          className={`window-aside ${isAsideCollapsed ? 'collapsed' : ''}`}
+          style={{
+            width: asideWidth,
+            cursor: isResizingAside ? 'grabbing' : 'ew-resize'
+          }}
+        >
+          {!isAsideCollapsed && asideContent}
+          <div className="aside-resize" />
+        </aside>
         <div className='window-main'>{content}</div>
       </section>
       {!deviceState.isSmallScreen && !isMaximized && (
@@ -230,6 +279,7 @@ export default function Window({ id, name, content, isActive, setActive, closeWi
 Window.propTypes = {
   isMinimized: PropTypes.bool,
   isMaximized: PropTypes.bool,
+  asideContent: PropTypes.node,
   updateContent: PropTypes.func,
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,

@@ -197,7 +197,17 @@ function App() {
         {!loadComplete && (<Preloader onComplete={() => setLoadComplete(true)} />)}
         {/* <Preloader onComplete={() => setLoadComplete(true)} /> */}
         {windows.map((window) => (
-          <Window {...window} key={window.id} setActive={setActive} closeWindow={closeWindow} minimizeWindow={minimizeWindow} maximizeWindow={maximizeWindow} isActive={window.id === activeWindow} content={getWindowContent(window.id)} />
+          <Window
+            {...window}
+            key={window.id}
+            setActive={setActive}
+            closeWindow={closeWindow}
+            minimizeWindow={minimizeWindow}
+            maximizeWindow={maximizeWindow}
+            isActive={window.id === activeWindow}
+            content={getWindowContent(window.id).content}
+            asideContent={getWindowContent(window.id).aside}
+          />
         ))}
       </Layout>
 

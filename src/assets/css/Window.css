@@ -301,9 +301,40 @@
     }
 
     .window section aside {
-        width: 240px;
+        /* width: 240px;
         padding: 24px;
         background: rgba(40, 40, 40, 0.8);
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid rgba(255, 255, 255, 0.1); */
+        display: flex;
+        min-width: 50px;
+        overflow: hidden;
+        position: relative;
+        flex-direction: column;
+        backdrop-filter: blur(10px);
+        border-right: 1px solid #ddd;
+        background: rgba(245, 245, 245, 0.9);
+        transition: width 0.2s ease, opacity 0.2s;
+    }
+
+    .aside-resize {
+        width: 5px;
+        z-index: 10;
+        cursor: ew-resize;
+        inset: 0 0 0 auto;
+        position: absolute;
+        transition: background 0.2s;
+    }
+
+    .window-aside:hover .aside-resize {
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    .window-aside.collapsed {
+        width: 50px !important;
+    }
+
+    .window-aside.collapsed .aside-resize {
+        right: -2px;
+        width: 7px;
     }
 }
