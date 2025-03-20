@@ -1,6 +1,8 @@
+import { memo } from 'react';
+import PropTypes from 'prop-types';
 import '../assets/css/Blog.css';
 
-export default function Blog() {
+function Blog() {
     return (
         <section className='window-content'>
             <div className='sidebar'>
@@ -14,7 +16,16 @@ export default function Blog() {
                 <div>Videos</div>
                 <div>Apps</div>
             </div>
-            <div className='glass'>View Source</div>
+            <div className='glass'>
+                <h2>Blog</h2>
+                <p>Follow my latest trends and updates here.</p>
+            </div>
         </section>
     );
 }
+
+Blog.propTypes = {
+    // Add any props if needed
+};
+
+export default memo(Blog);
