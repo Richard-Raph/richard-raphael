@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    transition: all .3s ease;
+    cursor: url('./assets/icons/arrow.png') 12.5 12.5, auto;
+}
+
+::selection {
+    background-color: #090909;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.loading {
+    cursor: url('./assets/icons/busy.png') 12.5 12.5, wait;
+}
+
+a,
+svg,
+label,
+button {
+    cursor: url('./assets/icons/pointer.png') 12.5 12.5, pointer;
+}
+
+body {
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    line-height: 1.2;
+    position: relative;
+    color: rgba(255, 255, 255, 0.87);
+    font: 400 1vw -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell;
+}
+
+main,
+#root {
+    height: 100%;
+    position: relative;
+}
