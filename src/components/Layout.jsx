@@ -2,11 +2,11 @@ import Menu from './Menu';
 import Dock from './Dock';
 import '../assets/css/Layout.css';
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
 import day from '../assets/images/day.webp';
 import night from '../assets/images/night.webp';
+import { memo, useMemo, useEffect, useState } from 'react';
 
-export default function Layout({ children, settings, openWindow, windows = [], updateSettings, closeAllWindows, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
+function Layout({ children, settings, openWindow, windows = [], updateSettings, closeAllWindows, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
     const [background, setBackground] = useState(night);
 
     useEffect(() => {
@@ -22,14 +22,30 @@ export default function Layout({ children, settings, openWindow, windows = [], u
         } else { setBackground(night); }
     }, [settings.dynamicWallpaper]);
 
+    const backgroundImage = useMemo(() => (
+        <img src={background} alt='background' />
+    ), [background]);
+
     return (
         <>
-            <Menu windows={windows} settings={settings} activeWindow={activeWindow} updateSettings={updateSettings} closeAllWindows={closeAllWindows} />
+            <Menu
+                windows={windows}
+                settings={settings}
+                activeWindow={activeWindow}
+                updateSettings={updateSettings}
+                closeAllWindows={closeAllWindows}
+            />
             <main>
                 {children}
-                <section className='layout'><img src={background} alt='background' /></section>
+                <section className='layout'>{backgroundImage}</section>
             </main>
-            <Dock windows={windows} openWindow={openWindow} activeWindow={activeWindow} isLaunchpadOpen={isLaunchpadOpen} setLaunchpadOpen={setLaunchpadOpen} />
+            <Dock
+                windows={windows}
+                openWindow={openWindow}
+                activeWindow={activeWindow}
+                isLaunchpadOpen={isLaunchpadOpen}
+                setLaunchpadOpen={setLaunchpadOpen}
+            />
         </>
     );
 }
@@ -57,3 +73,5 @@ Layout.propTypes = {
     isLaunchpadOpen: PropTypes.bool.isRequired,
     setLaunchpadOpen: PropTypes.func.isRequired,
 };
+
+export default memo(Layout);
