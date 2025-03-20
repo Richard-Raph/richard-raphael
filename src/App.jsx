@@ -161,6 +161,7 @@ function App() {
           <Window
             {...window}
             key={window.id}
+            content={windowComponents[window.id]}
             isActive={window.id === windowState.active}
             setActive={id => dispatch({ type: 'OPEN', id })}
             closeWindow={() => dispatch({ type: 'CLOSE', id: window.id })}
