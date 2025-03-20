@@ -1,7 +1,7 @@
 import '../assets/css/Menu.css';
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
 import logo from '../assets/images/logo-fff.webp';
+import { memo, useMemo, useState, useEffect } from 'react';
 import { TbWifi, TbWifiOff, TbBluetooth, TbBluetoothX } from 'react-icons/tb';
 
 const formatDateTime = (settings) => {
@@ -85,12 +85,13 @@ const useBluetoothStatus = () => {
   return isBluetoothOn;
 };
 
-export default function MenuBar({ windows, settings, activeWindow, closeAllWindows }) {
+function MenuBar({ windows, settings, activeWindow, closeAllWindows }) {
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
   const isBluetoothOn = useBluetoothStatus();
   const [dateTime, setDateTime] = useState(() => formatDateTime(settings));
 
+  // Update date and time every second
   useEffect(() => {
     const interval = setInterval(() => {
       setDateTime(formatDateTime(settings));
@@ -98,7 +99,22 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
     return () => clearInterval(interval);
   }, [settings]);
 
-  const activeWindowName = windows.find(({ id }) => id === activeWindow)?.name || 'Welcome';
+  // Memoize the active window name
+  const activeWindowName = useMemo(() => (
+    windows.find(({ id }) => id === activeWindow)?.name || 'Welcome'
+  ), [windows, activeWindow]);
+
+  // Memoize the battery level and charging status
+  const batteryLevel = useMemo(() => (
+    battery.level !== null ? Math.round(battery.level * 100) : null
+  ), [battery.level]);
+
+  const batteryColor = useMemo(() => (
+    battery.charging ? 'rgb(74 222 128 / 1)' :
+      battery.level < 0.2 ? 'rgb(239 68 68 / 1)' :
+        battery.level < 0.5 ? 'rgb(234 179 8 / 1)' :
+          'rgb(255 255 255 / 1)'
+  ), [battery.level, battery.charging]);
 
   return (
     <header className='menu-bar'>
@@ -110,16 +126,10 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
         <div>
           {battery.level !== null && (
             <>
-              {settings.showBatteryPercentage && <ins style={{ marginRight: '4px' }}>{Math.round(battery.level * 100)}%</ins>}
+              {settings.showBatteryPercentage && <ins style={{ marginRight: '4px' }}>{batteryLevel}%</ins>}
               <p style={{ position: 'relative', display: 'inline-flex' }}>
                 <span />
-                <small
-                  style={{
-                    width: `${0.1 + battery.level * 0.96}rem`,
-                    backgroundColor:
-                      battery.charging ? 'rgb(74 222 128 / 1)' : battery.level < .2 ? 'rgb(239 68 68 / 1)' : battery.level < .5 ? 'rgb(234 179 8 / 1)' : 'rgb(255 255 255 / 1)',
-                  }}
-                />
+                <small style={{ backgroundColor: batteryColor, width: `${0.1 + battery.level * 0.96}rem` }} />
                 {battery.charging && <i />}
               </p>
             </>
@@ -137,14 +147,12 @@ export default function MenuBar({ windows, settings, activeWindow, closeAllWindo
 }
 
 MenuBar.propTypes = {
-  activeWindow: PropTypes.string,
   windows: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
-  closeAllWindows: PropTypes.func.isRequired,
   settings: PropTypes.shape({
     showDate: PropTypes.bool.isRequired,
     showSeconds: PropTypes.bool.isRequired,
@@ -153,4 +161,8 @@ MenuBar.propTypes = {
     showBatteryPercentage: PropTypes.bool.isRequired,
     timeFormat: PropTypes.oneOf(['12-hour', '24-hour']).isRequired,
   }).isRequired,
+  activeWindow: PropTypes.string,
+  closeAllWindows: PropTypes.func.isRequired,
 };
+
+export default memo(MenuBar);
