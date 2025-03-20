@@ -1,4 +1,3 @@
-import React, { memo, useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import '../assets/css/Launchpad.css';
 import blog from '../assets/icons/blog.webp';
@@ -10,6 +9,7 @@ import twitter from '../assets/icons/twitter.webp';
 import terminal from '../assets/icons/terminal.webp';
 import settings from '../assets/icons/settings.webp';
 import linkedin from '../assets/icons/linkedin.webp';
+import React, { memo, useRef, useState, useEffect, useCallback } from 'react';
 
 const apps = [
     { id: 'About', icon: about, label: 'About Me', action: 'openWindow' },
@@ -24,9 +24,9 @@ const apps = [
 ];
 
 function Launchpad({ isOpen, onClose, openWindow }) {
+    const searchInputRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const searchInputRef = useRef(null);
 
     // Handle app clicks
     const handleAppClick = useCallback((app) => {
@@ -47,21 +47,19 @@ function Launchpad({ isOpen, onClose, openWindow }) {
     }, [onClose, openWindow]);
 
     // Filter apps based on search query
-    const filteredApps = apps.filter(app =>
-        app.label.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredApps = apps.filter(app => app.label.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    // Handle scaling animation
+    // Handle scaling animation and focus the search input
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
             // Focus the search input when Launchpad opens
-            if (searchInputRef.current) {
-                searchInputRef.current.focus();
-            }
-        } else {
-            setIsVisible(false);
-        }
+            setTimeout(() => {
+                if (searchInputRef.current) {
+                    searchInputRef.current.focus();
+                }
+            }, 0); // Use setTimeout to ensure focus is set after the DOM update
+        } else { setIsVisible(false); }
     }, [isOpen]);
 
     // Close Launchpad when clicking outside
@@ -77,10 +75,9 @@ function Launchpad({ isOpen, onClose, openWindow }) {
     return (
         <div className={`launchpad ${isVisible ? 'visible' : ''}`} onClick={handleOverlayClick}>
             <input
-                ref={searchInputRef}
-                autoFocus
                 type='text'
                 value={searchQuery}
+                ref={searchInputRef}
                 placeholder='Search...'
                 className='launchpad-search'
                 onChange={(e) => setSearchQuery(e.target.value)}
