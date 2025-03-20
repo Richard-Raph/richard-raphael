@@ -7,22 +7,23 @@ import project from '../assets/icons/project.webp';
 import contact from '../assets/icons/contact.webp';
 import terminal from '../assets/icons/terminal.webp';
 import settings from '../assets/icons/settings.webp';
-import React, { useState, useCallback } from 'react';
 import launchpad from '../assets/icons/launchpad.webp';
+import React, { memo, useState, useCallback } from 'react';
 
 const icons = [
+  { id: 'Launchpad', imgSrc: launchpad, tooltip: 'Launchpad' },
   { id: 'About', imgSrc: about, tooltip: 'About Me' },
   { id: 'Projects', imgSrc: project, tooltip: 'Projects' },
   { id: 'Blog', imgSrc: blog, tooltip: 'Follow my trends' },
   { id: 'Contact', imgSrc: contact, tooltip: 'Talk to me' },
   { id: 'Terminal', imgSrc: terminal, tooltip: 'Hire me!' },
-  { id: 'Launchpad', imgSrc: launchpad, tooltip: 'Launchpad' },
   { id: 'Preferences', imgSrc: settings, tooltip: 'Portfolio Preferences' },
 ];
 
-export default function DockBar({ windows, openWindow, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
+function DockBar({ windows, openWindow, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
   const [restoringWindow, setRestoringWindow] = useState(null);
 
+  // Handle minimizing/restoring a window
   const handleMinimizeRestore = useCallback((id) => {
     const windowState = windows.find(win => win.id === id);
     if (windowState?.isMinimized) {
@@ -32,7 +33,8 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
     openWindow(id);
   }, [openWindow, windows]);
 
-  const handleIconClick = (id) => {
+  // Handle icon clicks
+  const handleIconClick = useCallback((id) => {
     if (id === 'Terminal') {
       const pdfUrl = '/RICHARD.pdf';
       window.open(pdfUrl, '_blank');
@@ -51,27 +53,25 @@ export default function DockBar({ windows, openWindow, activeWindow, isLaunchpad
       setLaunchpadOpen(false);
       windows.some(win => win.id === id) ? handleMinimizeRestore(id) : openWindow(id);
     }
-  };
+  }, [windows, openWindow, setLaunchpadOpen, handleMinimizeRestore]);
 
   return (
     <>
       <nav className='dock-bar'>
         <ul>
-          {icons
-            .toSorted((a, b) => (a.id === 'Launchpad' ? -1 : b.id === 'Launchpad' ? 1 : 0))
-            .map(({ id, imgSrc, tooltip }) => (
-              <React.Fragment key={id}>
-                {id === 'Preferences' && <span className='separator' />}
-                <li
-                  data-window-id={id}
-                  onClick={() => handleIconClick(id)}
-                  className={`icon  ${restoringWindow === id ? 'restoring' : ''} ${windows.some(win => win.id === id) ? 'open' : ''} ${id === 'Launchpad' ? (isLaunchpadOpen ? 'active' : '') : ''}`}
-                >
-                  <img src={imgSrc} alt={tooltip} />
-                  <span className='tooltip'>{tooltip}</span>
-                </li>
-              </React.Fragment>
-            ))}
+          {icons.map(({ id, imgSrc, tooltip }) => (
+            <React.Fragment key={id}>
+              {id === 'Preferences' && <span className='separator' />}
+              <li
+                data-window-id={id}
+                onClick={() => handleIconClick(id)}
+                className={`icon ${restoringWindow === id ? 'restoring' : ''} ${windows.some(win => win.id === id) ? 'open' : ''} ${id === 'Launchpad' ? (isLaunchpadOpen ? 'active' : '') : ''}`}
+              >
+                <img src={imgSrc} alt={tooltip} />
+                <span className='tooltip'>{tooltip}</span>
+              </li>
+            </React.Fragment>
+          ))}
         </ul>
       </nav>
 
@@ -87,3 +87,5 @@ DockBar.propTypes = {
   setLaunchpadOpen: PropTypes.func.isRequired,
   windows: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
+
+export default memo(DockBar);

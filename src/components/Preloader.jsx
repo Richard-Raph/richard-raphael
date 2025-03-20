@@ -5,20 +5,43 @@ export default function Preloader({ onComplete }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const minPreloaderTime = 8500; // 7 seconds in milliseconds
+    const minPreloaderTime = 8500; // 8.5 seconds in milliseconds
     const startTime = Date.now();
 
-    const handleLoad = () => {
-      const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, minPreloaderTime - elapsedTime);
+    // Function to check if all assets are loaded
+    const areAssetsLoaded = () => {
+      const images = document.querySelectorAll('img');
+      const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
 
-      setTimeout(() => {
-        setIsLoading(false);
-        onComplete(); // Call when loading is complete
-      }, remainingTime);
+      return Promise.all([
+        Promise.all(Array.from(images).map(img => img.complete ? Promise.resolve() : new Promise(resolve => img.onload = resolve))),
+        fonts,
+      ]);
     };
 
-    // Ensure assets are fully loaded before hiding the preloader
+    // Handle preloader completion
+    const handleLoad = async () => {
+      try {
+        // Wait for all assets to load
+        await areAssetsLoaded();
+
+        // Calculate remaining time to meet the minimum preloader duration
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(0, minPreloaderTime - elapsedTime);
+
+        // Wait for the remaining time before completing the preloader
+        setTimeout(() => {
+          setIsLoading(false);
+          onComplete(); // Call when loading is complete
+        }, remainingTime);
+      } catch (error) {
+        console.error('Error loading assets:', error);
+        setIsLoading(false);
+        onComplete(); // Fallback in case of errors
+      }
+    };
+
+    // Start the preloader logic
     if (document.readyState === 'complete') {
       handleLoad();
     } else {
