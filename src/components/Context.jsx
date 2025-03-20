@@ -1,12 +1,13 @@
 import '../assets/css/Context.css';
 import PropTypes from 'prop-types';
-import { useRef, useLayoutEffect } from 'react';
+import { memo, useRef, useLayoutEffect, useCallback } from 'react';
 import { FiSun, FiBook, FiCopy, FiMail, FiMoon, FiFolder, FiGithub, FiFileText, FiLinkedin, FiRefreshCcw } from 'react-icons/fi';
 
-export default function Context({ x, y, settings, openWindow, updateSettings, setLaunchpadOpen }) {
+function Context({ x, y, settings, openWindow, updateSettings, setLaunchpadOpen }) {
     const menuRef = useRef(null);
     const margin = 10;
 
+    // Adjust menu position to stay within viewport
     useLayoutEffect(() => {
         if (!menuRef.current) return;
 
@@ -30,19 +31,21 @@ export default function Context({ x, y, settings, openWindow, updateSettings, se
         menuRef.current.style.left = `${adjustedX}px`;
     }, [x, y]);
 
-    const handleResumeDownload = () => {
+    // Handle resume download
+    const handleResumeDownload = useCallback(() => {
         const link = document.createElement('a');
         link.href = '/RICHARD.pdf';
         link.download = 'Richard_Raphael.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    };
+    }, []);
 
-    const handleOpenWindow = (windowName) => {
+    // Handle opening a window
+    const handleOpenWindow = useCallback((windowName) => {
         setLaunchpadOpen(false);
         openWindow(windowName);
-    };
+    }, [openWindow, setLaunchpadOpen]);
 
     return (
         <div ref={menuRef} className='context-menu'>
@@ -75,12 +78,18 @@ export default function Context({ x, y, settings, openWindow, updateSettings, se
     );
 }
 
-const MenuItem = ({ icon, label, action }) => (
+const MenuItem = memo(({ icon, label, action }) => (
     <div className='menu-item' onClick={action}>
         {icon}
         <span>{label}</span>
     </div>
-);
+));
+
+MenuItem.propTypes = {
+    icon: PropTypes.node.isRequired,
+    action: PropTypes.func.isRequired,
+    label: PropTypes.string.isRequired,
+};
 
 Context.propTypes = {
     x: PropTypes.number.isRequired,
@@ -90,3 +99,5 @@ Context.propTypes = {
     updateSettings: PropTypes.func.isRequired,
     setLaunchpadOpen: PropTypes.func.isRequired,
 };
+
+export default memo(Context);

@@ -1,20 +1,25 @@
 import '../assets/css/Window.css';
 import PropTypes from 'prop-types';
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { memo, useRef, useMemo, useState, useEffect, useCallback } from 'react';
 
 export const AsideContent = ({ children }) => <>{children}</>;
 export const Content = ({ children }) => <>{children}</>;
 
-export default function Window({ id, name, content, isActive, children, setActive, closeWindow, isMinimized, isMaximized, minimizeWindow, maximizeWindow, setDraggedWindow }) {
+function Window({
+  id,
+  name,
+  content,
+  isActive,
+  setActive,
+  closeWindow,
+  isMinimized,
+  isMaximized,
+  minimizeWindow,
+  maximizeWindow,
+}) {
   const dragRef = useRef(null);
-  const [asideWidth, setAsideWidth] = useState(250);
   const [restorePos, setRestorePos] = useState(null);
   const [minAnimate, setMinAnimate] = useState(false);
-  const [mainContent, setMainContent] = useState(null);
-  const [asideContent, setAsideContent] = useState(null);
-  const asideResizeRef = useRef({ startX: 0, startWidth: 250 });
-  const [isResizingAside, setIsResizingAside] = useState(false);
-  const [isAsideCollapsed, setIsAsideCollapsed] = useState(false);
   const [deviceState, setDeviceState] = useState(() => ({
     isSmallScreen: window.innerWidth < 600,
     isTabletAndAbove: window.innerWidth >= 600,
@@ -36,6 +41,7 @@ export default function Window({ id, name, content, isActive, children, setActiv
     }
   }, [isActive]);
 
+  // Handle maximize/restore
   useEffect(() => {
     if (isMaximized) {
       setRestorePos(pos); // Save current position
@@ -64,7 +70,8 @@ export default function Window({ id, name, content, isActive, children, setActiv
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const createResizeHandler = (direction) => (e) => {
+  // Resize handlers
+  const createResizeHandler = useCallback((direction) => (e) => {
     e.preventDefault();
     const startX = e.clientX;
     const startY = e.clientY;
@@ -115,45 +122,10 @@ export default function Window({ id, name, content, isActive, children, setActiv
 
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('mousemove', handleMouseMove);
-  };
+  }, [pos]);
 
-  const handleAsideResizeStart = (e) => {
-    e.preventDefault();
-    setIsResizingAside(true);
-    asideResizeRef.current = {
-      startX: e.clientX,
-      startWidth: asideWidth
-    };
-
-    const handleMouseMove = (e) => {
-      if (!isResizingAside) return;
-      const delta = e.clientX - asideResizeRef.current.startX;
-      let newWidth = asideResizeRef.current.startWidth + delta;
-
-      // Constrain between 200px and 50px before collapsing
-      newWidth = Math.max(50, Math.min(newWidth, 400));
-
-      if (newWidth <= 50) {
-        setIsAsideCollapsed(true);
-        newWidth = 50;
-      } else {
-        setIsAsideCollapsed(false);
-      }
-
-      setAsideWidth(newWidth);
-    };
-
-    const handleMouseUp = () => {
-      setIsResizingAside(false);
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  };
-
-  const handleDragStart = (e) => {
+  // Drag handler
+  const handleDragStart = useCallback((e) => {
     e.preventDefault();
     if (!deviceState.isLaptopAndAbove || isMaximized || deviceState.isTouchDevice) return;
 
@@ -164,7 +136,7 @@ export default function Window({ id, name, content, isActive, children, setActiv
       setPos(prev => ({
         ...prev,
         left: Math.min(Math.max(0, clientX - offsetX), window.innerWidth - prev.width * 0.25),
-        top: Math.min(Math.max(0, clientY - offsetY), window.innerHeight - prev.height * 0.25)
+        top: Math.min(Math.max(0, clientY - offsetY), window.innerHeight - prev.height * 0.25),
       }));
     };
 
@@ -175,56 +147,30 @@ export default function Window({ id, name, content, isActive, children, setActiv
 
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('mousemove', handleMouseMove);
-  };
+  }, [deviceState, isMaximized, pos]);
 
-  const calculateDockPosition = useCallback(() => {
-    const dockIcon = document.querySelector(`[data-window-id='${id}']`);
-    if (!dockIcon || !dragRef.current) return;
+  // Window styles
+  const windowStyles = useMemo(() => ({
+    width: pos.width ? `${pos.width}px` : undefined,
+    height: pos.height ? `${pos.height}px` : undefined,
+    top: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.top}px`,
+    left: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.left}px`,
+    transition: minAnimate ? 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s' : 'none',
+  }), [pos, deviceState, isMaximized, minAnimate]);
 
-    const dockRect = dockIcon.getBoundingClientRect();
-    const windowRect = dragRef.current.getBoundingClientRect();
-
-    return {
-      x: dockRect.left - windowRect.left + (dockRect.width - windowRect.width) / 2,
-      y: dockRect.top - windowRect.top + (dockRect.height - windowRect.height) / 2,
-    };
-  }, [id]);
-
-  // Update the handleMinimize function in Window.jsx
+  // Minimize handler
   const handleMinimize = useCallback((e) => {
     e.stopPropagation();
-    const position = calculateDockPosition();
-    if (position) {
-      const originalStyle = {
-        opacity: dragRef.current.style.opacity,
-        transform: dragRef.current.style.transform,
-      };
+    minimizeWindow(id);
+  }, [id, minimizeWindow]);
 
-      dragRef.current.style.opacity = '0';
-      dragRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(0.1)`;
-      dragRef.current.style.transition = 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.2s';
-
-      setTimeout(() => {
-        minimizeWindow(id);
-        dragRef.current.style.opacity = originalStyle.opacity;
-        dragRef.current.style.transform = originalStyle.transform;
-        dragRef.current.style.transition = originalStyle.transition;
-      }, 300);
-    }
-  }, [id, minimizeWindow, calculateDockPosition]);
-
-  const handleMouseDown = useCallback(() => {
-    setActive(id);
-    if (deviceState.isLaptopAndAbove && !deviceState.isTouchDevice) {
-      setDraggedWindow?.(id);
-    }
-  }, [id, setActive, setDraggedWindow, deviceState]);
-
+  // Close handler
   const handleClose = useCallback((e) => {
     e.stopPropagation();
     closeWindow(id);
   }, [id, closeWindow]);
 
+  // Maximize handler
   const handleMaximize = useCallback((e) => {
     e.stopPropagation();
     maximizeWindow(id);
@@ -233,16 +179,9 @@ export default function Window({ id, name, content, isActive, children, setActiv
   return (
     <section
       ref={dragRef}
-      onMouseDown={handleMouseDown}
+      style={windowStyles}
+      onMouseDown={() => setActive(id)}
       className={`window ${isActive ? 'active' : ''} ${isMinimized ? 'min' : ''} ${isMaximized ? 'max' : ''}`}
-      style={{
-        width: pos.width ? `${pos.width}px` : undefined,
-        height: pos.height ? `${pos.height}px` : undefined,
-        top: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.top}px`,
-        ...(deviceState.isSmallScreen && { width: '100vw', height: '100vh' }),
-        left: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.left}px`,
-        transition: minAnimate ? 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s' : 'none',
-      }}
     >
       <div className='window-bar' onMouseDown={handleDragStart}>
         {!deviceState.isSmallScreen && (
@@ -260,19 +199,6 @@ export default function Window({ id, name, content, isActive, children, setActiv
         <h3>{name}</h3>
       </div>
       <section className={`${name.toLowerCase()}-content`}>
-        {/* {asideContent && (
-          <aside
-            onMouseDown={handleAsideResizeStart}
-            className={`window-aside ${isAsideCollapsed ? 'collapsed' : ''}`}
-            style={{
-              width: asideWidth,
-              cursor: isResizingAside ? 'grabbing' : 'ew-resize'
-            }}
-          >
-            {asideContent}
-            <div className='aside-resize' />
-          </aside>
-        )} */}
         <div className='window-main'>{content}</div>
       </section>
       {!deviceState.isSmallScreen && !isMaximized && (
@@ -292,11 +218,9 @@ export default function Window({ id, name, content, isActive, children, setActiv
 }
 
 Window.propTypes = {
-  children: PropTypes.node,
   isMinimized: PropTypes.bool,
   isMaximized: PropTypes.bool,
   id: PropTypes.string.isRequired,
-  setDraggedWindow: PropTypes.func,
   name: PropTypes.string.isRequired,
   content: PropTypes.node.isRequired,
   isActive: PropTypes.bool.isRequired,
@@ -305,3 +229,5 @@ Window.propTypes = {
   minimizeWindow: PropTypes.func.isRequired,
   maximizeWindow: PropTypes.func.isRequired,
 };
+
+export default memo(Window);
