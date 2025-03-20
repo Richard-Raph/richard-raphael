@@ -1,28 +1,74 @@
-.launchpad-overlay {
+.launchpad {
     inset: 0;
+    gap: 30px;
+    opacity: 0;
     z-index: 99;
     width: 100%;
     height: 100%;
     display: flex;
+    padding: 30px 0;
     position: fixed;
+    visibility: hidden;
     align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     backdrop-filter: blur(20px);
     background: rgba(17, 24, 39, 0.2);
+    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-.launchpad-content {
-    padding: 30px;
+.launchpad.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.launchpad .launchpad-search {
+    width: 25%;
+    border: none;
+    padding: 10px;
     color: white;
-    text-align: center;
-    border-radius: 15px;
+    font-size: 1rem;
+    border-radius: 5px;
     background: rgba(255, 255, 255, 0.1);
 }
 
-.launchpad-content h2 {
-    margin-bottom: 10px;
+.launchpad .launchpad-search::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
 
-.launchpad-content p {
+.launchpad .launchpad-icons {
+    gap: 60px;
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    scrollbar-width: none;
+    justify-content: flex-start;
+}
+
+.launchpad-icons .launchpad-item {
+    gap: 10px;
+    display: flex;
+    width: max-content;
+    align-items: center;
+    flex-direction: column;
+    cursor: url('../../assets/icons/pointer.png') 12.5 12.5, pointer;
+}
+
+.launchpad-icons .launchpad-item img {
+    width: 80px;
+    height: 80px;
+    cursor: url('../../assets/icons/pointer.png') 12.5 12.5, pointer;
+}
+
+.launchpad-icons .launchpad-item span {
+    font-size: 0.9rem;
+    cursor: url('../../assets/icons/pointer.png') 12.5 12.5, pointer;
+}
+
+.launchpad-icons p {
+    width: 100%;
+    color: white;
     font-size: 1.2rem;
+    text-align: center;
 }

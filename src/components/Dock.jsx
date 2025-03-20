@@ -75,7 +75,7 @@ function DockBar({ windows, openWindow, activeWindow, isLaunchpadOpen, setLaunch
         </ul>
       </nav>
 
-      <Launchpad isOpen={isLaunchpadOpen} onClose={() => setLaunchpadOpen(false)} />
+      <Launchpad openWindow={openWindow} isOpen={isLaunchpadOpen} onClose={() => setLaunchpadOpen(false)} />
     </>
   );
 }
