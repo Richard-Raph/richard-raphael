@@ -54,48 +54,6 @@ function App() {
     });
   };
 
-  const getWindowContent = (windowName) => {
-    let asideContent = null;
-    let mainContent = null;
-
-    const content = (() => {
-      switch (windowName) {
-        case 'Blog': return <Blog />;
-        case 'About': return <About />;
-        case 'Contact': return <Contact />;
-        case 'Projects': return <Projects />;
-        case 'Preferences': return <Settings settings={settings} updateSettings={updateSettings} />;
-        default: return <div>Unknown Window</div>;
-      }
-    })();
-
-    const traverse = (node) => {
-      if (!node) return;
-
-      // Handle React Fragments
-      if (node.type?.toString() === 'Symbol(react.fragment)') {
-        React.Children.forEach(node.props.children, traverse);
-        return;
-      }
-
-      if (node.type === AsideContent) {
-        asideContent = node.props.children;
-      } else if (node.type === Content) {
-        mainContent = node.props.children;
-      }
-
-      if (node.props?.children) {
-        React.Children.forEach(node.props.children, child => {
-          if (typeof child !== 'string') traverse(child);
-        });
-      }
-    };
-
-    traverse(content);
-
-    return { asideContent, content: mainContent };
-  };
-
   const minimizeWindow = (windowId) => {
     setWindows(prevWindows => prevWindows.map(win => win.id === windowId ? { ...win, isMinimized: !win.isMinimized } : win));
     setWindowStack((prevStack) => {

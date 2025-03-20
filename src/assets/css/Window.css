@@ -11,7 +11,7 @@
     transform-style: preserve-3d;
     transform-origin: center center;
     box-shadow: 0 40px 60px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.5);
-    transition: opacity 0.2s ease, top 0.2s ease-in-out, left 0.2s ease-in-out, width 0.2s ease-in-out, height 0.2s ease-in-out, transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+    transition: opacity 0.3s ease, top 0.3s ease-in-out, left 0.3s ease-in-out, width 0.3s ease-in-out, height 0.3s ease-in-out, transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .window::after,
@@ -83,7 +83,7 @@
     position: relative;
     border-radius: 8px;
     place-items: center;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     backdrop-filter: blur(50px);
     background-color: #e9f7e803;
     flex: 1 1 clamp(200px, 33.333%, 350px);
@@ -121,7 +121,7 @@
     .window.min {
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.2s ease 0.1s, visibility 0s linear 0.3s, transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+        transition: opacity 0.3s ease 0.1s, visibility 0s linear 0.3s, transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
     }
 
     .window.max {
@@ -226,7 +226,7 @@
     .window-dots button::after,
     .window-dots button::before {
         content: '';
-        transition: 0.2s;
+        transition: 0.3s;
         position: absolute;
     }
 
@@ -313,7 +313,7 @@
         backdrop-filter: blur(10px);
         border-right: 1px solid #ddd;
         background: rgba(245, 245, 245, 0.9);
-        transition: width 0.2s ease, opacity 0.2s;
+        transition: width 0.3s ease, opacity 0.3s;
     }
 
     .aside-resize {
@@ -322,7 +322,7 @@
         cursor: ew-resize;
         inset: 0 0 0 auto;
         position: absolute;
-        transition: background 0.2s;
+        transition: background 0.3s;
     }
 
     .window-aside:hover .aside-resize {

@@ -8,7 +8,7 @@ import { AsideContent, Content } from '../components/Window';
 export default function Settings({ settings = {}, updateSettings }) {
     return (
         <>
-            <AsideContent>
+            {/* <AsideContent> */}
                 <div className='profile-section'>
                     <img src={Profile} alt='Profile' className='profile-image' />
                     <div className='profile-info'>
@@ -26,9 +26,9 @@ export default function Settings({ settings = {}, updateSettings }) {
                         <span>WhatsApp</span>
                     </a>
                 </div>
-            </AsideContent>
+            {/* </AsideContent> */}
 
-            <Content>
+            {/* <Content> */}
                 <div className='settings-group'>
                     <h2 className='group-title'>Appearance</h2>
                     <div className='setting-item'>
@@ -131,7 +131,7 @@ export default function Settings({ settings = {}, updateSettings }) {
                         ))}
                     </div>
                 </div>
-            </Content>
+            {/* </Content> */}
         </>
     );
 }

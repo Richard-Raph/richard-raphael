@@ -8,6 +8,7 @@ export const Content = ({ children }) => <>{children}</>;
 export default function Window({ id, name, content, isActive, children, setActive, closeWindow, isMinimized, isMaximized, minimizeWindow, maximizeWindow, setDraggedWindow }) {
   const dragRef = useRef(null);
   const [asideWidth, setAsideWidth] = useState(250);
+  const [restorePos, setRestorePos] = useState(null);
   const [minAnimate, setMinAnimate] = useState(false);
   const [mainContent, setMainContent] = useState(null);
   const [asideContent, setAsideContent] = useState(null);
@@ -35,6 +36,20 @@ export default function Window({ id, name, content, isActive, children, setActiv
     }
   }, [isActive]);
 
+  useEffect(() => {
+    if (isMaximized) {
+      setRestorePos(pos); // Save current position
+      setPos({
+        top: 0,
+        left: 0,
+        width: window.innerWidth,
+        height: window.innerHeight - 43, // Adjust for header
+      });
+    } else if (restorePos) {
+      setPos(restorePos); // Restore position
+    }
+  }, [isMaximized]);
+
   // Update device state on window resize
   useEffect(() => {
     const handleResize = () => {
@@ -48,36 +63,6 @@ export default function Window({ id, name, content, isActive, children, setActiv
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  useEffect(() => {
-    const traverse = (node) => {
-      if (!node) return;
-
-      // Handle React.memo and other wrappers
-      const type = node.type?.displayName || node.type?.name || node.type;
-
-      if (type === 'Fragment') {
-        React.Children.forEach(node.props.children, traverse);
-        return;
-      }
-
-      if (type === AsideContent) {
-        setAsideContent(node.props.children);
-      } else if (type === Content) {
-        setMainContent(node.props.children);
-      }
-
-      if (node.props?.children) {
-        React.Children.forEach(node.props.children, child => {
-          if (child && typeof child !== 'string' && child.props) {
-            traverse(child);
-          }
-        });
-      }
-    };
-
-    traverse(children);
-  }, [children]);
 
   const createResizeHandler = (direction) => (e) => {
     e.preventDefault();
@@ -256,7 +241,7 @@ export default function Window({ id, name, content, isActive, children, setActiv
         top: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.top}px`,
         ...(deviceState.isSmallScreen && { width: '100vw', height: '100vh' }),
         left: deviceState.isSmallScreen || isMaximized ? '0' : `${pos.left}px`,
-        transition: minAnimate ? 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s' : '',
+        transition: minAnimate ? 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s' : 'none',
       }}
     >
       <div className='window-bar' onMouseDown={handleDragStart}>
@@ -275,7 +260,7 @@ export default function Window({ id, name, content, isActive, children, setActiv
         <h3>{name}</h3>
       </div>
       <section className={`${name.toLowerCase()}-content`}>
-        {asideContent && (
+        {/* {asideContent && (
           <aside
             onMouseDown={handleAsideResizeStart}
             className={`window-aside ${isAsideCollapsed ? 'collapsed' : ''}`}
@@ -287,8 +272,8 @@ export default function Window({ id, name, content, isActive, children, setActiv
             {asideContent}
             <div className='aside-resize' />
           </aside>
-        )}
-        <div className='window-main'>{mainContent}</div>
+        )} */}
+        <div className='window-main'>{content}</div>
       </section>
       {!deviceState.isSmallScreen && !isMaximized && (
         <>
@@ -313,6 +298,7 @@ Window.propTypes = {
   id: PropTypes.string.isRequired,
   setDraggedWindow: PropTypes.func,
   name: PropTypes.string.isRequired,
+  content: PropTypes.node.isRequired,
   isActive: PropTypes.bool.isRequired,
   setActive: PropTypes.func.isRequired,
   closeWindow: PropTypes.func.isRequired,
