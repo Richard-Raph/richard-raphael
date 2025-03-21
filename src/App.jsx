@@ -33,8 +33,8 @@ const useSettings = () => {
 // Custom hook for device state
 const useDeviceState = () => {
   const [deviceState, setDeviceState] = useState(() => ({
-    isSmallScreen: window.innerWidth < 600,
-    isTabletAndAbove: window.innerWidth >= 600,
+    isSmallScreen: window.innerWidth < 750,
+    isTabletAndAbove: window.innerWidth >= 750,
     isLaptopAndAbove: window.innerWidth >= 1200,
     isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
   }));
@@ -42,8 +42,8 @@ const useDeviceState = () => {
   useEffect(() => {
     const handleResize = () => {
       setDeviceState({
-        isSmallScreen: window.innerWidth < 600,
-        isTabletAndAbove: window.innerWidth >= 600,
+        isSmallScreen: window.innerWidth < 750,
+        isTabletAndAbove: window.innerWidth >= 750,
         isLaptopAndAbove: window.innerWidth >= 1200,
         isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
       });
@@ -60,7 +60,7 @@ const useDeviceState = () => {
 const windowReducer = (state, action) => {
   switch (action.type) {
     case 'OPEN':
-      if (action.deviceState?.isSmallScreen) {
+      if (action.deviceState?.isSmallScreen || !action.deviceState?.isLaptopAndAbove) {
         if (state.windows.length > 0) {
           return {
             ...state,
@@ -77,7 +77,6 @@ const windowReducer = (state, action) => {
         }
       }
 
-      // Default behavior for larger devices or no open windows on small devices
       return {
         ...state,
         active: action.id,
