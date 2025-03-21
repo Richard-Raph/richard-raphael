@@ -20,7 +20,7 @@ const icons = [
   { id: 'Preferences', imgSrc: settings, tooltip: 'Portfolio Preferences' },
 ];
 
-function DockBar({ windows, openWindow, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
+function DockBar({ windows, openWindow, deviceState, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
   const [restoringWindow, setRestoringWindow] = useState(null);
 
   // Handle minimizing/restoring a window
@@ -61,15 +61,18 @@ function DockBar({ windows, openWindow, activeWindow, isLaunchpadOpen, setLaunch
         <ul>
           {icons.map(({ id, imgSrc, tooltip }) => (
             <React.Fragment key={id}>
-              {id === 'Preferences' && <span className='separator' />}
-              <li
-                data-window-id={id}
-                onClick={() => handleIconClick(id)}
-                className={`icon ${restoringWindow === id ? 'restoring' : ''} ${windows.some(win => win.id === id) ? 'open' : ''} ${id === 'Launchpad' ? (isLaunchpadOpen ? 'active' : '') : ''}`}
-              >
-                <img src={imgSrc} alt={tooltip} />
-                <span className='tooltip'>{tooltip}</span>
-              </li>
+              {/* Conditionally render the Settings icon for larger screens */}
+              {id === 'Preferences' && !deviceState.isSmallScreen && <span className='separator' />}
+              {(id !== 'Preferences' || !deviceState.isSmallScreen) && (
+                <li
+                  data-window-id={id}
+                  onClick={() => handleIconClick(id)}
+                  className={`icon ${restoringWindow === id ? 'restoring' : ''} ${windows.some(win => win.id === id) ? 'open' : ''} ${id === 'Launchpad' ? (isLaunchpadOpen ? 'active' : '') : ''}`}
+                >
+                  <img src={imgSrc} alt={tooltip} />
+                  <span className='tooltip'>{tooltip}</span>
+                </li>
+              )}
             </React.Fragment>
           ))}
         </ul>
@@ -81,6 +84,10 @@ function DockBar({ windows, openWindow, activeWindow, isLaunchpadOpen, setLaunch
 }
 
 DockBar.propTypes = {
+  deviceState: PropTypes.shape({
+    isSmallScreen: PropTypes.bool.isRequired,
+    isTabletAndAbove: PropTypes.bool.isRequired,
+  }).isRequired,
   activeWindow: PropTypes.string,
   openWindow: PropTypes.func.isRequired,
   isLaunchpadOpen: PropTypes.bool.isRequired,

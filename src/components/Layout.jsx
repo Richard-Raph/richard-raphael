@@ -6,7 +6,7 @@ import day from '../assets/images/day.webp';
 import night from '../assets/images/night.webp';
 import { memo, useMemo, useEffect, useState } from 'react';
 
-function Layout({ children, settings, openWindow, windows = [], updateSettings, closeAllWindows, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
+function Layout({ children, settings, openWindow, windows = [], deviceState, updateSettings, closeAllWindows, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
     const [background, setBackground] = useState(night);
 
     useEffect(() => {
@@ -42,6 +42,7 @@ function Layout({ children, settings, openWindow, windows = [], updateSettings, 
             <Dock
                 windows={windows}
                 openWindow={openWindow}
+                deviceState={deviceState}
                 activeWindow={activeWindow}
                 isLaunchpadOpen={isLaunchpadOpen}
                 setLaunchpadOpen={setLaunchpadOpen}
@@ -64,6 +65,10 @@ Layout.propTypes = {
         dateFormat: PropTypes.string.isRequired,
         dynamicWallpaper: PropTypes.bool.isRequired,
         showBatteryPercentage: PropTypes.bool.isRequired,
+    }).isRequired,
+    deviceState: PropTypes.shape({
+        isSmallScreen: PropTypes.bool.isRequired,
+        isTabletAndAbove: PropTypes.bool.isRequired,
     }).isRequired,
     activeWindow: PropTypes.string,
     children: PropTypes.node.isRequired,

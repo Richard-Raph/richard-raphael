@@ -2,9 +2,6 @@ import '../assets/css/Window.css';
 import PropTypes from 'prop-types';
 import { memo, useRef, useMemo, useState, useEffect, useCallback } from 'react';
 
-export const AsideContent = ({ children }) => <>{children}</>;
-export const Content = ({ children }) => <>{children}</>;
-
 function Window({
   id,
   name,
@@ -12,6 +9,7 @@ function Window({
   isActive,
   setActive,
   closeWindow,
+  deviceState,
   isMinimized,
   isMaximized,
   minimizeWindow,
@@ -20,12 +18,6 @@ function Window({
   const dragRef = useRef(null);
   const [restorePos, setRestorePos] = useState(null);
   const [minAnimate, setMinAnimate] = useState(false);
-  const [deviceState, setDeviceState] = useState(() => ({
-    isSmallScreen: window.innerWidth < 600,
-    isTabletAndAbove: window.innerWidth >= 600,
-    isLaptopAndAbove: window.innerWidth >= 1200,
-    isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
-  }));
   const [pos, setPos] = useState({ top: -50, left: 0, width: null, height: null });
 
   // Center window on activation
@@ -55,20 +47,6 @@ function Window({
       setPos(restorePos); // Restore position
     }
   }, [isMaximized]);
-
-  // Update device state on window resize
-  useEffect(() => {
-    const handleResize = () => {
-      setDeviceState({
-        isSmallScreen: window.innerWidth < 600,
-        isTabletAndAbove: window.innerWidth >= 600,
-        isLaptopAndAbove: window.innerWidth >= 1200,
-        isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
-      });
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   // Resize handlers
   const createResizeHandler = useCallback((direction) => (e) => {
@@ -228,6 +206,12 @@ Window.propTypes = {
   closeWindow: PropTypes.func.isRequired,
   minimizeWindow: PropTypes.func.isRequired,
   maximizeWindow: PropTypes.func.isRequired,
+  deviceState: PropTypes.shape({
+    isSmallScreen: PropTypes.bool.isRequired,
+    isTouchDevice: PropTypes.bool.isRequired,
+    isTabletAndAbove: PropTypes.bool.isRequired,
+    isLaptopAndAbove: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
 export default memo(Window);

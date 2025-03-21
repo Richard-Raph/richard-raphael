@@ -9,18 +9,43 @@ import Context from './components/Context';
 import Preloader from './components/Preloader';
 import { memo, useMemo, useState, useEffect, useReducer, useCallback } from 'react';
 
+// Custom hook for settings
+const useSettings = () => {
+  const [settings, setSettings] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('userSettings')) || {};
+    } catch {
+      return {};
+    }
+  });
+
+  const updateSettings = useCallback((key, value) => {
+    setSettings(prev => {
+      const newSettings = { ...prev, [key]: value };
+      localStorage.setItem('userSettings', JSON.stringify(newSettings));
+      return newSettings;
+    });
+  }, []);
+
+  return [settings, updateSettings];
+};
+
 // Custom hook for device state
 const useDeviceState = () => {
   const [deviceState, setDeviceState] = useState(() => ({
-    isSmallScreen: window.innerWidth < 1200,
+    isSmallScreen: window.innerWidth < 600,
     isTabletAndAbove: window.innerWidth >= 600,
+    isLaptopAndAbove: window.innerWidth >= 1200,
+    isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
   }));
 
   useEffect(() => {
     const handleResize = () => {
       setDeviceState({
-        isSmallScreen: window.innerWidth < 1200,
+        isSmallScreen: window.innerWidth < 600,
         isTabletAndAbove: window.innerWidth >= 600,
+        isLaptopAndAbove: window.innerWidth >= 1200,
+        isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
       });
     };
 
@@ -92,34 +117,12 @@ const windowReducer = (state, action) => {
   }
 };
 
-// Custom hook for settings
-const useSettings = () => {
-  const [settings, setSettings] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem('userSettings')) || {};
-    } catch {
-      return {};
-    }
-  });
-
-  const updateSettings = useCallback((key, value) => {
-    setSettings(prev => {
-      const newSettings = { ...prev, [key]: value };
-      localStorage.setItem('userSettings', JSON.stringify(newSettings));
-      return newSettings;
-    });
-  }, []);
-
-  return [settings, updateSettings];
-};
-
 function App() {
   const deviceState = useDeviceState();
   const [settings, updateSettings] = useSettings();
   const [contextMenu, setContextMenu] = useState(null);
   const [loadComplete, setLoadComplete] = useState(false);
   const [isLaunchpadOpen, setLaunchpadOpen] = useState(false);
-
   const [windowState, dispatch] = useReducer(windowReducer, {
     stack: [],
     windows: [],
@@ -143,7 +146,7 @@ function App() {
       type: 'OPEN',
       content: windowComponents[id],
     });
-  }, [windowComponents, deviceState]);
+  }, [deviceState, windowComponents]);
 
   // Context menu handler
   const handleContextMenu = useCallback((event) => {
@@ -174,6 +177,7 @@ function App() {
       <Layout
         settings={settings}
         openWindow={openWindow}
+        deviceState={deviceState}
         windows={windowState.windows}
         updateSettings={updateSettings}
         activeWindow={windowState.active}
@@ -188,14 +192,13 @@ function App() {
             {...window}
             key={window.id}
             setActive={openWindow}
+            deviceState={deviceState}
             content={windowComponents[window.id]}
             isActive={window.id === windowState.active}
             closeWindow={() => dispatch({ type: 'CLOSE', id: window.id })}
             minimizeWindow={() => dispatch({ type: 'MINIMIZE', id: window.id })}
             maximizeWindow={() => dispatch({ type: 'MAXIMIZE', id: window.id })}
-          >
-            {windowComponents[window.id] || <div>Unknown Window</div>}
-          </Window>
+          />
         ))}
       </Layout>
 
