@@ -23,7 +23,7 @@ const apps = [
     { id: 'Twitter', icon: twitter, label: 'Twitter', action: 'openLink', url: 'https://twitter.com' },
 ];
 
-function Launchpad({ isOpen, onClose, openWindow }) {
+const Launchpad = memo(({ isOpen, onClose, openWindow }) => {
     const searchInputRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
@@ -97,7 +97,7 @@ function Launchpad({ isOpen, onClose, openWindow }) {
             </div>
         </div>
     );
-}
+});
 
 Launchpad.propTypes = {
     isOpen: PropTypes.bool.isRequired,
@@ -105,4 +105,4 @@ Launchpad.propTypes = {
     openWindow: PropTypes.func.isRequired,
 };
 
-export default memo(Launchpad);
+export default Launchpad;

@@ -2,7 +2,7 @@ import '../assets/css/Window.css';
 import PropTypes from 'prop-types';
 import { memo, useRef, useMemo, useState, useEffect, useCallback } from 'react';
 
-function Window({
+const Window = memo(({
   id,
   name,
   content,
@@ -14,7 +14,7 @@ function Window({
   isMaximized,
   minimizeWindow,
   maximizeWindow,
-}) {
+}) => {
   const dragRef = useRef(null);
   const [restorePos, setRestorePos] = useState(null);
   const [minAnimate, setMinAnimate] = useState(false);
@@ -193,7 +193,7 @@ function Window({
       )}
     </section>
   );
-}
+});
 
 Window.propTypes = {
   isMinimized: PropTypes.bool,
@@ -214,4 +214,4 @@ Window.propTypes = {
   }).isRequired,
 };
 
-export default memo(Window);
+export default Window;

@@ -20,7 +20,7 @@ const icons = [
   { id: 'Preferences', imgSrc: settings, tooltip: 'Portfolio Preferences' },
 ];
 
-function Dock({ windows, openWindow, deviceState, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
+const Dock = memo(({ windows, openWindow, deviceState, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) => {
   const [restoringWindow, setRestoringWindow] = useState(null);
 
   // Handle minimizing/restoring a window
@@ -80,7 +80,7 @@ function Dock({ windows, openWindow, deviceState, activeWindow, isLaunchpadOpen,
       <Launchpad openWindow={openWindow} isOpen={isLaunchpadOpen} onClose={() => setLaunchpadOpen(false)} />
     </>
   );
-}
+});
 
 Dock.propTypes = {
   deviceState: PropTypes.shape({
@@ -94,4 +94,4 @@ Dock.propTypes = {
   windows: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default memo(Dock);
+export default Dock;

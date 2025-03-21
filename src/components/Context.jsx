@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { memo, useRef, useLayoutEffect, useCallback } from 'react';
 import { FiSun, FiBook, FiCopy, FiMail, FiMoon, FiFolder, FiGithub, FiFileText, FiLinkedin, FiRefreshCcw } from 'react-icons/fi';
 
-function Context({ x, y, settings, openWindow, updateSettings, setLaunchpadOpen }) {
+const Context = memo(({ x, y, settings, openWindow, updateSettings, setLaunchpadOpen }) => {
     const menuRef = useRef(null);
     const margin = 10;
 
@@ -76,7 +76,7 @@ function Context({ x, y, settings, openWindow, updateSettings, setLaunchpadOpen 
             </div>
         </div>
     );
-}
+});
 
 const MenuItem = memo(({ icon, label, action }) => (
     <div className='menu-item' onClick={action}>
@@ -100,4 +100,4 @@ Context.propTypes = {
     setLaunchpadOpen: PropTypes.func.isRequired,
 };
 
-export default memo(Context);
+export default Context;

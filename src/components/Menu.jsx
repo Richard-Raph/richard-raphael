@@ -85,7 +85,7 @@ const useBluetoothStatus = () => {
   return isBluetoothOn;
 };
 
-function Menu({ windows, settings, activeWindow, closeAllWindows }) {
+const Menu = memo(({ windows, settings, activeWindow, closeAllWindows }) => {
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
   const isBluetoothOn = useBluetoothStatus();
@@ -144,7 +144,7 @@ function Menu({ windows, settings, activeWindow, closeAllWindows }) {
       </div>
     </header>
   );
-}
+});
 
 Menu.propTypes = {
   windows: PropTypes.arrayOf(
@@ -165,4 +165,4 @@ Menu.propTypes = {
   closeAllWindows: PropTypes.func.isRequired,
 };
 
-export default memo(Menu);
+export default Menu;
