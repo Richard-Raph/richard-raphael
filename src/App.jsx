@@ -35,37 +35,53 @@ const useDeviceState = () => {
 const windowReducer = (state, action) => {
   switch (action.type) {
     case 'OPEN':
+      if (action.deviceState?.isSmallScreen) {
+        if (state.windows.length > 0) {
+          return {
+            ...state,
+            active: action.id,
+            stack: [action.id],
+            windows: state.windows.map(w => ({
+              ...w,
+              id: action.id,
+              name: action.id,
+              isMinimized: false,
+              content: action.content,
+            })),
+          };
+        }
+      }
+
+      // Default behavior for larger devices or no open windows on small devices
       return {
         ...state,
+        active: action.id,
+        stack: [...state.stack.filter(id => id !== action.id), action.id],
         windows: state.windows.some(w => w.id === action.id)
           ? state.windows.map(w => w.id === action.id ? { ...w, isMinimized: false } : w)
           : [...state.windows, { id: action.id, name: action.id, isMinimized: false, isMaximized: false }],
-        stack: [...state.stack.filter(id => id !== action.id), action.id],
-        active: action.id
       };
 
     case 'CLOSE':
       return {
         ...state,
-        windows: state.windows.filter(w => w.id !== action.id),
         stack: state.stack.filter(id => id !== action.id),
-        active: state.stack[state.stack.length - 2] || null
+        active: state.stack[state.stack.length - 2] || null,
+        windows: state.windows.filter(w => w.id !== action.id),
       };
 
     case 'MINIMIZE':
       return {
         ...state,
-        windows: state.windows.map(w => w.id === action.id ? { ...w, isMinimized: !w.isMinimized } : w),
         stack: state.stack.filter(id => id !== action.id),
-        active: state.stack[state.stack.length - 2] || null
+        active: state.stack[state.stack.length - 2] || null,
+        windows: state.windows.map(w => w.id === action.id ? { ...w, isMinimized: !w.isMinimized } : w),
       };
 
     case 'MAXIMIZE':
       return {
         ...state,
-        windows: state.windows.map(w =>
-          w.id === action.id ? { ...w, isMaximized: !w.isMaximized, isMinimized: false } : w
-        )
+        windows: state.windows.map(w => w.id === action.id ? { ...w, isMaximized: !w.isMaximized, isMinimized: false } : w),
       };
 
     case 'CLOSE_ALL':
@@ -107,7 +123,7 @@ function App() {
   const [windowState, dispatch] = useReducer(windowReducer, {
     stack: [],
     windows: [],
-    active: null
+    active: null,
   });
 
   // Window components map
@@ -116,8 +132,18 @@ function App() {
     About: <About />,
     Contact: <Contact />,
     Projects: <Projects />,
-    Preferences: <Settings settings={settings} updateSettings={updateSettings} />
+    Preferences: <Settings settings={settings} updateSettings={updateSettings} />,
   }), [settings, updateSettings]);
+
+  // Open window handler
+  const openWindow = useCallback((id) => {
+    dispatch({
+      id,
+      deviceState,
+      type: 'OPEN',
+      content: windowComponents[id],
+    });
+  }, [windowComponents, deviceState]);
 
   // Context menu handler
   const handleContextMenu = useCallback((event) => {
@@ -126,7 +152,7 @@ function App() {
 
     setContextMenu({
       x: Math.min(event.clientX, window.innerWidth - menuWidth - margin),
-      y: Math.min(event.clientY, window.innerHeight - menuHeight - margin)
+      y: Math.min(event.clientY, window.innerHeight - menuHeight - margin),
     });
   }, []);
 
@@ -147,12 +173,12 @@ function App() {
     <>
       <Layout
         settings={settings}
+        openWindow={openWindow}
         windows={windowState.windows}
         updateSettings={updateSettings}
         activeWindow={windowState.active}
         isLaunchpadOpen={isLaunchpadOpen}
         setLaunchpadOpen={setLaunchpadOpen}
-        openWindow={id => dispatch({ type: 'OPEN', id })}
         closeAllWindows={() => dispatch({ type: 'CLOSE_ALL' })}
       >
         {!loadComplete && <Preloader onComplete={() => setLoadComplete(true)} />}
@@ -161,9 +187,9 @@ function App() {
           <Window
             {...window}
             key={window.id}
+            setActive={openWindow}
             content={windowComponents[window.id]}
             isActive={window.id === windowState.active}
-            setActive={id => dispatch({ type: 'OPEN', id })}
             closeWindow={() => dispatch({ type: 'CLOSE', id: window.id })}
             minimizeWindow={() => dispatch({ type: 'MINIMIZE', id: window.id })}
             maximizeWindow={() => dispatch({ type: 'MAXIMIZE', id: window.id })}
@@ -178,9 +204,9 @@ function App() {
           x={contextMenu.x}
           y={contextMenu.y}
           settings={settings}
+          openWindow={openWindow}
           updateSettings={updateSettings}
           setLaunchpadOpen={setLaunchpadOpen}
-          openWindow={id => dispatch({ type: 'OPEN', id })}
         />
       )}
     </>
