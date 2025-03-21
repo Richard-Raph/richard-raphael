@@ -85,7 +85,7 @@ const useBluetoothStatus = () => {
   return isBluetoothOn;
 };
 
-function MenuBar({ windows, settings, activeWindow, closeAllWindows }) {
+function Menu({ windows, settings, activeWindow, closeAllWindows }) {
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
   const isBluetoothOn = useBluetoothStatus();
@@ -146,7 +146,7 @@ function MenuBar({ windows, settings, activeWindow, closeAllWindows }) {
   );
 }
 
-MenuBar.propTypes = {
+Menu.propTypes = {
   windows: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -165,4 +165,4 @@ MenuBar.propTypes = {
   closeAllWindows: PropTypes.func.isRequired,
 };
 
-export default memo(MenuBar);
+export default memo(Menu);

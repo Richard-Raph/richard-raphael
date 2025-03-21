@@ -125,7 +125,7 @@ function Window({
 
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('mousemove', handleMouseMove);
-  }, [deviceState, isMaximized, pos]);
+  }, [pos, deviceState, isMaximized]);
 
   // Window styles
   const windowStyles = useMemo(() => ({
@@ -136,17 +136,17 @@ function Window({
     transition: minAnimate ? 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s' : 'none',
   }), [pos, deviceState, isMaximized, minAnimate]);
 
-  // Minimize handler
-  const handleMinimize = useCallback((e) => {
-    e.stopPropagation();
-    minimizeWindow(id);
-  }, [id, minimizeWindow]);
-
   // Close handler
   const handleClose = useCallback((e) => {
     e.stopPropagation();
     closeWindow(id);
   }, [id, closeWindow]);
+
+  // Minimize handler
+  const handleMinimize = useCallback((e) => {
+    e.stopPropagation();
+    minimizeWindow(id);
+  }, [id, minimizeWindow]);
 
   // Maximize handler
   const handleMaximize = useCallback((e) => {

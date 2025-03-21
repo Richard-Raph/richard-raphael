@@ -20,7 +20,7 @@ const icons = [
   { id: 'Preferences', imgSrc: settings, tooltip: 'Portfolio Preferences' },
 ];
 
-function DockBar({ windows, openWindow, deviceState, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
+function Dock({ windows, openWindow, deviceState, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) {
   const [restoringWindow, setRestoringWindow] = useState(null);
 
   // Handle minimizing/restoring a window
@@ -31,7 +31,7 @@ function DockBar({ windows, openWindow, deviceState, activeWindow, isLaunchpadOp
       setTimeout(() => setRestoringWindow(null), 300);
     }
     openWindow(id);
-  }, [openWindow, windows]);
+  }, [windows, openWindow]);
 
   // Handle icon clicks
   const handleIconClick = useCallback((id) => {
@@ -61,7 +61,6 @@ function DockBar({ windows, openWindow, deviceState, activeWindow, isLaunchpadOp
         <ul>
           {icons.map(({ id, imgSrc, tooltip }) => (
             <React.Fragment key={id}>
-              {/* Conditionally render the Settings icon for larger screens */}
               {id === 'Preferences' && !deviceState.isSmallScreen && <span className='separator' />}
               {(id !== 'Preferences' || !deviceState.isSmallScreen) && (
                 <li
@@ -83,7 +82,7 @@ function DockBar({ windows, openWindow, deviceState, activeWindow, isLaunchpadOp
   );
 }
 
-DockBar.propTypes = {
+Dock.propTypes = {
   deviceState: PropTypes.shape({
     isSmallScreen: PropTypes.bool.isRequired,
     isTabletAndAbove: PropTypes.bool.isRequired,
@@ -95,4 +94,4 @@ DockBar.propTypes = {
   windows: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default memo(DockBar);
+export default memo(Dock);
