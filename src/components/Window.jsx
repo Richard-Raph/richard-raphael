@@ -176,9 +176,7 @@ const Window = memo(({
         )}
         <h3>{name}</h3>
       </div>
-      <section className={`${name.toLowerCase()}-content`}>
-        <div className='window-main'>{content}</div>
-      </section>
+      <section className={`${name.toLowerCase()}-content`}>{content}</section>
       {!deviceState.isSmallScreen && !isMaximized && (
         <>
           <div className='window-resize top' onMouseDown={createResizeHandler('top')} />

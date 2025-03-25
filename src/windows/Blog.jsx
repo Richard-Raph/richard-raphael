@@ -3,8 +3,8 @@ import '../assets/css/Blog.css';
 import PropTypes from 'prop-types';
 
 const Blog = memo(() => (
-    <section className='window-content'>
-        <div className='sidebar'>
+    <>
+        <aside>
             <div className='title'>Favorites</div>
             <div>Recent</div>
             <div>Downloads</div>
@@ -14,12 +14,12 @@ const Blog = memo(() => (
             <div>Music</div>
             <div>Videos</div>
             <div>Apps</div>
-        </div>
-        <div className='glass'>
+        </aside>
+        <div className='window-main'>
             <h2>Blog</h2>
             <p>Follow my latest trends and updates here.</p>
         </div>
-    </section>
+    </>
 ));
 
 Blog.propTypes = {

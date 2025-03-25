@@ -3,12 +3,15 @@ import '../assets/css/About.css';
 import PropTypes from 'prop-types';
 
 const About = memo(() => (
-    <section className='window-content'>
-        <div className='glass'>
+    <>
+        <aside>
+            <h2>Our Story</h2>
+        </aside>
+        <div className='window-main'>
             <h2>About Me</h2>
             <p>Hello! I'm Richard Raphael, a Software Developer and Data Enthusiast.</p>
         </div>
-    </section>
+    </>
 ));
 
 About.propTypes = {
