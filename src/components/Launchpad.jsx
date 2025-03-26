@@ -9,6 +9,7 @@ import twitter from '../assets/icons/twitter.webp';
 import terminal from '../assets/icons/terminal.webp';
 import settings from '../assets/icons/settings.webp';
 import linkedin from '../assets/icons/linkedin.webp';
+import { useDownloadResume } from '../hooks/useDownloadResume';
 import React, { memo, useRef, useState, useEffect, useCallback } from 'react';
 
 const apps = [
@@ -25,6 +26,7 @@ const apps = [
 
 const Launchpad = memo(({ isOpen, onClose, openWindow }) => {
     const searchInputRef = useRef(null);
+    const downloadResume = useDownloadResume();
     const [isVisible, setIsVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -36,15 +38,9 @@ const Launchpad = memo(({ isOpen, onClose, openWindow }) => {
         } else if (app.action === 'openLink') {
             window.open(app.url, '_blank'); // Open link in a new tab
         } else if (app.action === 'downloadResume') {
-            const pdfUrl = '/RICHARD.pdf';
-            const link = document.createElement('a');
-            link.href = pdfUrl;
-            link.download = 'Richard_Raphael.pdf';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            downloadResume();
         }
-    }, [onClose, openWindow]);
+    }, [onClose, openWindow, downloadResume]);
 
     // Filter apps based on search query
     const filteredApps = apps.filter(app => app.label.toLowerCase().includes(searchQuery.toLowerCase()));

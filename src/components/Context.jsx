@@ -1,9 +1,11 @@
 import '../assets/css/Context.css';
 import PropTypes from 'prop-types';
+import { useDownloadResume } from '../hooks/useDownloadResume';
 import { memo, useRef, useCallback, useLayoutEffect } from 'react';
-import { FiSun, FiBook , FiMail, FiMoon, FiFolder, FiGithub, FiXSquare, FiFileText, FiLinkedin, FiRefreshCcw } from 'react-icons/fi';
+import { FiSun, FiMail, FiMoon, FiFolder, FiGithub, FiXSquare, FiFileText, FiLinkedin, FiSettings, FiRefreshCcw } from 'react-icons/fi';
 
 const Context = memo(({ x, y, settings, openWindow, updateSettings, closeAllWindows, setLaunchpadOpen }) => {
+    const downloadResume = useDownloadResume();
     const menuRef = useRef(null);
     const margin = 10;
 
@@ -31,16 +33,6 @@ const Context = memo(({ x, y, settings, openWindow, updateSettings, closeAllWind
         menuRef.current.style.left = `${adjustedX}px`;
     }, [x, y]);
 
-    // Handle resume download
-    const handleResumeDownload = useCallback(() => {
-        const link = document.createElement('a');
-        link.href = '/RICHARD.pdf';
-        link.download = 'Richard_Raphael.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }, []);
-
     // Handle opening a window
     const handleOpenWindow = useCallback((windowName) => {
         setLaunchpadOpen(false);
@@ -63,15 +55,15 @@ const Context = memo(({ x, y, settings, openWindow, updateSettings, closeAllWind
             <span />
 
             <div className='menu-section'>
-                <ContextItem icon={<FiBook />} label='Open Blog' action={() => handleOpenWindow('Blog')} />
                 <ContextItem icon={<FiFolder />} label='Open Projects' action={() => handleOpenWindow('Projects')} />
-                <ContextItem icon={<FiFileText />} label='Download Resume' action={handleResumeDownload} />
+                <ContextItem icon={<FiSettings />} label='Open Preferences' action={() => handleOpenWindow('Preferences')} />
+                <ContextItem icon={<FiXSquare  />} action={closeAllWindows} label='Close All Windows' />
             </div>
 
             <span />
 
             <div className='menu-section'>
-                <ContextItem icon={<FiXSquare  />} action={closeAllWindows} label='Close Windows' />
+                <ContextItem icon={<FiFileText />} label='View Resume' action={() => downloadResume({ openInNewTab: true })} />
                 <ContextItem icon={<FiMail />} label='Compose Email' action={() => window.open('mailto:richardakpan77@gmail.com')} />
                 <ContextItem icon={<FiLinkedin />} label='LinkedIn Profile' action={() => window.open('https://www.linkedin.com/in/rich-tech123')} />
                 <ContextItem

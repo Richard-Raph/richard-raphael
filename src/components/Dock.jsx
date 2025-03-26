@@ -9,6 +9,7 @@ import terminal from '../assets/icons/terminal.webp';
 import settings from '../assets/icons/settings.webp';
 import launchpad from '../assets/icons/launchpad.webp';
 import React, { memo, useState, useCallback } from 'react';
+import { useDownloadResume } from '../hooks/useDownloadResume';
 
 const icons = [
   { id: 'Launchpad', imgSrc: launchpad, tooltip: 'Launchpad' },
@@ -21,6 +22,7 @@ const icons = [
 ];
 
 const Dock = memo(({ windows, openWindow, deviceState, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) => {
+  const downloadResume = useDownloadResume();
   const [restoringWindow, setRestoringWindow] = useState(null);
 
   // Handle minimizing/restoring a window
@@ -36,14 +38,7 @@ const Dock = memo(({ windows, openWindow, deviceState, activeWindow, isLaunchpad
   // Handle icon clicks
   const handleIconClick = useCallback((id) => {
     if (id === 'Terminal') {
-      const pdfUrl = '/RICHARD.pdf';
-      window.open(pdfUrl, '_blank');
-      const link = document.createElement('a');
-      link.href = pdfUrl;
-      link.download = 'Richard_Raphael.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadResume();
       return;
     }
 
