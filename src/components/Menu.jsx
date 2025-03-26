@@ -4,15 +4,13 @@ import { memo, useMemo } from 'react';
 import logo from '../assets/images/logo-fff.webp';
 import { useDateTime } from '../hooks/useDateTime';
 import { useBatteryStatus } from '../hooks/useBatteryStatus';
-import { useNetworkStatus } from '../hooks/useNetworkStatus';
-import { useBluetoothStatus } from '../hooks/useBluetoothStatus';
+import { useDeviceConnectivity } from '../hooks/useDeviceConnectivity';
 import { TbWifi, TbWifiOff, TbBluetooth, TbBluetoothX } from 'react-icons/tb';
 
 const Menu = memo(({ windows, settings, activeWindow }) => {
   const battery = useBatteryStatus();
-  const isOnline = useNetworkStatus();
   const dateTime = useDateTime(settings);
-  const isBluetoothOn = useBluetoothStatus();
+  const { isOnline, isBluetoothOn } = useDeviceConnectivity();
 
   const activeWindowName = useMemo(() => (
     windows.find(({ id }) => id === activeWindow)?.name || 'Welcome'
