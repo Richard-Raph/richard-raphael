@@ -162,7 +162,7 @@ const Window = memo(({
       className={`window ${isActive ? 'active' : ''} ${isMinimized ? 'min' : ''} ${isMaximized ? 'max' : ''}`}
     >
       <div className='window-bar' onMouseDown={handleDragStart}>
-        {!deviceState.isSmallScreen && (
+        {!deviceState.isSmallScreen ? (
           <div className='window-dots'>
             <button className='red' onClick={handleClose} aria-label='Close Window' />
             <button className='yellow' onClick={handleMinimize} aria-label='Minimize Window' />
@@ -173,6 +173,8 @@ const Window = memo(({
               style={{ pointerEvents: name === 'Preferences' ? 'none' : 'auto' }}
             />
           </div>
+        ) : (
+            <span>I am the header</span>
         )}
         <h3>{name}</h3>
       </div>

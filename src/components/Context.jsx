@@ -50,25 +50,25 @@ const Context = memo(({ x, y, settings, openWindow, updateSettings, setLaunchpad
     return (
         <div ref={menuRef} className='context-menu'>
             <div className='menu-section'>
-                <MenuItem icon={<FiRefreshCcw />} label='Refresh Portfolio' action={() => window.location.reload()} />
-                <MenuItem icon={<FiGithub />} label='View GitHub' action={() => window.open('https://github.com/Richard-Raph')} />
+                <ContextItem icon={<FiRefreshCcw />} label='Refresh Portfolio' action={() => window.location.reload()} />
+                <ContextItem icon={<FiGithub />} label='View GitHub' action={() => window.open('https://github.com/Richard-Raph')} />
             </div>
 
             <span />
 
             <div className='menu-section'>
-                <MenuItem icon={<FiBook />} label='Open Blog' action={() => handleOpenWindow('Blog')} />
-                <MenuItem icon={<FiFolder />} label='Open Projects' action={() => handleOpenWindow('Projects')} />
-                <MenuItem icon={<FiFileText />} label='Download Resume' action={handleResumeDownload} />
+                <ContextItem icon={<FiBook />} label='Open Blog' action={() => handleOpenWindow('Blog')} />
+                <ContextItem icon={<FiFolder />} label='Open Projects' action={() => handleOpenWindow('Projects')} />
+                <ContextItem icon={<FiFileText />} label='Download Resume' action={handleResumeDownload} />
             </div>
 
             <span />
 
             <div className='menu-section'>
-                <MenuItem icon={<FiCopy />} label='Copy URL' action={() => navigator.clipboard.writeText(window.location.href)} />
-                <MenuItem icon={<FiMail />} label='Compose Email' action={() => window.open('mailto:richardakpan77@gmail.com')} />
-                <MenuItem icon={<FiLinkedin />} label='LinkedIn Profile' action={() => window.open('https://www.linkedin.com/in/rich-tech123')} />
-                <MenuItem
+                <ContextItem icon={<FiCopy />} label='Copy URL' action={() => navigator.clipboard.writeText(window.location.href)} />
+                <ContextItem icon={<FiMail />} label='Compose Email' action={() => window.open('mailto:richardakpan77@gmail.com')} />
+                <ContextItem icon={<FiLinkedin />} label='LinkedIn Profile' action={() => window.open('https://www.linkedin.com/in/rich-tech123')} />
+                <ContextItem
                     icon={settings.dynamicWallpaper ? <FiSun /> : <FiMoon />}
                     action={() => updateSettings('dynamicWallpaper', !settings.dynamicWallpaper)}
                     label={`${settings.dynamicWallpaper ? 'Disable' : 'Enable'} Dynamic Wallpaper`}
@@ -78,14 +78,14 @@ const Context = memo(({ x, y, settings, openWindow, updateSettings, setLaunchpad
     );
 });
 
-const MenuItem = memo(({ icon, label, action }) => (
+const ContextItem = memo(({ icon, label, action }) => (
     <div className='menu-item' onClick={action}>
         {icon}
         <span>{label}</span>
     </div>
 ));
 
-MenuItem.propTypes = {
+ContextItem.propTypes = {
     icon: PropTypes.node.isRequired,
     action: PropTypes.func.isRequired,
     label: PropTypes.string.isRequired,
