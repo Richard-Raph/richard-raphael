@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import '../assets/css/Launchpad.css';
+import x from '../assets/icons/x.webp';
 import blog from '../assets/icons/blog.webp';
 import about from '../assets/icons/about.webp';
 import github from '../assets/icons/github.webp';
 import project from '../assets/icons/project.webp';
 import contact from '../assets/icons/contact.webp';
-import twitter from '../assets/icons/twitter.webp';
 import terminal from '../assets/icons/terminal.webp';
 import settings from '../assets/icons/settings.webp';
 import linkedin from '../assets/icons/linkedin.webp';
@@ -19,9 +19,9 @@ const apps = [
     { id: 'Contact', icon: contact, label: 'Talk to me', action: 'openWindow' },
     { id: 'Terminal', icon: terminal, label: 'Hire me!', action: 'downloadResume' },
     { id: 'Preferences', icon: settings, label: 'Preferences', action: 'openWindow' },
+    { id: 'X', icon: x, label: 'X', action: 'openLink', url: 'https://x.com/rich_tech123' },
     { id: 'GitHub', icon: github, label: 'GitHub', action: 'openLink', url: 'https://github.com/Richard-Raph' },
     { id: 'LinkedIn', icon: linkedin, label: 'LinkedIn', action: 'openLink', url: 'https://www.linkedin.com/in/rich-tech123' },
-    { id: 'Twitter', icon: twitter, label: 'Twitter', action: 'openLink', url: 'https://twitter.com' },
 ];
 
 const Launchpad = memo(({ isOpen, onClose, openWindow }) => {
