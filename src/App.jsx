@@ -75,7 +75,6 @@ function App() {
         activeWindow={windowState.active}
         isLaunchpadOpen={isLaunchpadOpen}
         setLaunchpadOpen={setLaunchpadOpen}
-        closeAllWindows={() => dispatch({ type: 'CLOSE_ALL' })}
       >
         {!loadComplete && <Preloader onComplete={() => setLoadComplete(true)} />}
 
@@ -102,6 +101,7 @@ function App() {
           openWindow={openWindow}
           updateSettings={updateSettings}
           setLaunchpadOpen={setLaunchpadOpen}
+          closeAllWindows={() => dispatch({ type: 'CLOSE_ALL' })}
         />
       )}
     </>

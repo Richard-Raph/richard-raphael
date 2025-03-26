@@ -6,7 +6,7 @@ import day from '../assets/images/day.webp';
 import night from '../assets/images/night.webp';
 import { memo, useMemo, useEffect, useState } from 'react';
 
-const Layout = memo(({ children, settings, openWindow, windows = [], deviceState, updateSettings, closeAllWindows, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) => {
+const Layout = memo(({ children, settings, openWindow, windows = [], deviceState, updateSettings, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) => {
     const [background, setBackground] = useState(night);
 
     useEffect(() => {
@@ -33,7 +33,6 @@ const Layout = memo(({ children, settings, openWindow, windows = [], deviceState
                 settings={settings}
                 activeWindow={activeWindow}
                 updateSettings={updateSettings}
-                closeAllWindows={closeAllWindows}
             />
             <main>
                 {children}
@@ -74,7 +73,6 @@ Layout.propTypes = {
     children: PropTypes.node.isRequired,
     openWindow: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
-    closeAllWindows: PropTypes.func.isRequired,
     isLaunchpadOpen: PropTypes.bool.isRequired,
     setLaunchpadOpen: PropTypes.func.isRequired,
 };

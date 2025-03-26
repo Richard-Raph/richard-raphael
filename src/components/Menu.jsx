@@ -85,7 +85,7 @@ const useBluetoothStatus = () => {
   return isBluetoothOn;
 };
 
-const Menu = memo(({ windows, settings, activeWindow, closeAllWindows }) => {
+const Menu = memo(({ windows, settings, activeWindow }) => {
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
   const isBluetoothOn = useBluetoothStatus();
@@ -119,7 +119,7 @@ const Menu = memo(({ windows, settings, activeWindow, closeAllWindows }) => {
   return (
     <header className='menu-bar'>
       <div className='info'>
-        <img src={logo} alt='logo' width={30} onClick={closeAllWindows} />
+        <img src={logo} alt='logo' width={30} />
         <h3>{window.innerWidth < 600 ? 'Welcome' : activeWindowName}</h3>
       </div>
       <div className='stats'>
@@ -162,7 +162,6 @@ Menu.propTypes = {
     timeFormat: PropTypes.oneOf(['12-hour', '24-hour']).isRequired,
   }).isRequired,
   activeWindow: PropTypes.string,
-  closeAllWindows: PropTypes.func.isRequired,
 };
 
 export default Menu;

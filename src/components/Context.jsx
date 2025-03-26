@@ -1,9 +1,9 @@
 import '../assets/css/Context.css';
 import PropTypes from 'prop-types';
-import { memo, useRef, useLayoutEffect, useCallback } from 'react';
-import { FiSun, FiBook, FiCopy, FiMail, FiMoon, FiFolder, FiGithub, FiFileText, FiLinkedin, FiRefreshCcw } from 'react-icons/fi';
+import { memo, useRef, useCallback, useLayoutEffect } from 'react';
+import { FiSun, FiBook , FiMail, FiMoon, FiFolder, FiGithub, FiXSquare, FiFileText, FiLinkedin, FiRefreshCcw } from 'react-icons/fi';
 
-const Context = memo(({ x, y, settings, openWindow, updateSettings, setLaunchpadOpen }) => {
+const Context = memo(({ x, y, settings, openWindow, updateSettings, closeAllWindows, setLaunchpadOpen }) => {
     const menuRef = useRef(null);
     const margin = 10;
 
@@ -47,8 +47,14 @@ const Context = memo(({ x, y, settings, openWindow, updateSettings, setLaunchpad
         openWindow(windowName);
     }, [openWindow, setLaunchpadOpen]);
 
+    // Handler to prevent context menu inside the context menu
+    const handleMenuContextMenu = useCallback((e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    }, []);
+
     return (
-        <div ref={menuRef} className='context-menu'>
+        <div ref={menuRef} className='context-menu' onContextMenu={handleMenuContextMenu}>
             <div className='menu-section'>
                 <ContextItem icon={<FiRefreshCcw />} label='Refresh Portfolio' action={() => window.location.reload()} />
                 <ContextItem icon={<FiGithub />} label='View GitHub' action={() => window.open('https://github.com/Richard-Raph')} />
@@ -65,7 +71,7 @@ const Context = memo(({ x, y, settings, openWindow, updateSettings, setLaunchpad
             <span />
 
             <div className='menu-section'>
-                <ContextItem icon={<FiCopy />} label='Copy URL' action={() => navigator.clipboard.writeText(window.location.href)} />
+                <ContextItem icon={<FiXSquare  />} action={closeAllWindows} label='Close Windows' />
                 <ContextItem icon={<FiMail />} label='Compose Email' action={() => window.open('mailto:richardakpan77@gmail.com')} />
                 <ContextItem icon={<FiLinkedin />} label='LinkedIn Profile' action={() => window.open('https://www.linkedin.com/in/rich-tech123')} />
                 <ContextItem
@@ -97,6 +103,7 @@ Context.propTypes = {
     settings: PropTypes.object.isRequired,
     openWindow: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
+    closeAllWindows: PropTypes.func.isRequired,
     setLaunchpadOpen: PropTypes.func.isRequired,
 };
 
