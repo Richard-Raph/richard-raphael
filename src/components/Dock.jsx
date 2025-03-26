@@ -15,17 +15,16 @@ const icons = [
   { id: 'Launchpad', imgSrc: launchpad, tooltip: 'Launchpad' },
   { id: 'About', imgSrc: about, tooltip: 'About Me' },
   { id: 'Projects', imgSrc: project, tooltip: 'Projects' },
-  { id: 'Blog', imgSrc: blog, tooltip: 'Follow my trends' },
-  { id: 'Contact', imgSrc: contact, tooltip: 'Talk to me' },
-  { id: 'Terminal', imgSrc: terminal, tooltip: 'Hire me!' },
-  { id: 'Preferences', imgSrc: settings, tooltip: 'Portfolio Preferences' },
+  { id: 'Blog', imgSrc: blog, tooltip: 'Latest Trends' },
+  { id: 'Contact', imgSrc: contact, tooltip: 'Let\'s Talk' },
+  { id: 'Preferences', imgSrc: settings, tooltip: 'Preferences' },
+  { id: 'Terminal', imgSrc: terminal, tooltip: 'Download Resume' },
 ];
 
 const Dock = memo(({ windows, openWindow, deviceState, activeWindow, isLaunchpadOpen, setLaunchpadOpen }) => {
   const downloadResume = useDownloadResume();
   const [restoringWindow, setRestoringWindow] = useState(null);
 
-  // Handle minimizing/restoring a window
   const handleMinimizeRestore = useCallback((id) => {
     const windowState = windows.find(win => win.id === id);
     if (windowState?.isMinimized) {
@@ -35,7 +34,6 @@ const Dock = memo(({ windows, openWindow, deviceState, activeWindow, isLaunchpad
     openWindow(id);
   }, [windows, openWindow]);
 
-  // Handle icon clicks
   const handleIconClick = useCallback((id) => {
     if (id === 'Terminal') {
       downloadResume();
@@ -48,7 +46,7 @@ const Dock = memo(({ windows, openWindow, deviceState, activeWindow, isLaunchpad
       setLaunchpadOpen(false);
       windows.some(win => win.id === id) ? handleMinimizeRestore(id) : openWindow(id);
     }
-  }, [windows, openWindow, setLaunchpadOpen, handleMinimizeRestore]);
+  }, [windows, openWindow, downloadResume, setLaunchpadOpen, handleMinimizeRestore]);
 
   return (
     <>
@@ -56,7 +54,7 @@ const Dock = memo(({ windows, openWindow, deviceState, activeWindow, isLaunchpad
         <ul>
           {icons.map(({ id, imgSrc, tooltip }) => (
             <React.Fragment key={id}>
-              {id === 'Preferences' && !deviceState.isSmallScreen && <span className='separator' />}
+              {id === 'Terminal' && <span className='separator' />}
               {(id !== 'Preferences' || !deviceState.isSmallScreen) && (
                 <li
                   data-window-id={id}
