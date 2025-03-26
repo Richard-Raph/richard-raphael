@@ -30,8 +30,8 @@ body {
     width: 100%;
     height: 100dvh;
     overflow: hidden;
-    line-height: 1.2;
     position: relative;
+    line-height: 1.2 !important;
     color: rgba(255, 255, 255, 0.87);
     font: 400 1vw 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }

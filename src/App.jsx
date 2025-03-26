@@ -1,120 +1,16 @@
 import Blog from './windows/Blog';
 import About from './windows/About';
 import Contact from './windows/Contact';
-import Layout from './components/Layout';
-import Window from './components/Window';
 import Projects from './windows/Projects';
 import Settings from './windows/Settings';
+import Layout from './components/Layout';
+import Window from './components/Window';
 import Context from './components/Context';
 import Preloader from './components/Preloader';
-import { memo, useMemo, useState, useEffect, useReducer, useCallback } from 'react';
-
-// Custom hook for settings
-const useSettings = () => {
-  const [settings, setSettings] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem('userSettings')) || {};
-    } catch {
-      return {};
-    }
-  });
-
-  const updateSettings = useCallback((key, value) => {
-    setSettings(prev => {
-      const newSettings = { ...prev, [key]: value };
-      localStorage.setItem('userSettings', JSON.stringify(newSettings));
-      return newSettings;
-    });
-  }, []);
-
-  return [settings, updateSettings];
-};
-
-// Custom hook for device state
-const useDeviceState = () => {
-  const [deviceState, setDeviceState] = useState(() => ({
-    isSmallScreen: window.innerWidth < 750,
-    isTabletAndAbove: window.innerWidth >= 750,
-    isLaptopAndAbove: window.innerWidth >= 1200,
-    isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
-  }));
-
-  useEffect(() => {
-    const handleResize = () => {
-      setDeviceState({
-        isSmallScreen: window.innerWidth < 750,
-        isTabletAndAbove: window.innerWidth >= 750,
-        isLaptopAndAbove: window.innerWidth >= 1200,
-        isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
-      });
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  return deviceState;
-};
-
-// Window state reducer
-const windowReducer = (state, action) => {
-  switch (action.type) {
-    case 'OPEN':
-      if (action.deviceState?.isSmallScreen || !action.deviceState?.isLaptopAndAbove) {
-        if (state.windows.length > 0) {
-          return {
-            ...state,
-            active: action.id,
-            stack: [action.id],
-            windows: state.windows.map(w => ({
-              ...w,
-              id: action.id,
-              name: action.id,
-              isMinimized: false,
-              content: action.content,
-            })),
-          };
-        }
-      }
-
-      return {
-        ...state,
-        active: action.id,
-        stack: [...state.stack.filter(id => id !== action.id), action.id],
-        windows: state.windows.some(w => w.id === action.id)
-          ? state.windows.map(w => w.id === action.id ? { ...w, isMinimized: false } : w)
-          : [...state.windows, { id: action.id, name: action.id, isMinimized: false, isMaximized: false }],
-      };
-
-    case 'CLOSE':
-      return {
-        ...state,
-        stack: state.stack.filter(id => id !== action.id),
-        active: state.stack[state.stack.length - 2] || null,
-        windows: state.windows.filter(w => w.id !== action.id),
-      };
-
-    case 'MINIMIZE':
-      return {
-        ...state,
-        stack: state.stack.filter(id => id !== action.id),
-        active: state.stack[state.stack.length - 2] || null,
-        windows: state.windows.map(w => w.id === action.id ? { ...w, isMinimized: !w.isMinimized } : w),
-      };
-
-    case 'MAXIMIZE':
-      return {
-        ...state,
-        windows: state.windows.map(w => w.id === action.id ? { ...w, isMaximized: !w.isMaximized, isMinimized: false } : w),
-      };
-
-    case 'CLOSE_ALL':
-      return { stack: [], windows: [], active: null };
-
-    default:
-      return state;
-  }
-};
+import { useSettings } from './hooks/useSettings';
+import { useDeviceState } from './hooks/useDeviceState';
+import { useWindowReducer } from './hooks/useWindowReducer';
+import { memo, useMemo, useReducer, useState, useEffect, useCallback } from 'react';
 
 function App() {
   const deviceState = useDeviceState();
@@ -122,13 +18,12 @@ function App() {
   const [contextMenu, setContextMenu] = useState(null);
   const [loadComplete, setLoadComplete] = useState(false);
   const [isLaunchpadOpen, setLaunchpadOpen] = useState(false);
-  const [windowState, dispatch] = useReducer(windowReducer, {
+  const [windowState, dispatch] = useReducer(useWindowReducer, {
     stack: [],
     windows: [],
     active: null,
   });
 
-  // Window components map
   const windowComponents = useMemo(() => ({
     Blog: <Blog />,
     About: <About />,
@@ -137,7 +32,6 @@ function App() {
     Preferences: <Settings settings={settings} updateSettings={updateSettings} />,
   }), [settings, updateSettings]);
 
-  // Open window handler
   const openWindow = useCallback((id) => {
     dispatch({
       id,
@@ -147,7 +41,6 @@ function App() {
     });
   }, [deviceState, windowComponents]);
 
-  // Context menu handler
   const handleContextMenu = useCallback((event) => {
     event.preventDefault();
     const menuWidth = 160, menuHeight = 110, margin = 10;
