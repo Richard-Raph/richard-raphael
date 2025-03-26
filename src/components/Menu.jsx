@@ -1,110 +1,23 @@
 import '../assets/css/Menu.css';
 import PropTypes from 'prop-types';
 import logo from '../assets/images/logo-fff.webp';
-import { memo, useMemo, useState, useEffect } from 'react';
+import { memo, useMemo } from 'react';
 import { TbWifi, TbWifiOff, TbBluetooth, TbBluetoothX } from 'react-icons/tb';
-
-const formatDateTime = (settings) => {
-  const now = new Date();
-
-  let date;
-  let timeOptions = {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: settings.timeFormat === '12-hour',
-    second: settings.showSeconds ? '2-digit' : undefined,
-  };
-
-  switch (settings.dateFormat) {
-    case 'DD/MM/YYYY':
-      date = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
-      break;
-    case 'MM/DD/YYYY':
-      date = `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}/${now.getFullYear()}`;
-      break;
-    case 'YYYY/MM/DD':
-      date = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`;
-      break;
-    case 'Day, Month DD':
-      date = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).replace(/,/g, '');
-      break;
-    default:
-      date = now.toLocaleDateString('en-US');
-  }
-
-  const time = now.toLocaleTimeString('en-US', timeOptions);
-
-  return { date, time };
-};
-
-const useBatteryStatus = () => {
-  const [battery, setBattery] = useState({ level: null, charging: false });
-
-  useEffect(() => {
-    navigator.getBattery?.().then((batteryStatus) => {
-      const updateBattery = () => setBattery({ level: batteryStatus.level, charging: batteryStatus.charging });
-      updateBattery();
-      batteryStatus.addEventListener('levelchange', updateBattery);
-      batteryStatus.addEventListener('chargingchange', updateBattery);
-      return () => {
-        batteryStatus.removeEventListener('levelchange', updateBattery);
-        batteryStatus.removeEventListener('chargingchange', updateBattery);
-      };
-    });
-  }, []);
-
-  return battery;
-};
-
-const useNetworkStatus = () => {
-  const [isOnline, setIsOnline] = useState(false);
-
-  useEffect(() => {
-    navigator.onLine ? setIsOnline(true) : setIsOnline(false);
-    const updateOnlineStatus = () => setIsOnline(true);
-    const updateOfflineStatus = () => setIsOnline(false);
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOfflineStatus);
-
-    return () => {
-      window.removeEventListener('online', updateOnlineStatus);
-      window.removeEventListener('offline', updateOfflineStatus);
-    };
-  }, []);
-
-  return isOnline;
-};
-
-const useBluetoothStatus = () => {
-  const [isBluetoothOn, setIsBluetoothOn] = useState(false);
-
-  useEffect(() => {
-    navigator.bluetooth?.getAvailability().then(setIsBluetoothOn);
-  }, []);
-
-  return isBluetoothOn;
-};
+import { useBatteryStatus } from '../../hooks/useBatteryStatus';
+import { useNetworkStatus } from '../../hooks/useNetworkStatus';
+import { useBluetoothStatus } from '../../hooks/useBluetoothStatus';
+import { useDateTime } from '../../hooks/useDateTime';
 
 const Menu = memo(({ windows, settings, activeWindow }) => {
   const battery = useBatteryStatus();
   const isOnline = useNetworkStatus();
+  const dateTime = useDateTime(settings);
   const isBluetoothOn = useBluetoothStatus();
-  const [dateTime, setDateTime] = useState(() => formatDateTime(settings));
 
-  // Update date and time every second
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDateTime(formatDateTime(settings));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [settings]);
-
-  // Memoize the active window name
   const activeWindowName = useMemo(() => (
     windows.find(({ id }) => id === activeWindow)?.name || 'Welcome'
   ), [windows, activeWindow]);
 
-  // Memoize the battery level and charging status
   const batteryLevel = useMemo(() => (
     battery.level !== null ? Math.round(battery.level * 100) : null
   ), [battery.level]);
@@ -129,7 +42,10 @@ const Menu = memo(({ windows, settings, activeWindow }) => {
               {settings.showBatteryPercentage && <ins style={{ marginRight: '4px' }}>{batteryLevel}%</ins>}
               <p style={{ position: 'relative', display: 'inline-flex' }}>
                 <span />
-                <small style={{ backgroundColor: batteryColor, width: `${0.1 + battery.level * 0.96}rem` }} />
+                <small style={{
+                  backgroundColor: batteryColor,
+                  width: `${0.1 + battery.level * 0.96}rem`
+                }} />
                 {battery.charging && <i />}
               </p>
             </>
@@ -149,7 +65,7 @@ const Menu = memo(({ windows, settings, activeWindow }) => {
 Menu.propTypes = {
   windows: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired, // Changed from number to string
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
