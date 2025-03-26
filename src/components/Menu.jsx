@@ -1,12 +1,12 @@
 import '../assets/css/Menu.css';
 import PropTypes from 'prop-types';
-import logo from '../assets/images/logo-fff.webp';
 import { memo, useMemo } from 'react';
+import logo from '../assets/images/logo-fff.webp';
+import { useDateTime } from '../hooks/useDateTime';
+import { useBatteryStatus } from '../hooks/useBatteryStatus';
+import { useNetworkStatus } from '../hooks/useNetworkStatus';
+import { useBluetoothStatus } from '../hooks/useBluetoothStatus';
 import { TbWifi, TbWifiOff, TbBluetooth, TbBluetoothX } from 'react-icons/tb';
-import { useBatteryStatus } from '../../hooks/useBatteryStatus';
-import { useNetworkStatus } from '../../hooks/useNetworkStatus';
-import { useBluetoothStatus } from '../../hooks/useBluetoothStatus';
-import { useDateTime } from '../../hooks/useDateTime';
 
 const Menu = memo(({ windows, settings, activeWindow }) => {
   const battery = useBatteryStatus();
@@ -65,7 +65,7 @@ const Menu = memo(({ windows, settings, activeWindow }) => {
 Menu.propTypes = {
   windows: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired, // Changed from number to string
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
