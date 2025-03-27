@@ -58,14 +58,6 @@
         border-radius: .25rem;
     }
 
-    .menu-bar .stats>*:hover {
-        background-color: #f3f4f64d;
-    }
-
-    .menu-bar .stats * {
-        cursor: url('../icons/pointer.png') 12.5 12.5, pointer;
-    }
-
     .menu-bar .stats div span {
         width: 1em;
         height: 1em;
