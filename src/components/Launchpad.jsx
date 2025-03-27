@@ -47,9 +47,7 @@ const Launchpad = memo(({ isOpen, onClose, openWindow }) => {
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
-            setTimeout(() => {
-                if (searchInputRef.current) { searchInputRef.current.focus(); }
-            }, 0);
+            setTimeout(() => { if (searchInputRef.current) { searchInputRef.current.focus(); } }, 0);
         } else { setIsVisible(false); }
     }, [isOpen]);
 
@@ -69,14 +67,12 @@ const Launchpad = memo(({ isOpen, onClose, openWindow }) => {
             </div>
 
             <div className='launchpad-icons'>
-                {filteredApps.length > 0 ? (
-                    filteredApps.map((app) => (
-                        <div key={app.id} className='launchpad-item' onClick={() => handleAppClick(app)}>
-                            <img width={80} src={app.icon} alt={app.label} />
-                            <span>{app.label}</span>
-                        </div>
-                    ))
-                ) : <p>No results found for "<strong>{searchQuery}</strong>"</p>}
+                {filteredApps.length > 0 ? (filteredApps.map((app) => (
+                    <div key={app.id} className='launchpad-item' onClick={() => handleAppClick(app)}>
+                        <img width={80} src={app.icon} alt={app.label} />
+                        <span>{app.label}</span>
+                    </div>
+                ))) : <p>No results found for "<strong>{searchQuery}</strong>"</p>}
             </div>
         </section>
     );
