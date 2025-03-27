@@ -23,16 +23,45 @@
 }
 
 .launchpad .launchpad-search {
-    width: 25%;
-    border: none;
-    padding: 10px;
-    color: white;
-    font-size: 1rem;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.1);
+    gap: .6rem;
+    width: 20%;
+    display: flex;
+    align-items: center;
+    padding: .50rem .75rem;
+    border-radius: .375rem;
+    justify-content: center;
+    background-color: #ffffff1a;
 }
 
-.launchpad .launchpad-search::placeholder {
+.launchpad-search span {
+    width: 11.2px;
+    height: 11.2px;
+    position: relative;
+    border-radius: 50%;
+    border: .5px solid rgb(255 255 255 / 1);
+}
+
+.launchpad-search span::after {
+    width: .5px;
+    content: '';
+    height: 5px;
+    rotate: -45deg;
+    position: absolute;
+    inset: auto -2px -2.5px auto;
+    background: rgb(255 255 255 / 1);
+}
+
+.launchpad-search input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-weight: 300;
+    font-size: .875rem;
+    background: transparent;
+    color: rgb(255 255 255 / 1);
+}
+
+.launchpad-search input::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
@@ -64,6 +93,6 @@
 .launchpad-icons p {
     width: 100%;
     color: white;
-    font-size: 1.2rem;
+    font-size: 1rem;
     text-align: center;
 }

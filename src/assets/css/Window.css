@@ -1,5 +1,5 @@
 .window {
-    opacity: 1;
+    /* opacity: 1; */
     z-index: 10;
     width: 100vw;
     height: 100vh;
@@ -7,12 +7,11 @@
     overflow: hidden;
     position: absolute;
     pointer-events: all;
-    transform-origin: top left;
     transform-style: preserve-3d;
     transform-origin: center center;
-    animation: openPopup 0.5s ease-in-out 1 normal;
+    transition: all 0.5s ease-in-out;
+    animation: openPopup 0.3s ease-in-out 1 normal;
     box-shadow: 0 40px 60px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.5);
-    transition: opacity 0.3s ease, top 0.3s ease-in-out, left 0.3s ease-in-out, width 0.3s ease-in-out, height 0.3s ease-in-out, transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .window::after,

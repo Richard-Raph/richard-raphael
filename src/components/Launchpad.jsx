@@ -69,15 +69,17 @@ const Launchpad = memo(({ isOpen, onClose, openWindow }) => {
     if (!isOpen) return null;
 
     return (
-        <div className={`launchpad ${isVisible ? 'visible' : ''}`} onClick={handleOverlayClick}>
-            <input
-                type='text'
-                value={searchQuery}
-                ref={searchInputRef}
-                placeholder='Search...'
-                className='launchpad-search'
-                onChange={(e) => setSearchQuery(e.target.value)}
-            />
+        <section className={`launchpad ${isVisible ? 'visible' : ''}`} onClick={handleOverlayClick}>
+            <div className='launchpad-search'>
+                <span />
+                <input
+                    type='text'
+                    value={searchQuery}
+                    ref={searchInputRef}
+                    placeholder='Search...'
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
 
             <div className='launchpad-icons'>
                 {filteredApps.length > 0 ? (
@@ -91,7 +93,7 @@ const Launchpad = memo(({ isOpen, onClose, openWindow }) => {
                     <p>No results found for "<strong>{searchQuery}</strong>"</p>
                 )}
             </div>
-        </div>
+        </section>
     );
 });
 
