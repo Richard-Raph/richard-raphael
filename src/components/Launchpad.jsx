@@ -6,9 +6,9 @@ import about from '../assets/icons/about.webp';
 import github from '../assets/icons/github.webp';
 import project from '../assets/icons/project.webp';
 import contact from '../assets/icons/contact.webp';
-import terminal from '../assets/icons/terminal.webp';
-import settings from '../assets/icons/settings.webp';
 import linkedin from '../assets/icons/linkedin.webp';
+import settings from '../assets/icons/settings.webp';
+import terminal from '../assets/icons/terminal.webp';
 import { useDownloadResume } from '../hooks/useDownloadResume';
 import React, { memo, useRef, useState, useEffect, useCallback } from 'react';
 
@@ -18,8 +18,8 @@ const apps = [
     { id: 'Blog', icon: blog, label: 'Follow my trends', action: 'openWindow' },
     { id: 'Contact', icon: contact, label: 'Talk to me', action: 'openWindow' },
     { id: 'Terminal', icon: terminal, label: 'Hire me!', action: 'downloadResume' },
-    { id: 'X', icon: x, label: 'X', action: 'openLink', url: 'https://x.com/rich_tech123' },
     { id: 'Preferences', icon: settings, label: 'Preferences', action: 'openWindow' },
+    { id: 'X', icon: x, label: 'X', action: 'openLink', url: 'https://x.com/rich_tech123' },
     { id: 'GitHub', icon: github, label: 'GitHub', action: 'openLink', url: 'https://github.com/Richard-Raph' },
     { id: 'LinkedIn', icon: linkedin, label: 'LinkedIn', action: 'openLink', url: 'https://www.linkedin.com/in/rich-tech123' },
 ];
@@ -30,41 +30,28 @@ const Launchpad = memo(({ isOpen, onClose, openWindow }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Handle app clicks
-    const handleAppClick = useCallback((app) => {
-        if (app.action === 'openWindow') {
-            onClose(); // Close the launchpad
-            openWindow(app.id); // Open the selected window
-        } else if (app.action === 'openLink') {
-            window.open(app.url, '_blank'); // Open link in a new tab
-        } else if (app.action === 'downloadResume') {
-            downloadResume();
-        }
-    }, [onClose, openWindow, downloadResume]);
-
-    // Filter apps based on search query
     const filteredApps = apps.filter(app => app.label.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    // Handle scaling animation and focus the search input
+    const handleOverlayClick = useCallback((e) => {
+        if (!e.target.closest('.launchpad-search') && !e.target.closest('.launchpad-item')) { onClose(); }
+    }, [onClose]);
+
+    const handleAppClick = useCallback((app) => {
+        if (app.action === 'openWindow') {
+            onClose();
+            openWindow(app.id);
+        } else if (app.action === 'downloadResume') { downloadResume(); }
+        else if (app.action === 'openLink') { window.open(app.url, '_blank'); }
+    }, [onClose, openWindow, downloadResume]);
+
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
-            // Focus the search input when Launchpad opens
             setTimeout(() => {
-                if (searchInputRef.current) {
-                    searchInputRef.current.focus();
-                }
-            }, 0); // Use setTimeout to ensure focus is set after the DOM update
+                if (searchInputRef.current) { searchInputRef.current.focus(); }
+            }, 0);
         } else { setIsVisible(false); }
     }, [isOpen]);
-
-    // Close Launchpad when clicking outside
-    const handleOverlayClick = useCallback((e) => {
-        // Only close if clicking outside the search bar or icons
-        if (!e.target.closest('.launchpad-search') && !e.target.closest('.launchpad-item')) {
-            onClose();
-        }
-    }, [onClose]);
 
     if (!isOpen) return null;
 
@@ -89,9 +76,7 @@ const Launchpad = memo(({ isOpen, onClose, openWindow }) => {
                             <span>{app.label}</span>
                         </div>
                     ))
-                ) : (
-                    <p>No results found for "<strong>{searchQuery}</strong>"</p>
-                )}
+                ) : <p>No results found for "<strong>{searchQuery}</strong>"</p>}
             </div>
         </section>
     );
