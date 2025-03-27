@@ -19,7 +19,6 @@
 }
 
 a,
-svg,
 label,
 button {
     cursor: url('./assets/icons/pointer.png') 12.5 12.5, pointer;
