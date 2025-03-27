@@ -49,20 +49,15 @@
 .launchpad-icons .launchpad-item {
     gap: 10px;
     display: flex;
+    font-size: 0.9rem;
     width: max-content;
     align-items: center;
     flex-direction: column;
     cursor: url('../../assets/icons/pointer.png') 12.5 12.5, pointer;
 }
 
-.launchpad-icons .launchpad-item img {
-    width: 80px;
-    height: 80px;
-    cursor: url('../../assets/icons/pointer.png') 12.5 12.5, pointer;
-}
-
+.launchpad-icons .launchpad-item img,
 .launchpad-icons .launchpad-item span {
-    font-size: 0.9rem;
     cursor: url('../../assets/icons/pointer.png') 12.5 12.5, pointer;
 }
 

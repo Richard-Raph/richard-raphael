@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import '../assets/css/Launchpad.css';
-import x from '../assets/icons/x.webp';
+import x from '../assets/icons/w.png';
 import blog from '../assets/icons/blog.webp';
 import about from '../assets/icons/about.webp';
 import github from '../assets/icons/github.webp';
@@ -18,8 +18,8 @@ const apps = [
     { id: 'Blog', icon: blog, label: 'Follow my trends', action: 'openWindow' },
     { id: 'Contact', icon: contact, label: 'Talk to me', action: 'openWindow' },
     { id: 'Terminal', icon: terminal, label: 'Hire me!', action: 'downloadResume' },
-    { id: 'Preferences', icon: settings, label: 'Preferences', action: 'openWindow' },
     { id: 'X', icon: x, label: 'X', action: 'openLink', url: 'https://x.com/rich_tech123' },
+    { id: 'Preferences', icon: settings, label: 'Preferences', action: 'openWindow' },
     { id: 'GitHub', icon: github, label: 'GitHub', action: 'openLink', url: 'https://github.com/Richard-Raph' },
     { id: 'LinkedIn', icon: linkedin, label: 'LinkedIn', action: 'openLink', url: 'https://www.linkedin.com/in/rich-tech123' },
 ];
@@ -83,7 +83,7 @@ const Launchpad = memo(({ isOpen, onClose, openWindow }) => {
                 {filteredApps.length > 0 ? (
                     filteredApps.map((app) => (
                         <div key={app.id} className='launchpad-item' onClick={() => handleAppClick(app)}>
-                            <img src={app.icon} alt={app.label} />
+                            <img width={80} src={app.icon} alt={app.label} />
                             <span>{app.label}</span>
                         </div>
                     ))

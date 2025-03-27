@@ -1,45 +1,41 @@
 .context-menu {
     z-index: 9999;
-    padding: 8px 0;
+    padding: .5rem;
     position: fixed;
-    min-width: 220px;
-    border-radius: 12px;
+    min-width: 15rem;
+    border-radius: .5rem;
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: hsla(240, 24%, 100%, .3);
+    box-shadow: #0000004d 0px 0px 11px 0px, 0 0 0 0 white;
     animation: menuAppear 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .context-menu>span {
     height: 1px;
-    margin: 5px 0;
+    margin: 10px 0;
     display: block;
-    background: rgba(0, 0, 0, 0.08);
+    background-color: hsla(240, 3%, 11%, .2);
 }
 
-.context-menu .menu-section {
-    padding: 4px 0;
+.context-menu .menu-section * {
+    cursor: url('../icons/pointer.png') 12.5 12.5, pointer;
 }
 
-.menu-section .menu-item {
+.context-menu .menu-item {
     gap: 15px;
     display: flex;
-    color: #1f1f1f;
-    padding: 8px 16px;
-    font-size: 0.8rem;
+    margin: .2rem 0;
+    font-size: .9rem;
     align-items: center;
-    transition: background 0.15s;
+    padding: .3rem .4rem;
+    border-radius: .3rem;
+    letter-spacing: .4px;
+    color: hsla(240, 3%, 11%, 1);
 }
 
-.menu-section .menu-item:hover {
-    background: rgba(0, 122, 255, 0.08);
-}
-
-.menu-section .menu-item svg {
-    width: 20px;
-    height: 20px;
-    color: rgba(0, 0, 0, 0.8);
+.context-menu .menu-item:hover {
+    color: hsl(240, 24%, 100%);
+    background-color: hsl(211, 100%, 50%);
 }
 
 @keyframes menuAppear {
@@ -60,7 +56,7 @@
         min-width: 240px;
     }
 
-    .menu-section .menu-item {
+    .context-menu .menu-item {
         padding: 10px 20px;
     }
 }

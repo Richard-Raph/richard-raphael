@@ -2,15 +2,15 @@
     top: 0;
     width: 100%;
     z-index: 99;
-    height: 2rem;
     display: flex;
+    height: 1.8rem;
     font-size: 14px;
     padding: 1px 12px;
     line-height: 22px;
     position: relative;
     align-items: center;
-    background-color: #3741511a;
     justify-content: space-between;
+    background-color: hsla(240, 24%, 100%, .3);
     backdrop-filter: blur(30px) saturate(2) brightness(0.5);
     box-shadow: 0 0 rgb(0 0 0 / 0), 0 0 rgb(0 0 0 / 0), 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
 }
@@ -49,7 +49,7 @@
         display: flex;
     }
 
-    .menu-bar .stats > * {
+    .menu-bar .stats>* {
         gap: 2px;
         height: 1.5rem;
         padding: 0 .25rem;
@@ -57,11 +57,11 @@
         display: inline-flex;
         border-radius: .25rem;
     }
-    
-    .menu-bar .stats > *:hover {
+
+    .menu-bar .stats>*:hover {
         background-color: #f3f4f64d;
     }
-    
+
     .menu-bar .stats * {
         cursor: url('../icons/pointer.png') 12.5 12.5, pointer;
     }
@@ -73,7 +73,7 @@
         background-color: currentColor;
         mask: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 16 16' display='inline-block' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' d='M0 6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1zm14 3a1.5 1.5 0 0 1-1.5 1.5v-3A1.5 1.5 0 0 1 16 8'/%3E%3C/svg%3E") no-repeat 100% / 100%;
     }
-    
+
     .menu-bar .stats div small {
         inset: 50% 0;
         height: .5rem;
@@ -82,7 +82,7 @@
         margin: -.25rem 0 0 .125rem;
         background-color: rgb(234 179 8 / 1);
     }
-    
+
     .menu-bar .stats div i {
         inset: 0;
         width: 1em;
@@ -90,7 +90,7 @@
         font-size: .75rem;
         position: absolute;
         background-color: currentColor;
-        transform: translate(-.125rem) scale3d(1,1,1);
+        transform: translate(-.125rem) scale3d(1, 1, 1);
         mask: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 16 16' display='inline-block' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' d='M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z'/%3E%3C/svg%3E") no-repeat 100% / 100%;
     }
 }

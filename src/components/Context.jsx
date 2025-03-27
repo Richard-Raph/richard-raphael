@@ -48,26 +48,26 @@ const Context = memo(({ x, y, settings, openWindow, updateSettings, closeAllWind
     return (
         <div ref={menuRef} className='context-menu' onContextMenu={handleMenuContextMenu}>
             <div className='menu-section'>
-                <ContextItem icon={<FiRefreshCcw />} label='Refresh Portfolio' action={() => window.location.reload()} />
-                <ContextItem icon={<FiGithub />} label='View GitHub' action={() => window.open('https://github.com/Richard-Raph')} />
+                <ContextItem icon={<FiRefreshCcw size={20} />} label='Refresh Portfolio' action={() => window.location.reload()} />
+                <ContextItem icon={<FiGithub size={20} />} label='View GitHub' action={() => window.open('https://github.com/Richard-Raph')} />
             </div>
 
             <span />
 
             <div className='menu-section'>
-                <ContextItem icon={<FiFolder />} label='Open Projects' action={() => handleOpenWindow('Projects')} />
-                <ContextItem icon={<FiSettings />} label='Open Preferences' action={() => handleOpenWindow('Preferences')} />
-                <ContextItem icon={<FiXSquare  />} action={closeAllWindows} label='Close All Windows' />
+                <ContextItem icon={<FiFolder size={20} />} label='Open Projects' action={() => handleOpenWindow('Projects')} />
+                <ContextItem icon={<FiSettings size={20} />} label='Open Preferences' action={() => handleOpenWindow('Preferences')} />
+                <ContextItem icon={<FiXSquare size={20}  />} action={closeAllWindows} label='Close All Windows' />
             </div>
 
             <span />
 
             <div className='menu-section'>
-                <ContextItem icon={<FiFileText />} label='View Resume' action={() => downloadResume({ openInNewTab: true })} />
-                <ContextItem icon={<FiMail />} label='Compose Email' action={() => window.open('mailto:richardakpan77@gmail.com')} />
-                <ContextItem icon={<FiLinkedin />} label='LinkedIn Profile' action={() => window.open('https://www.linkedin.com/in/rich-tech123')} />
+                <ContextItem icon={<FiFileText size={20} />} label='View Resume' action={() => downloadResume({ openInNewTab: true })} />
+                <ContextItem icon={<FiMail size={20} />} label='Compose Email' action={() => window.open('mailto:richardakpan77@gmail.com')} />
+                <ContextItem icon={<FiLinkedin size={20} />} label='LinkedIn Profile' action={() => window.open('https://www.linkedin.com/in/rich-tech123')} />
                 <ContextItem
-                    icon={settings.dynamicWallpaper ? <FiSun /> : <FiMoon />}
+                    icon={settings.dynamicWallpaper ? <FiSun size={20} /> : <FiMoon size={20} />}
                     action={() => updateSettings('dynamicWallpaper', !settings.dynamicWallpaper)}
                     label={`${settings.dynamicWallpaper ? 'Disable' : 'Enable'} Dynamic Wallpaper`}
                 />

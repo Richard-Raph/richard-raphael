@@ -52,7 +52,7 @@ const Dock = memo(({ windows, openWindow, deviceState, activeWindow, isLaunchpad
     <>
       <nav className='dock-bar'>
         <ul>
-          {icons.map(({ id, imgSrc, tooltip }) => (
+          {icons.map(({ id, imgSrc, tooltip }, index) => (
             <React.Fragment key={id}>
               {id === 'Terminal' && <span className='separator' />}
               {(id !== 'Preferences' || !deviceState.isSmallScreen) && (
@@ -65,6 +65,7 @@ const Dock = memo(({ windows, openWindow, deviceState, activeWindow, isLaunchpad
                   <span className='tooltip'>{tooltip}</span>
                 </li>
               )}
+              {id === 'Launchpad' && <span className='separator' />}
             </React.Fragment>
           ))}
         </ul>

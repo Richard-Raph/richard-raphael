@@ -6,7 +6,6 @@
     text-decoration: none;
     box-sizing: border-box;
     scroll-behavior: smooth;
-    transition: all .3s ease;
     cursor: url('./assets/icons/arrow.png') 12.5 12.5, auto;
 }
 
@@ -32,8 +31,9 @@ body {
     overflow: hidden;
     position: relative;
     line-height: 1.2 !important;
-    color: rgba(255, 255, 255, 0.87);
+    color: rgba(255, 255, 255, 0.87);;
     font: 400 1vw 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font: 400 1vw -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 }
 
 main,

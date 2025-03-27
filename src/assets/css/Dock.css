@@ -38,25 +38,7 @@
 }
 
 .icon.restoring {
-  animation: restoreBounce 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-@keyframes restoreBounce {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(0.8);
-  }
-
-  80% {
-    transform: scale(1.1);
-  }
-
-  100% {
-    transform: scale(1);
-  }
+  animation: restore 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .icon.open {
@@ -102,6 +84,22 @@
   background: rgba(0, 0, 0, 0.58);
   transition: ease-in opacity 100ms;
   box-shadow: rgba(0, 0, 0, 0.17) 0px 12px 8px 1px;
+}
+
+@keyframes restore {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.8);
+  }
+
+  80% {
+    transform: scale(1.1);
+  }
 }
 
 @keyframes bounce {
