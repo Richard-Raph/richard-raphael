@@ -21,7 +21,7 @@ const Menu = memo(({ windows, settings, activeWindow }) => {
   ), [battery.level]);
 
   const batteryColor = useMemo(() => (
-    battery.charging ? 'rgb(74 222 128 / 1)' :
+    battery.charging ? '#00ca4e' :
       battery.level < 0.2 ? 'rgb(239 68 68 / 1)' :
         battery.level < 0.5 ? 'rgb(234 179 8 / 1)' :
           'rgb(255 255 255 / 1)'

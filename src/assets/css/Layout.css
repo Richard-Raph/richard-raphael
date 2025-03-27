@@ -1,7 +1,7 @@
 #root>svg {
     z-index: 1;
     position: fixed;
-    cursor: url('../icons/arrow.png') 12.5 12.5, auto;
+    cursor: url('../icons/default.png') 12.5 12.5, auto;
 }
 
 #root>svg:nth-child(1) {
